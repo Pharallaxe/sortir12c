@@ -9,3 +9,4 @@ return function (array $context) {
 };
 
 //test ada
+// Il fait beau, les oiseaux chantent !
