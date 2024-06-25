@@ -16,8 +16,9 @@ class ParticipantController extends AbstractController
 {
     #[Route('/detailler/{id}', name: 'detailler', requirements: ['id' => '\d+'])]
     public function participantProfil(
-        int                    $id,
-        ParticipantRepository $participantRepository): Response
+        int                   $id,
+        ParticipantRepository $participantRepository
+    ): Response
     {
 
         $participant = $participantRepository->find($id);
@@ -28,6 +29,38 @@ class ParticipantController extends AbstractController
 
         return $this->render('participant/detailler.html.twig', [
             'participant' => $participant,
+        ]);
+    }
+
+    #[Route('/modifier/{id}', name: 'modifier', requirements: ['id' => '\d+'])]
+    public function participantModifierProfil(
+        int                    $id,
+        ParticipantRepository  $participantRepository,
+        EntityManagerInterface $entityManager,
+        Request                $request
+    ): Response
+    {
+
+        $participant = $participantRepository->find($id);
+
+        if (!$participant) {
+            throw $this->createNotFoundException("Oups, le profil du participant n'a pas été trouvé !");
+        }
+
+        $participantForm = $this->createForm(ParticipantType::class, $participant);
+        $participantForm->handleRequest($request);
+
+        if ($participantForm->isSubmitted() && $participantForm->isValid()) {
+            $entityManager->persist($participant);
+            $entityManager->flush();
+
+            //TODO: ajout d'un message flash
+
+            return $this->redirectToRoute('participant_detailler', ['id' => $id]);
+        }
+
+        return $this->render('participant/modifier.html.twig', [
+            'modifierParticipantForm' => $participantForm,
         ]);
     }
 
