@@ -11,13 +11,14 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
 
     private readonly Generator $faker;
 
-    public function __construct()
+    public function __construct(private readonly UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->faker = Factory::create('fr_FR');
     }
@@ -90,7 +91,12 @@ class AppFixtures extends Fixture
             $participant->setEmail($this->faker->unique()->email);
             $participant->setRoles(['ROLE_USER']);
 //            $password = $this->passwordHasher->hashPassword($participant, 'password');
-            $participant->setPassword($this->faker->country);
+            $participant->setPassword(
+                $this->userPasswordHasher->hashPassword(
+                    $participant,
+                    '1234'
+                )
+            );
             $participant->setNom($this->faker->lastName);
             $participant->setPrenom($this->faker->firstName);
             $participant->setTelephone($this->faker->optional()->phoneNumber);
