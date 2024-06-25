@@ -132,9 +132,9 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 10; $i++) {
             $sortie = new Sortie();
             $sortie->setNom($this->faker->sentence(3));
-            $sortie->setDateHeureDebut($this->faker->dateTimeBetween("-2 year", "-1 year"));
+            $sortie->setDateHeureDebut($this->faker->dateTimeBetween("+5 day", "+10 day"));
             $sortie->setDuree($this->faker->numberBetween(60, 300));
-            $sortie->setDateLimiteInscription($this->faker->dateTimeBetween("now", $sortie->getDateHeureDebut()));
+            $sortie->setDateLimiteInscription($this->faker->dateTimeBetween("-15 day", "+2 day"));
             $sortie->setNbInscriptionsMax($this->faker->numberBetween(0, 5));
             $sortie->setInfosSortie($this->faker->paragraph);
 
