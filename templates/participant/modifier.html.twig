@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div>
+    <h2>Modifier mon profil</h2>
+    {{ form_start(modifierParticipantForm) }}
+    <ul>
+        <li>{{ form_widget(modifierParticipantForm) }}</li>
+    </ul>
+    <button>Enregistrer</button>
+    {{ form_end(modifierParticipantForm) }}
+</div>
+
+{% endblock %}
