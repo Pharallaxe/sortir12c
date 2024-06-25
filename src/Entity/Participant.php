@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -42,6 +44,28 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 20)]
     private ?string $pseudo = null;
+
+    #[ORM\ManyToOne(inversedBy: 'participants')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Campus $campus = null;
+
+    /**
+     * @var Collection<int, Sortie>
+     */
+    #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: 'organisateur')]
+    private Collection $estOrganisateur;
+
+    /**
+     * @var Collection<int, Sortie>
+     */
+    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
+    private Collection $estInscrit;
+
+    public function __construct()
+    {
+        $this->estOrganisateur = new ArrayCollection();
+        $this->estInscrit = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -162,6 +186,72 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPseudo(string $pseudo): static
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): static
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getEstOrganisateur(): Collection
+    {
+        return $this->estOrganisateur;
+    }
+
+    public function addEstOrganisateur(Sortie $estOrganisateur): static
+    {
+        if (!$this->estOrganisateur->contains($estOrganisateur)) {
+            $this->estOrganisateur->add($estOrganisateur);
+            $estOrganisateur->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEstOrganisateur(Sortie $estOrganisateur): static
+    {
+        if ($this->estOrganisateur->removeElement($estOrganisateur)) {
+            // set the owning side to null (unless already changed)
+            if ($estOrganisateur->getOrganisateur() === $this) {
+                $estOrganisateur->setOrganisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getEstInscrit(): Collection
+    {
+        return $this->estInscrit;
+    }
+
+    public function addEstInscrit(Sortie $estInscrit): static
+    {
+        if (!$this->estInscrit->contains($estInscrit)) {
+            $this->estInscrit->add($estInscrit);
+        }
+
+        return $this;
+    }
+
+    public function removeEstInscrit(Sortie $estInscrit): static
+    {
+        $this->estInscrit->removeElement($estInscrit);
 
         return $this;
     }
