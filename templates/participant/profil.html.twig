@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+    <h2>{{ participant.pseudo }}</h2>
+    <ul>
+        <li>Prénom : {{ participant.prenom }}</li>
+        <li>Nom : {{ participant.nom }}</li>
+        <li>Téléphone :
+            {% if participant.telephone is null %}
+                non renseigné
+            {% else %}
+                {{ participant.telephone }}
+            {% endif %}</li>
+        <li>Email : {{ participant.email }}</li>
+        <li>Campus : {{ participant.campus.nom }}</li>
+    </ul>
+{% endblock %}
