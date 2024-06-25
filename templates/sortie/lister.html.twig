@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Liste des sorties
+{% endblock %}
+
+{% block body %}
+    <h1>Liste des sorties</h1>
+
+    <table class="table " >
+        <thead class="thead-dark" >
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Date et Heure de Début</th>
+            <th>Durée (min)</th>
+            <th>Date Limite d'Inscription</th>
+            <th>Nombre Max d'Inscriptions</th>
+            <th>Infos Sortie</th>
+            <th>État</th>
+            <th>Lieu</th>
+            <th>Campus</th>
+            <th>Organisateur</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sortie in sorties %}
+            <tr>
+                <td>{{ sortie.id }}</td>
+                <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
+                <td>{{ sortie.duree }}</td>
+                <td>{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
+                <td>{{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.infosSortie }}</td>
+                <td>{{ sortie.etat.libelle }}</td>
+                <td>{{ sortie.lieu.nom }}</td>
+                <td>{{ sortie.campus.nom }}</td>
+                <td>{{ sortie.organisateur.nom }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">Aucune sortie trouvée.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
