@@ -8,13 +8,13 @@
         {#            <li><a href="{{ path('sortie_lister') }}">Liste des sorties</a></li> #}
         <li><a href="#">Ajouter une sortie</a></li>
         {#            <li><a href="{{ path('sortie_créer') }}">Ajouter une sortie</a></li>  #}
-        <li><a href="#">Mon Profil</a></li>
+        <li><a href="{{ path('participant_detailler', {'id': '1'}) }}">Mon Profil</a></li>
         {#          <li><a href="{{ path('participant_profil') }}">Mon Profil</a></li>  #}
         <li><a href="#">Villes</a></li>
         {#           <li><a href="{{ path('ville_lister') }}">Villes</a></li>  #}
         <li><a href="#">Campus</a></li>
         {#           <li><a href="{{ path('campus_lister') }}">Campus</a></li>  #}
-        <li><a href="#">Se déconnecter</a></li>
+        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
             {% if is_granted('ROLE_ADMIN') %}
                 {#       #lien dashboard admin     #}
             {% endif %}
