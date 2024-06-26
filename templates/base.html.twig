@@ -16,6 +16,13 @@
 <body>
 {% block header %}
     {% include 'menu/nav.html.twig' %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 {% endblock %}
 {% block body %}
     nav.html.twig
