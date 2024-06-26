@@ -1,51 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <div class="container mt-5">
-        <div class="row justify-content-start">
-            <div class="col-lg-8">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-header">
-                        <h4 class="my-0 fw-normal">Informations sur la sortie</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">{{ sortie.nom }}</h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li>Date et heure de la sortie : {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</li>
-                            <li>Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</li>
-                            <li>Nombre de places : {{ sortie.nbInscriptionsMax }}</li>
-                            <li>Durée : {{ sortie.duree }} minutes</li>
-                            <li>Description et infos : {{ sortie.infosSortie }}</li>
-                            <li>Campus : {{ sortie.campus.nom }}</li>
-                            <li>Lieu : {{ sortie.lieu.nom }} - {{ sortie.lieu.rue }}, {{ sortie.lieu.codePostal }}</li>
-                            <li>Coordonnées : Latitude {{ sortie.lieu.latitude }}, Longitude {{ sortie.lieu.longitude }}</li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-header">
-                        <h4 class="my-0 fw-normal">Participants Inscrits</h4>
-                    </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Pseudo</th>
-                                <th>Nom + Prénom</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for participant in sortie.participants %}
-                                <tr>
-                                    <td>{{ participant.pseudo }}</td>
-                                    <td>{{ participant.nom }} {{ participant.prenom }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="mb-4 text-center">Créer une nouvelle sortie</h1>
+                {{ form_start(sortieForm, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.nom, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.dateHeureDebut, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.duree, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.duree, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.dateLimiteInscription, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.nbInscriptionsMax, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.infosSortie, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.lieu, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.campus, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.campus, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-success">Soumettre</button>
+                </div>
+                {{ form_end(sortieForm) }}
             </div>
         </div>
     </div>
