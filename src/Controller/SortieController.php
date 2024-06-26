@@ -18,11 +18,13 @@ use Symfony\Component\Routing\Attribute\Route;
 class SortieController extends AbstractController
 {
     #[Route('/sorties/lister', name: 'sortie_lister')]
-    public function index(SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request): Response
+    public function index(SortieRepository $sortieRepository, EtatRepository $etatRepository, CampusRepository $campusRepository, Request $request): Response
     {
         $filterNom = $request->query->get('filter_nom');
-        $filterDate = $request->query->get('filter_date');
+        $filterDateFrom = $request->query->get('filter_date_from');
+        $filterDateTo = $request->query->get('filter_date_to');
         $filterEtat = $request->query->get('filter_etat');
+        $filterCampus = $request->query->get('filter_campus');
 
         $queryBuilder = $sortieRepository->createQueryBuilder('s');
 
@@ -31,12 +33,18 @@ class SortieController extends AbstractController
                 ->setParameter('nom', '%'.$filterNom.'%');
         }
 
-        if ($filterDate) {
-            $startDate = \DateTime::createFromFormat('Y-m-d', $filterDate)->setTime(0, 0, 0);
-            $endDate = \DateTime::createFromFormat('Y-m-d', $filterDate)->setTime(23, 59, 59);
-            if ($startDate && $endDate) {
-                $queryBuilder->andWhere('s.dateHeureDebut BETWEEN :startDate AND :endDate')
-                    ->setParameter('startDate', $startDate)
+        if ($filterDateFrom) {
+            $startDate = \DateTime::createFromFormat('Y-m-d', $filterDateFrom)->setTime(0, 0, 0);
+            if ($startDate) {
+                $queryBuilder->andWhere('s.dateHeureDebut >= :startDate')
+                    ->setParameter('startDate', $startDate);
+            }
+        }
+
+        if ($filterDateTo) {
+            $endDate = \DateTime::createFromFormat('Y-m-d', $filterDateTo)->setTime(23, 59, 59);
+            if ($endDate) {
+                $queryBuilder->andWhere('s.dateHeureDebut <= :endDate')
                     ->setParameter('endDate', $endDate);
             }
         }
@@ -46,12 +54,19 @@ class SortieController extends AbstractController
                 ->setParameter('etat', $filterEtat);
         }
 
+        if ($filterCampus) {
+            $queryBuilder->andWhere('s.campus = :campus')
+                ->setParameter('campus', $filterCampus);
+        }
+
         $sorties = $queryBuilder->getQuery()->getResult();
         $etats = $etatRepository->findAll();
+        $campuses = $campusRepository->findAll();
 
         return $this->render('sortie/lister.html.twig', [
             'sorties' => $sorties,
             'etats' => $etats,
+            'campuses' => $campuses,
         ]);
     }
 
