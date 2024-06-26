@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/participant', name: 'participant_')]
@@ -34,10 +35,11 @@ class ParticipantController extends AbstractController
 
     #[Route('/modifier/{id}', name: 'modifier', requirements: ['id' => '\d+'])]
     public function participantModifierProfil(
-        int                    $id,
-        ParticipantRepository  $participantRepository,
-        EntityManagerInterface $entityManager,
-        Request                $request
+        int                         $id,
+        ParticipantRepository       $participantRepository,
+        EntityManagerInterface      $entityManager,
+        Request                     $request,
+        UserPasswordHasherInterface $userPasswordHasher
     ): Response
     {
 
@@ -51,10 +53,19 @@ class ParticipantController extends AbstractController
         $participantForm->handleRequest($request);
 
         if ($participantForm->isSubmitted() && $participantForm->isValid()) {
+
+            $newPassword = $participantForm->get('password')->getData();
+
+            if (!empty($newPassword)) {
+                $participant->setPassword(
+                    $userPasswordHasher->hashPassword($participant, $newPassword)
+                );
+            }
+
             $entityManager->persist($participant);
             $entityManager->flush();
 
-            //TODO: ajout d'un message flash
+            $this->addFlash('success', 'Le profil a été modifié avec succès.');
 
             return $this->redirectToRoute('participant_detailler', ['id' => $id]);
         }
