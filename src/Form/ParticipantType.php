@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,15 +28,14 @@ class ParticipantType extends AbstractType
                 'label' => 'Téléphone'
             ])
             ->add('email', EmailType::class, [])
-            ->add('password', PasswordType::class, [
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Le mot de passe et la confirmation du mot de passe doivent concorder.',
+                'options' => ['attr' => ['class' => 'form-control']],
                 'required' => false,
                 'mapped' => false,
-                'label' => 'Mot de passe'
-            ])
-            ->add('passwordConfirmation', PasswordType::class, [
-                'required' => false,
-                'mapped' => false,
-                'label' => 'Confirmation du mot de passe'
+                'first_options'  => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmation du mot de passe']
             ])
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
