@@ -2,14 +2,18 @@
 
 {% block body %}
 
-<div>
-    <h2>Modifier mon profil</h2>
-    {{ form_start(modifierParticipantForm) }}
-    <ul>
-        <li>{{ form_widget(modifierParticipantForm) }}</li>
-    </ul>
-    <button type="submit" class="btn btn-success">Enregistrer</button>
-    {{ form_end(modifierParticipantForm) }}
-</div>
+    <div class="container mt-5">
+        <h2>Modifier mon profil</h2>
+        {{ form_start(modifierParticipantForm, {'attr': {'class': 'row g-3'}}) }}
+        {% for field in modifierParticipantForm %}
+            <div class="col-md-6">
+                {{ form_row(field, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        {% endfor %}
+        <div class="col-12">
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+        </div>
+        {{ form_end(modifierParticipantForm) }}
+    </div>
 
 {% endblock %}
