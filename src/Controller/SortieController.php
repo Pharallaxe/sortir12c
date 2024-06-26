@@ -18,13 +18,40 @@ use Symfony\Component\Routing\Attribute\Route;
 class SortieController extends AbstractController
 {
     #[Route('/sorties/lister', name: 'sortie_lister')]
-    public function index(SortieRepository $sortieRepository): Response
+    public function index(SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request): Response
     {
-        $sorties = $sortieRepository->findAll();
+        $filterNom = $request->query->get('filter_nom');
+        $filterDate = $request->query->get('filter_date');
+        $filterEtat = $request->query->get('filter_etat');
 
-        // return $this->render('sortie/index.html.twig');
+        $queryBuilder = $sortieRepository->createQueryBuilder('s');
+
+        if ($filterNom) {
+            $queryBuilder->andWhere('s.nom LIKE :nom')
+                ->setParameter('nom', '%'.$filterNom.'%');
+        }
+
+        if ($filterDate) {
+            $startDate = \DateTime::createFromFormat('Y-m-d', $filterDate)->setTime(0, 0, 0);
+            $endDate = \DateTime::createFromFormat('Y-m-d', $filterDate)->setTime(23, 59, 59);
+            if ($startDate && $endDate) {
+                $queryBuilder->andWhere('s.dateHeureDebut BETWEEN :startDate AND :endDate')
+                    ->setParameter('startDate', $startDate)
+                    ->setParameter('endDate', $endDate);
+            }
+        }
+
+        if ($filterEtat) {
+            $queryBuilder->andWhere('s.etat = :etat')
+                ->setParameter('etat', $filterEtat);
+        }
+
+        $sorties = $queryBuilder->getQuery()->getResult();
+        $etats = $etatRepository->findAll();
+
         return $this->render('sortie/lister.html.twig', [
             'sorties' => $sorties,
+            'etats' => $etats,
         ]);
     }
 

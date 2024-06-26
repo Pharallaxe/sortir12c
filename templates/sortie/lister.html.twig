@@ -7,49 +7,105 @@
 {% block body %}
     <h1>Liste des sorties</h1>
 
-    <table class="table table-striped table-dark">
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Date et Heure de Début</th>
-            <th>Date Limite d'Inscription</th>
-            <th>Participants</th>
-            <th>Max Inscrits</th>
-            <th>Je suis inscrit</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        {% for sortie in sorties %}
-            <tr>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
-                <td>{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
-                <td>{{ sortie.participants.count }}</td>
-                <td>{{ sortie.nbInscriptionsMax }}</td>
-{#                <td>{{ app.user.nom }} </td>#}
-                <td>
-                    {% set isParticipant = false %}
-                    {% for participant in sortie.participants %}
-                        {% if app.user and app.user.nom == participant.nom %}
-                            {% set isParticipant = true %}
-                        {% endif %}
+    <!-- Filter Form -->
+    <form method="get" action="{{ path('sortie_lister') }}">
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label for="filter_nom" class="form-label">Nom de la sortie</label>
+                <input type="text" id="filter_nom" name="filter_nom" class="form-control" value="{{ app.request.query.get('filter_nom') }}">
+            </div>
+            <div class="col-md-3">
+                <label for="filter_date" class="form-label">Date de la sortie</label>
+                <input type="date" id="filter_date" name="filter_date" class="form-control" value="{{ app.request.query.get('filter_date') }}">
+            </div>
+            <div class="col-md-3">
+                <label for="filter_etat" class="form-label">Etat</label>
+                <select id="filter_etat" name="filter_etat" class="form-select">
+                    <option value="">Tous</option>
+                    {% for etat in etats %}
+                        <option value="{{ etat.id }}" {% if app.request.query.get('filter_etat') == etat.id %}selected{% endif %}>
+                            {{ etat.libelle }}
+                        </option>
                     {% endfor %}
-                    {% if isParticipant %}
-                        X
-                    {% endif %}
-                </td>
-{#                <td>{{ sortie.etat.libelle }}</td>#}
-{#                <td>{{ sortie.lieu.nom }}</td>#}
-{#                <td>{{ sortie.campus.nom }}</td>#}
-{#                <td>{{ sortie.organisateur.nom }}</td>#}
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </div>
+    </form>
 
-            </tr>
-        {% else %}
+    <!-- Table of sorties -->
+    <div class="table-responsive" style="max-width: 1200px; margin: 0 auto;">
+        <table class="table table-striped table-dark" style="margin-bottom: 0px">
+            <thead>
             <tr>
-                <td colspan="11">Aucune sortie trouvée.</td>
+                <th class="w-15 text-center">Nom de la sortie</th>
+                <th class="w-10 text-center">Date de la sortie</th>
+                <th class="w-10 text-center">Clôture</th>
+                <th class="w-10 text-center">Inscrits / Places</th>
+                <th class="w-10 text-center">Etat</th>
+                <th class="w-6 text-center">Inscrit</th>
+                <th class="w-6 text-center">Organisateur</th>
+                <th class="w-15 text-center">Actions</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+        </table>
+        <div style="max-height: 430px; overflow-y: auto;">
+            <table class="table table-striped table-dark">
+                <tbody>
+                {% for sortie in sorties %}
+                    <tr>
+                        <td class="w-15 text-center">{{ sortie.nom }}</td>
+                        <td class="w-10 text-center">{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
+                        <td class="w-10 text-center">{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
+                        <td class="w-10 text-center">{{ sortie.participants.count }}
+                            / {{ sortie.nbInscriptionsMax }}</td>
+                        <td class="w-10 text-center">{{ sortie.etat.libelle }}</td>
+                        <td class="w-6 text-center">
+                            {% set isParticipant = false %}
+                            {% for participant in sortie.participants %}
+                                {% if app.user and app.user.nom == participant.nom %}
+                                    {% set isParticipant = true %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if isParticipant %}
+                                X
+                            {% endif %}
+                        </td>
+                        <td class="w-6 text-center"><a
+                                    href="{{ path('participant_detailler', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a>
+                        </td>
+                        <td class="w-15 text-center">
+                            <a href="{{ path('sortie_detailler', {'id': sortie.id}) }}">Afficher</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Aucune sortie trouvée.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a class="btn btn-primary" style="margin-top: 10px; margin-left: 10px; margin-bottom: 10px;" href="{{ path('sortie_creer') }}">Créer une sortie</a>
+
+    <style>
+        thead th {
+            height: 30px; /* Set your desired height */
+        }
+
+        .w-6 {
+            width: 6%;
+        }
+
+        .w-10 {
+            width: 10%;
+        }
+
+        .w-15 {
+            width: 15%;
+        }
+    </style>
 {% endblock %}
