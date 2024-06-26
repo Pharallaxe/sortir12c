@@ -2,35 +2,65 @@
 
 
 {% block body %}
-    <h1>Créer une nouvelle sortie</h1>
-    {{ form_start(sortieForm) }}
-    <div>
-        {{ form_row(sortieForm.nom) }}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="mb-4 text-center">Créer une nouvelle sortie</h1>
+                {{ form_start(sortieForm, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.nom, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.dateHeureDebut, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.duree, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.duree, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.dateLimiteInscription, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.nbInscriptionsMax, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.infosSortie, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.lieu, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.campus, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(sortieForm.campus, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-success">Soumettre</button>
+                </div>
+                {{ form_end(sortieForm) }}
+            </div>
+        </div>
     </div>
-    <div>
-        {{ form_row(sortieForm.dateHeureDebut) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.duree) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.dateLimiteInscription) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.nbInscriptionsMax) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.infosSortie) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.etat) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.lieu) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.campus) }}
-    </div>
-    <button type="submit" class="btn btn-success">Soumettre</button>
-    {{ form_end(sortieForm) }}
 {% endblock %}

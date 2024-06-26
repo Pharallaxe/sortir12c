@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\CampusRepository;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,27 +45,22 @@ class SortieController extends AbstractController
     public function creer(
         EntityManagerInterface $entityManager,
         Request $request,
+        EtatRepository $etatRepository
     ): Response
     {
+
         $sortie = new Sortie();
-
-//        $campusParDefaut = "Rennes";
-//        if ($this->getUser()) {
-//            $organisateur = $this->getUser();
-//            $campusParDefaut = $organisateur->getCampus()->getNom();
-//        }
-
-
-        $form = $this->createForm(SortieType::class, $sortie,
-//            [
-//            'campus_par_defaut' => $campusParDefaut,
-//        ]
-        );
+        if ($this->getUser() !== null) {
+            $sortie->setCampus($this->getUser()->getCampus());
+        }
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            $sortie->setOrganisateur($this->getUser());
+            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Creee']));
+            $sortie->addParticipant($this->getUser());
             $entityManager->persist($sortie);
             $entityManager->flush();
 
@@ -70,9 +69,7 @@ class SortieController extends AbstractController
         }
 
         return $this->render('sortie/creer.html.twig', [
-            'sortieForm' => $sortieForm
+            'sortieForm' => $sortieForm,
         ]);
-
     }
-
 }
