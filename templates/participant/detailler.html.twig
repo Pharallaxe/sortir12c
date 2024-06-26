@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-
-
 {% block body %}
     <h2>{{ participant.pseudo }}</h2>
     <ul>
@@ -16,5 +14,7 @@
         <li>Email : {{ participant.email }}</li>
         <li>Campus : {{ participant.campus.nom }}</li>
     </ul>
+    {% if participantConnecte and participantConnecte.id == participant.id %}
     <a href="{{ path('participant_modifier', {'id' : participant.id}) }}" class="btn btn-success">Modifier</a>
+    {% endif %}
 {% endblock %}
