@@ -16,4 +16,5 @@
         <li>Email : {{ participant.email }}</li>
         <li>Campus : {{ participant.campus.nom }}</li>
     </ul>
+    <a href="{{ path('participant_modifier', {'id' : participant.id}) }}" class="btn btn-success">Modifier</a>
 {% endblock %}
