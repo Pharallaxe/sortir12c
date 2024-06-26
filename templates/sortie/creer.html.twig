@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h1>Créer une nouvelle sortie</h1>
+    {{ form_start(sortieForm) }}
+    <div>
+        {{ form_row(sortieForm.nom) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.dateHeureDebut) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.duree) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.dateLimiteInscription) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.nbInscriptionsMax) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.infosSortie) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.etat) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.lieu) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.campus) }}
+    </div>
+    <button type="submit" class="btn btn-success">Soumettre</button>
+    {{ form_end(sortieForm) }}
+{% endblock %}
