@@ -10,15 +10,19 @@
     <!-- Filter Form -->
     <form method="get" action="{{ path('sortie_lister') }}">
         <div class="row mb-3">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="filter_nom" class="form-label">Nom de la sortie</label>
                 <input type="text" id="filter_nom" name="filter_nom" class="form-control" value="{{ app.request.query.get('filter_nom') }}">
             </div>
-            <div class="col-md-3">
-                <label for="filter_date" class="form-label">Date de la sortie</label>
-                <input type="date" id="filter_date" name="filter_date" class="form-control" value="{{ app.request.query.get('filter_date') }}">
+            <div class="col-md-2">
+                <label for="filter_date_from" class="form-label">Date de début</label>
+                <input type="date" id="filter_date_from" name="filter_date_from" class="form-control" value="{{ app.request.query.get('filter_date_from') }}">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
+                <label for="filter_date_to" class="form-label">Date de fin</label>
+                <input type="date" id="filter_date_to" name="filter_date_to" class="form-control" value="{{ app.request.query.get('filter_date_to') }}">
+            </div>
+            <div class="col-md-2">
                 <label for="filter_etat" class="form-label">Etat</label>
                 <select id="filter_etat" name="filter_etat" class="form-select">
                     <option value="">Tous</option>
@@ -29,7 +33,18 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-3 d-flex align-items-end">
+            <div class="col-md-2">
+                <label for="filter_campus" class="form-label">Campus</label>
+                <select id="filter_campus" name="filter_campus" class="form-select">
+                    <option value="">Tous</option>
+                    {% for campus in campuses %}
+                        <option value="{{ campus.id }}" {% if app.request.query.get('filter_campus') == campus.id %}selected{% endif %}>
+                            {{ campus.nom }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </div>
         </div>
@@ -59,8 +74,7 @@
                         <td class="w-15 text-center">{{ sortie.nom }}</td>
                         <td class="w-10 text-center">{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
                         <td class="w-10 text-center">{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
-                        <td class="w-10 text-center">{{ sortie.participants.count }}
-                            / {{ sortie.nbInscriptionsMax }}</td>
+                        <td class="w-10 text-center">{{ sortie.participants.count }} / {{ sortie.nbInscriptionsMax }}</td>
                         <td class="w-10 text-center">{{ sortie.etat.libelle }}</td>
                         <td class="w-6 text-center">
                             {% set isParticipant = false %}
@@ -73,9 +87,7 @@
                                 X
                             {% endif %}
                         </td>
-                        <td class="w-6 text-center"><a
-                                    href="{{ path('participant_detailler', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a>
-                        </td>
+                        <td class="w-6 text-center"><a href="{{ path('participant_detailler', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></td>
                         <td class="w-15 text-center">
                             <a href="{{ path('sortie_detailler', {'id': sortie.id}) }}">Afficher</a>
                         </td>
