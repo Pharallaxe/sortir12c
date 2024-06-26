@@ -1,23 +1,69 @@
-{# nav>ul>(li>a)*2 #}
-<nav>
-    <ul>
-{#        {% if app.user %}#}
-        <li><a href="{{ path('site_accueil') }}">Accueil</a></li>
-
-        <li><a href="{{ path('sortie_lister') }}">Liste des sorties</a></li>
-        {#            <li><a href="{{ path('sortie_lister') }}">Liste des sorties</a></li> #}
-        <li><a href="{{ path('sortie_creer') }}">Ajouter une sortie</a></li>
-        {#            <li><a href="{{ path('sortie_créer') }}">Ajouter une sortie</a></li>  #}
-        <li><a href="{{ path('participant_detailler', {'id': '1'}) }}">Mon Profil</a></li>
-        {#          <li><a href="{{ path('participant_profil') }}">Mon Profil</a></li>  #}
-        <li><a href="#">Villes</a></li>
-        {#           <li><a href="{{ path('ville_lister') }}">Villes</a></li>  #}
-        <li><a href="#">Campus</a></li>
-        {#           <li><a href="{{ path('campus_lister') }}">Campus</a></li>  #}
-        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
-            {% if is_granted('ROLE_ADMIN') %}
-                {#       #lien dashboard admin     #}
-            {% endif %}
-{#        {% endif %}#}
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="{{ asset('images/Sortir.com.png') }}" style="width: 160px; height: 160px;"/>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('site_accueil') }}">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('sortie_lister') }}">Liste des sorties</a>
+                    </li>
+                    {#        #}{#            <li><a href="{{ path('sortie_lister') }}">Liste des sorties</a></li> #}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('sortie_creer') }}">Ajouter une sortie</a>
+                    </li>
+                    {#        #}{#            <li><a href="{{ path('sortie_créer') }}">Ajouter une sortie</a></li>  #}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('participant_detailler', {'id': app.user.id}) }}">Mon
+                            Profil</a>
+                    </li>
+                    {#        #}{#          <li><a href="{{ path('participant_profil') }}">Mon Profil</a></li>  #}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Villes</a>
+                    </li>
+                    {#        #}{#           <li><a href="{{ path('ville_lister') }}">Villes</a></li>  #}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Campus</a>
+                    </li>
+                    {#        #}{#           <li><a href="{{ path('campus_lister') }}">Campus</a></li>  #}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                    </li>
+                    {#        {% if is_granted('ROLE_ADMIN') %} #}
+                    {#            #}{#       #lien dashboard admin     #}
+                    {#        {% endif %} #}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 </nav>
+
+
+{# <ul> #}
+{#    {% if app.user %} #}
+{#        <li><a href="{{ path('site_accueil') }}">Accueil</a></li> #}
+
+{#        <li><a href="{{ path('sortie_lister') }}">Liste des sorties</a></li> #}
+{#        #}{#            <li><a href="{{ path('sortie_lister') }}">Liste des sorties</a></li> #}
+{#        <li><a href="{{ path('sortie_creer') }}">Ajouter une sortie</a></li> #}
+{#        #}{#            <li><a href="{{ path('sortie_créer') }}">Ajouter une sortie</a></li>  #}
+{#        <li><a href="{{ path('participant_detailler', {'id': app.user.id}) }}">Mon Profil</a></li> #}
+{#        #}{#          <li><a href="{{ path('participant_profil') }}">Mon Profil</a></li>  #}
+{#        <li><a href="#">Villes</a></li> #}
+{#        #}{#           <li><a href="{{ path('ville_lister') }}">Villes</a></li>  #}
+{#        <li><a href="#">Campus</a></li> #}
+{#        #}{#           <li><a href="{{ path('campus_lister') }}">Campus</a></li>  #}
+{#        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li> #}
+{#        {% if is_granted('ROLE_ADMIN') %} #}
+{#            #}{#       #lien dashboard admin     #}
+{#        {% endif %} #}
+{#    {% endif %} #}
+{# </ul> #}

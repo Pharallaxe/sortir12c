@@ -1,35 +1,42 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="container mt-5">
+        <div class="text-center">
+            <h2>Nom de la sortie : {{ sortie.nom }}</h2>
+            <p>Date et heure de la sortie : {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</p>
+            <p>Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</p>
+            <p>Nombre de places : {{ sortie.nbInscriptionsMax }}</p>
+            <p>Durée : {{ sortie.duree }} minutes</p>
+            <p>Description et infos : {{ sortie.infosSortie }}</p>
+            <p>Campus : {{ sortie.campus.nom }}</p>
+            <p>Lieu : {{ sortie.lieu.nom }}</p>
+            <p>Rue : {{ sortie.lieu.rue }}</p>
+            <p>Code Postal : {{ sortie.lieu.codePostal }}</p>
+            <p>Latitude : {{ sortie.lieu.latitude }}</p>
+            <p>Longitude : {{ sortie.lieu.longitude }}</p>
+        </div>
 
-    <h2>Nom de la sortie : {{ sortie.nom }}</h2>
-    <p>Date et heure de la sortie : {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</p>
-    <p>Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</p>
-    <p>Nombre de places : {{ sortie.nbInscriptionsMax }}</p>
-    <p>Durée : {{ sortie.duree }} minutes</p>
-    <p>Description et infos : {{ sortie.infosSortie }}</p>
-    <p>Campus : {{ sortie.campus.nom }}</p>
-    <p>Lieu : {{ sortie.lieu.nom }}</p>
-    <p>Rue : {{ sortie.lieu.rue }}</p>
-    <p>Code Postal : {{ sortie.lieu.codePostal }}</p>
-    <p>Latitude : {{ sortie.lieu.latitude }}</p>
-    <p>Longitude : {{ sortie.lieu.longitude }}</p>
-
-    <h3>Participants Inscrits</h3>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Pseudo</th>
-            <th>Nom + Prénom</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for participant in sortie.participants %}
-            <tr>
-                <td>{{ participant.pseudo }}</td>
-                <td>{{ participant.nom }} {{ participant.prenom }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h3 class="text-center mb-3">Participants Inscrits</h3>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Nom + Prénom</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for participant in sortie.participants %}
+                        <tr>
+                            <td>{{ participant.pseudo }}</td>
+                            <td>{{ participant.nom }} {{ participant.prenom }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}
