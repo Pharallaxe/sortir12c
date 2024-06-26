@@ -25,10 +25,10 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $this->addLieu(10, $manager);
-        $this->addEtat($manager);
-        $this->addCampus($manager);
-        $this->addParticipant(20, $manager);
+       // $this->addLieu(10, $manager);
+       // $this->addEtat($manager);
+       // $this->addCampus($manager);
+       // $this->addParticipant(20, $manager);
         $this->addSortie(20, $manager);
 
         $manager->flush();
@@ -135,7 +135,7 @@ class AppFixtures extends Fixture
             throw new \Exception('Assurez-vous qu\'il y a au moins un lieu, un état, un participant et un campus dans la base de données.');
         }
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < $number; $i++) {
             $sortie = new Sortie();
             $sortie->setNom($this->faker->sentence(3));
             $sortie->setDateHeureDebut($this->faker->dateTimeBetween("+5 day", "+10 day"));
@@ -166,6 +166,6 @@ class AppFixtures extends Fixture
             $manager->persist($sortie);
         }
 
-        $manager->flush();
+        //$manager->flush();
     }
 }
