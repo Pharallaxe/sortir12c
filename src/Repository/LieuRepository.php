@@ -16,6 +16,15 @@ class LieuRepository extends ServiceEntityRepository
         parent::__construct($registry, Lieu::class);
     }
 
+    public function trouverPremierLieuParOrdreAlphabetique(): ?Lieu
+    {
+        return $this->createQueryBuilder('l')
+            ->orderBy('l.nom', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Lieu[] Returns an array of Lieu objects
     //     */

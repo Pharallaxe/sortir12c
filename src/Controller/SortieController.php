@@ -2,13 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Campus;
 use App\Entity\Etat;
-use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -112,9 +111,12 @@ class SortieController extends AbstractController
     public function creer(
         EntityManagerInterface $entityManager,
         Request $request,
-        EtatRepository $etatRepository
+        EtatRepository $etatRepository,
+        LieuRepository $lieuRepository
     ): Response
     {
+
+        $premierLieu = $lieuRepository->trouverPremierLieuParOrdreAlphabetique();
 
         $sortie = new Sortie();
         if ($this->getUser() !== null) {
@@ -137,6 +139,7 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/creer.html.twig', [
             'sortieForm' => $sortieForm,
+            'premierLieu' => $premierLieu
         ]);
     }
 
@@ -245,4 +248,13 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
     }
 
+
+    #[Route('/sorties/lister/lieu/{idLieu}', name: 'sortie_lister_lieu')]
+    public function getLieuDetails(
+        int $idLieu,
+        LieuRepository $lieuRepository,
+    ): Response
+    {
+        $lieu = $lieuRepository->find($idLieu);
+        return $this->json($lieu, Response::HTTP_OK);    }
 }

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="mb-4 text-center">Créer un nouveau lieu</h1>
+                {{ form_start(lieuForm, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+
+                <div class="mb-3 row">
+                    {{ form_label(lieuForm.nom, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(lieuForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom de lieu'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(lieuForm.rue, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(lieuForm.rue, {'attr': {'class': 'form-control', 'placeholder': 'Nom de la rue'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(lieuForm.latitude, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(lieuForm.latitude, {'attr': {'class': 'form-control', 'placeholder': '45.5655'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(lieuForm.longitude, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(lieuForm.longitude, {'attr': {'class': 'form-control', 'placeholder': '45.5655'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(lieuForm.nomDeVille, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(lieuForm.nomDeVille, {'attr': {'class': 'form-control', 'placeholder': 'Rennes'}}) }}
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    {{ form_label(lieuForm.codePostal, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-8">
+                        {{ form_widget(lieuForm.codePostal, {'attr': {'class': 'form-control', 'placeholder': '35000'}}) }}
+                    </div>
+                </div>
+
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-success">Soumettre</button>
+                </div>
+                {{ form_end(lieuForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

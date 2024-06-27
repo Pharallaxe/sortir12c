@@ -45,17 +45,36 @@
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    {{ form_label(sortieForm.lieu, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
-                    <div class="col-sm-8">
-                        {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                </div>
-                <div class="mb-3 row">
                     {{ form_label(sortieForm.campus, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
                     <div class="col-sm-8">
                         {{ form_widget(sortieForm.campus, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
+                <div class="mb-3 row">
+                    {{ form_label(sortieForm.lieu, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
+                    <div class="col-sm-7">
+                        {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="col-sm-1 text-end d-flex justify-content-center align-items-center">
+                        <a href="{{ path('lieu_creer') }}" class="btn btn-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                            <span class="text-white" style="font-size: 24px; font-weight: bold">+</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <div ><p class="col-sm-4 col-form-label required">Rue :</p> <p id="rue"  class="form-control col-sm-8">{{ premierLieu.rue }}</p></div>
+                </div>
+                <div class="mb-3 row">
+                    <div ><p class="col-sm-4 col-form-label required">Code Postal :</p> <p id="codePostal"  class="form-control col-sm-8">{{ premierLieu.codePostal }}</p></div>
+                </div>
+                <div class="mb-3 row">
+                    <div ><p class="col-sm-4 col-form-label required">Latitude :</p> <p id="latitude" class="form-control col-sm-8">{{ premierLieu.latitude }}</p></div>
+                </div>
+                <div class="mb-3 row">
+                    <div><p class="col-sm-4 col-form-label required">Longitude :</p> <p id="longitude"  class="form-control col-sm-8">{{ premierLieu.longitude }}</p></div>
+                </div>
+
                 <div class="mb-3 text-center">
                     <button type="submit" class="btn btn-success">Soumettre</button>
                 </div>
@@ -63,4 +82,41 @@
             </div>
         </div>
     </div>
+    <script defer>
+
+        function recupererLieu(idLieu) {
+            // TODO - Revoir le nom de l'url
+            fetch(`http://localhost/sortir12c/public/sorties/lister/lieu/${idLieu}`, { method: "GET" })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    if (data.error) {
+                        alert('Lieu non trouvé');
+                        return;
+                    }
+
+                    document.getElementById('rue').textContent = data.rue;
+                    document.getElementById('codePostal').textContent = data.codePostal;
+                    document.getElementById('latitude').textContent = data.latitude;
+                    document.getElementById('longitude').textContent = data.longitude;
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                });
+        }
+
+        const lieuSelect = document.getElementById('sortie_lieu');
+
+        lieuSelect.addEventListener('change', (event) => {
+            let idLieu = event.target.value;
+            recupererLieu(idLieu)
+
+        });
+
+    </script>
 {% endblock %}
