@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Campus;
+use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
@@ -138,4 +139,61 @@ class SortieController extends AbstractController
             'sortieForm' => $sortieForm,
         ]);
     }
+
+    #[Route('/sorties/inscrire/{id}', name: 'sortie_inscrire', requirements: ['id' => '\d+'])]
+    public function inscrire(
+        int $id,
+        EntityManagerInterface $entityManager,
+        SortieRepository $sortieRepository
+    ): Response
+    {
+        $sortie = $sortieRepository->find($id);
+        $participant = $this->getUser();
+
+        if ($sortie->getParticipants()->contains($participant)) {
+            $this->addFlash('warning', 'Vous êtes déjà inscrit à cette sortie.');
+        }
+        elseif ($sortie->getEtat()->getLibelle() !== 'Ouverte') {
+            $this->addFlash('danger', 'Vous ne pouvez pas vous inscrire à une sortie qui n\'est pas ouverte.');
+        }
+        elseif ($sortie->getDateLimiteInscription() < new \DateTime()) {
+            $this->addFlash('danger', 'La date limite d\'inscription est dépassée.');
+        }
+        elseif ($sortie->getParticipants().count() >= $sortie->getNbInscriptionsMax()) {
+            $this->addFlash('danger', 'La sortie est complète.');
+        }
+
+        else {
+            $sortie->addParticipant($participant);
+            $entityManager->flush();
+            $this->addFlash('success', 'Inscription à la sortie réussie !');
+        }
+
+        return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
+    }
+
+    #[Route('/sorties/publier/{id}', name: 'sortie_publier', requirements: ['id' => '\d+'])]
+    public function publier(
+        int $id,
+        EntityManagerInterface $entityManager,
+        SortieRepository $sortieRepository
+    ): Response
+    {
+        $etatRepository = $entityManager->getRepository(Etat::class);
+
+        $sortie = $sortieRepository->find($id);
+
+
+        if ($sortie->getOrganisateur() === $this->getUser()) {
+
+            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
+            $entityManager->flush();
+            $this->addFlash('success', 'Sortie publiée avec succès !');
+        } else {
+            $this->addFlash('danger', 'Vous ne pouvez pas publier une sortie que vous n\'avez pas créée.');
+        }
+
+        return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
+    }
+
 }

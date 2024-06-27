@@ -10,7 +10,7 @@
     Date du jour : {{ "now"|date('d/m/Y H:i') }}
 
     {% if app.user %}
-        <p>Participant :  {{ app.user.prenom }} {{ app.user.nom }}</p>
+        <p>Participant : {{ app.user.prenom }} {{ app.user.nom }}</p>
     {% endif %}
 
     <!-- Filter Form -->
@@ -18,22 +18,26 @@
         <div class="row mb-3">
             <div class="col-md-2">
                 <label for="filter_nom" class="form-label">Nom de la sortie</label>
-                <input type="text" id="filter_nom" name="filter_nom" class="form-control" value="{{ app.request.query.get('filter_nom') }}">
+                <input type="text" id="filter_nom" name="filter_nom" class="form-control"
+                       value="{{ app.request.query.get('filter_nom') }}">
             </div>
             <div class="col-md-2">
                 <label for="filter_date_from" class="form-label">Date de début</label>
-                <input type="date" id="filter_date_from" name="filter_date_from" class="form-control" value="{{ app.request.query.get('filter_date_from') }}">
+                <input type="date" id="filter_date_from" name="filter_date_from" class="form-control"
+                       value="{{ app.request.query.get('filter_date_from') }}">
             </div>
             <div class="col-md-2">
                 <label for="filter_date_to" class="form-label">Date de fin</label>
-                <input type="date" id="filter_date_to" name="filter_date_to" class="form-control" value="{{ app.request.query.get('filter_date_to') }}">
+                <input type="date" id="filter_date_to" name="filter_date_to" class="form-control"
+                       value="{{ app.request.query.get('filter_date_to') }}">
             </div>
             <div class="col-md-2">
                 <label for="filter_etat" class="form-label">Etat</label>
                 <select id="filter_etat" name="filter_etat" class="form-select">
                     <option value="">Tous</option>
                     {% for etat in etats %}
-                        <option value="{{ etat.id }}" {% if app.request.query.get('filter_etat') == etat.id %}selected{% endif %}>
+                        <option value="{{ etat.id }}"
+                                {% if app.request.query.get('filter_etat') == etat.id %}selected{% endif %}>
                             {{ etat.libelle }}
                         </option>
                     {% endfor %}
@@ -44,31 +48,38 @@
                 <select id="filter_campus" name="filter_campus" class="form-select">
                     <option value="">Tous</option>
                     {% for campus in campuses %}
-                        <option value="{{ campus.id }}" {% if app.request.query.get('filter_campus') == campus.id %}selected{% endif %}>
+                        <option value="{{ campus.id }}"
+                                {% if app.request.query.get('filter_campus') == campus.id %}selected{% endif %}>
                             {{ campus.nom }}
                         </option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-2 d-flex align-items-end">
+            <div class="col-md-2">
+                <label for="filter_organisateur_nom" class="form-label
+            <div class=" col-md-2 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-md-3">
-                <input type="checkbox" id="filter_organisateur" name="filter_organisateur" value="1" {% if app.request.query.get('filter_organisateur') %}checked{% endif %}>
+                <input type="checkbox" id="filter_organisateur" name="filter_organisateur" value="1"
+                       {% if app.request.query.get('filter_organisateur') %}checked{% endif %}>
                 <label for="filter_organisateur" class="form-label">Sorties dont je suis l'organisateur</label>
             </div>
             <div class="col-md-3">
-                <input type="checkbox" id="filter_participant" name="filter_participant" value="1" {% if app.request.query.get('filter_participant') %}checked{% endif %}>
+                <input type="checkbox" id="filter_participant" name="filter_participant" value="1"
+                       {% if app.request.query.get('filter_participant') %}checked{% endif %}>
                 <label for="filter_participant" class="form-label">Sorties auxquelles je suis inscrit</label>
             </div>
             <div class="col-md-3">
-                <input type="checkbox" id="filter_not_participant" name="filter_not_participant" value="1" {% if app.request.query.get('filter_not_participant') %}checked{% endif %}>
+                <input type="checkbox" id="filter_not_participant" name="filter_not_participant" value="1"
+                       {% if app.request.query.get('filter_not_participant') %}checked{% endif %}>
                 <label for="filter_not_participant" class="form-label">Sorties auxquelles je ne suis pas inscrit</label>
             </div>
             <div class="col-md-3">
-                <input type="checkbox" id="filter_past" name="filter_past" value="1" {% if app.request.query.get('filter_past') %}checked{% endif %}>
+                <input type="checkbox" id="filter_past" name="filter_past" value="1"
+                       {% if app.request.query.get('filter_past') %}checked{% endif %}>
                 <label for="filter_past" class="form-label">Sorties passées</label>
             </div>
         </div>
@@ -98,7 +109,8 @@
                         <td class="w-15 text-center">{{ sortie.nom }}</td>
                         <td class="w-10 text-center">{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
                         <td class="w-10 text-center">{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
-                        <td class="w-10 text-center">{{ sortie.participants.count }} / {{ sortie.nbInscriptionsMax }}</td>
+                        <td class="w-10 text-center">{{ sortie.participants.count }}
+                            / {{ sortie.nbInscriptionsMax }}</td>
                         <td class="w-10 text-center">{{ sortie.etat.libelle }}</td>
                         <td class="w-6 text-center">
                             {% set isParticipant = false %}
@@ -111,9 +123,42 @@
                                 X
                             {% endif %}
                         </td>
-                        <td class="w-6 text-center"><a href="{{ path('participant_detailler', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></td>
+                        <td class="w-6 text-center"><a
+                                    href="{{ path('participant_detailler', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.nom | title }} {{ sortie.organisateur.prenom | slice(0,1) }}
+                                .</a></td>
                         <td class="w-15 text-center">
+                            {#                            Détail d'une sortie #}
                             <a href="{{ path('sortie_detailler', {'id': sortie.id}) }}">Afficher</a>
+
+                            {#                            Si le participant loggé est l'organisateur #}
+                            {% if app.user and app.user.nom == (sortie.organisateur.nom) %}
+                                {% if sortie.etat.libelle == 'Créee' %}
+                                    <a href="{{ path('sortie_publier', {'id': sortie.id}) }}">Publier</a>
+                                    {#                    {% else %} #}
+                                    {#                            <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}">Modifier</a> #}
+                                    {#                                {% endif %} #}
+                                    {#                    {% if sortie.etat != "clotûrée" | "annulée%} #}
+                                    {#                            <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a> #}
+                                {% endif %}
+                            {% endif %}
+
+                            {#                            Si le participant loggé est inscrit à cette sortie #}
+                            {#                            {% set isParticipant = false %} #}
+                            {#                            {% for participant in sortie.participants %} #}
+                            {#                                {% if app.user and app.user.nom == participant.nom %} #}
+                            {#                                    {% set isParticipant = true %} #}
+                            {#                                {% endif %} #}
+                            {#                            {% endfor %} #}
+                            {#                            {% if isParticipant %} #}
+                            {#                            <a href="{{ path('participant_desister') }}">Se désister</a> #}
+                            {#                            {% else %} #}
+                            {% if sortie.etat.libelle != "Créee" %}
+                                {% if sortie.dateLimiteInscription > "now"|date('Y-m-d H:i') %}
+                                    {% if sortie.participants.count < sortie.nbInscriptionsMax %}
+                                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
+                                        {% endif %}
+                                {% endif %}
+                            {% endif %}
                         </td>
                     </tr>
                 {% else %}
@@ -125,7 +170,8 @@
             </table>
         </div>
     </div>
-    <a class="btn btn-primary" style="margin-top: 10px; margin-left: 10px; margin-bottom: 10px;" href="{{ path('sortie_creer') }}">Créer une sortie</a>
+    <a class="btn btn-primary" style="margin-top: 10px; margin-left: 10px; margin-bottom: 10px;"
+       href="{{ path('sortie_creer') }}">Créer une sortie</a>
 
     <style>
         thead th {

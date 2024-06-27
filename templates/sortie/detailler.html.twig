@@ -33,7 +33,7 @@
                             <a>
                                 <td><a href="{{ path('participant_detailler', {'id' : participant.id}) }}">{{ participant.pseudo }}</a></td>
                             </a>
-                            <td>{{ participant.nom }} {{ participant.prenom }}</td>
+                            <td>{{ participant.prenom | title}} {{ participant.nom | upper }} </td>
                         </tr>
                     {% endfor %}
                     </tbody>
