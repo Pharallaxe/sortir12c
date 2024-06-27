@@ -25,6 +25,10 @@ class SortieController extends AbstractController
         $filterDateTo = $request->query->get('filter_date_to');
         $filterEtat = $request->query->get('filter_etat');
         $filterCampus = $request->query->get('filter_campus');
+        $filterOrganisateur = $request->query->get('filter_organisateur');
+        $filterParticipant = $request->query->get('filter_participant');
+        $filterNotParticipant = $request->query->get('filter_not_participant');
+        $filterPast = $request->query->get('filter_past');
 
         $queryBuilder = $sortieRepository->createQueryBuilder('s');
 
@@ -57,6 +61,26 @@ class SortieController extends AbstractController
         if ($filterCampus) {
             $queryBuilder->andWhere('s.campus = :campus')
                 ->setParameter('campus', $filterCampus);
+        }
+
+        if ($filterOrganisateur && $this->getUser()) {
+            $queryBuilder->andWhere('s.organisateur = :user')
+                ->setParameter('user', $this->getUser());
+        }
+
+        if ($filterParticipant && $this->getUser()) {
+            $queryBuilder->andWhere(':user MEMBER OF s.participants')
+                ->setParameter('user', $this->getUser());
+        }
+
+        if ($filterNotParticipant && $this->getUser()) {
+            $queryBuilder->andWhere(':user NOT MEMBER OF s.participants')
+                ->setParameter('user', $this->getUser());
+        }
+
+        if ($filterPast) {
+            $queryBuilder->andWhere('s.etat = :etatPast')
+                ->setParameter('etatPast', $etatRepository->findOneBy(['libelle' => 'passée']));
         }
 
         $sorties = $queryBuilder->getQuery()->getResult();

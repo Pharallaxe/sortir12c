@@ -7,6 +7,12 @@
 {% block body %}
     <h1>Liste des sorties</h1>
 
+    Date du jour : {{ "now"|date('d/m/Y H:i') }}
+
+    {% if app.user %}
+        <p>Participant :  {{ app.user.prenom }} {{ app.user.nom }}</p>
+    {% endif %}
+
     <!-- Filter Form -->
     <form method="get" action="{{ path('sortie_lister') }}">
         <div class="row mb-3">
@@ -46,6 +52,24 @@
             </div>
             <div class="col-md-2 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <input type="checkbox" id="filter_organisateur" name="filter_organisateur" value="1" {% if app.request.query.get('filter_organisateur') %}checked{% endif %}>
+                <label for="filter_organisateur" class="form-label">Sorties dont je suis l'organisateur</label>
+            </div>
+            <div class="col-md-3">
+                <input type="checkbox" id="filter_participant" name="filter_participant" value="1" {% if app.request.query.get('filter_participant') %}checked{% endif %}>
+                <label for="filter_participant" class="form-label">Sorties auxquelles je suis inscrit</label>
+            </div>
+            <div class="col-md-3">
+                <input type="checkbox" id="filter_not_participant" name="filter_not_participant" value="1" {% if app.request.query.get('filter_not_participant') %}checked{% endif %}>
+                <label for="filter_not_participant" class="form-label">Sorties auxquelles je ne suis pas inscrit</label>
+            </div>
+            <div class="col-md-3">
+                <input type="checkbox" id="filter_past" name="filter_past" value="1" {% if app.request.query.get('filter_past') %}checked{% endif %}>
+                <label for="filter_past" class="form-label">Sorties passées</label>
             </div>
         </div>
     </form>
