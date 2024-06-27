@@ -140,6 +140,29 @@ class SortieController extends AbstractController
         ]);
     }
 
+    #[Route('/sorties/annuler/{id}', name: 'sortie_annuler', requirements: ['id' => '\d+'])]
+    public function annuler(
+        int $id,
+        EntityManagerInterface $entityManager,
+        SortieRepository $sortieRepository
+    ): Response
+    {
+        $etatRepository = $entityManager->getRepository(Etat::class);
+
+        $sortie = $sortieRepository->find($id);
+
+        if ($sortie->getOrganisateur() === $this->getUser()) {
+            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulee']));
+            $sortie->setInfosSortie("ANNULEE PAR L'ORGANISATEUR " . $sortie->getInfosSortie());
+            $entityManager->flush();
+            $this->addFlash('success', 'Sortie annulée avec succès !');
+        } else {
+            $this->addFlash('danger', 'Vous ne pouvez pas annuler une sortie que vous n\'avez pas créée.');
+        }
+
+        return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
+    }
+
     #[Route('/sorties/inscrire/{id}', name: 'sortie_inscrire', requirements: ['id' => '\d+'])]
     public function inscrire(
         int $id,
@@ -167,6 +190,32 @@ class SortieController extends AbstractController
             $sortie->addParticipant($participant);
             $entityManager->flush();
             $this->addFlash('success', 'Inscription à la sortie réussie !');
+        }
+
+        return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
+    }
+
+    #[Route('/sorties/desister/{id}', name: 'sortie_desister', requirements: ['id' => '\d+'])]
+    public function desister(
+        int $id,
+        EntityManagerInterface $entityManager,
+        SortieRepository $sortieRepository
+    ): Response
+    {
+        $sortie = $sortieRepository->find($id);
+        $participant = $this->getUser();
+
+        if (!$sortie->getParticipants()->contains($participant)) {
+            $this->addFlash('warning', 'Vous n\'êtes pas inscrit à cette sortie.');
+        }
+        elseif ($sortie->getEtat()->getLibelle() !== 'Ouverte') {
+            $this->addFlash('danger', 'Vous ne pouvez pas vous désister d\'une sortie qui n\'est pas ouverte.');
+        }
+
+        else {
+            $sortie->removeParticipant($participant);
+            $entityManager->flush();
+            $this->addFlash('success', 'Désistement de la sortie réussi !');
         }
 
         return $this->redirectToRoute('sortie_detailler', ['id' => $id]);

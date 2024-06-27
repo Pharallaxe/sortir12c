@@ -137,28 +137,32 @@
                                     {#                    {% else %} #}
                                     {#                            <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}">Modifier</a> #}
                                     {#                                {% endif %} #}
-                                    {#                    {% if sortie.etat != "clotûrée" | "annulée%} #}
-                                    {#                            <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a> #}
                                 {% endif %}
+                                {% if sortie.etat.libelle != "Clôturée" and sortie.etat.libelle != "Annulée" %}
+                                    <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+                                {% endif %}
+
                             {% endif %}
 
                             {#                            Si le participant loggé est inscrit à cette sortie #}
-                            {#                            {% set isParticipant = false %} #}
-                            {#                            {% for participant in sortie.participants %} #}
-                            {#                                {% if app.user and app.user.nom == participant.nom %} #}
-                            {#                                    {% set isParticipant = true %} #}
-                            {#                                {% endif %} #}
-                            {#                            {% endfor %} #}
-                            {#                            {% if isParticipant %} #}
-                            {#                            <a href="{{ path('participant_desister') }}">Se désister</a> #}
-                            {#                            {% else %} #}
-                            {% if sortie.etat.libelle != "Créee" %}
-                                {% if sortie.dateLimiteInscription > "now"|date('Y-m-d H:i') %}
-                                    {% if sortie.participants.count < sortie.nbInscriptionsMax %}
-                                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
+                            {% set isParticipant = false %}
+                            {% for participant in sortie.participants %}
+                                {% if app.user and app.user.nom == participant.nom %}
+                                    {% set isParticipant = true %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if isParticipant and sortie.etat.libelle != "Clôturée" and sortie.etat.libelle != "Annulée" and sortie.etat.libelle != "Passée" %}
+                                <a href="{{ path('sortie_desister', {'id': sortie.id}) }}">Se désister</a>
+                                                            {% else %}
+                                {% if sortie.etat.libelle == "Ouverte" %}
+                                    {% if sortie.dateLimiteInscription > "now"|date('Y-m-d H:i') %}
+                                        {% if sortie.participants.count < sortie.nbInscriptionsMax %}
+                                            <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
                                         {% endif %}
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
+
                         </td>
                     </tr>
                 {% else %}

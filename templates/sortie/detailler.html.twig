@@ -40,17 +40,32 @@
                 </table>
             </div>
         </div>
-        {% if sortie.etat.libelle != "Créee" %}
-            {% if sortie.dateLimiteInscription > "now"|date('Y-m-d H:i') %}
-                {% if sortie.participants.count < sortie.nbInscriptionsMax %}
-                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
-                {% endif %}
-            {% endif %}
-        {% endif %}
+
         {% if app.user and app.user.nom == (sortie.organisateur.nom) %}
             {% if sortie.etat.libelle == 'Créee' %}
                 <a href="{{ path('sortie_publier', {'id': sortie.id}) }}">Publier</a>
             {% endif %}
+            {% if sortie.etat.libelle != "Clôturée" and sortie.etat.libelle != "Annulée" %}
+                <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+            {% endif %}
+        {% endif %}
+        {% set isParticipant = false %}
+        {% for participant in sortie.participants %}
+            {% if app.user and app.user.nom == participant.nom %}
+                {% set isParticipant = true %}
+            {% endif %}
+        {% endfor %}
+        {% if isParticipant and sortie.etat.libelle != "Clôturée" and sortie.etat.libelle != "Annulée" and sortie.etat.libelle != "Passée" %}
+            <a href="{{ path('sortie_desister', {'id': sortie.id}) }}">Se désister</a>
+        {% else %}
+            {% if sortie.etat.libelle == "Ouverte" %}
+                {% if sortie.dateLimiteInscription > "now"|date('Y-m-d H:i') %}
+                    {% if sortie.participants.count < sortie.nbInscriptionsMax %}
+                        <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
         {% endif %}
     </div>
 {% endblock %}
