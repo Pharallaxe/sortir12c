@@ -61,6 +61,7 @@
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </div>
         </div>
+        </div>
         <div class="row mb-3">
             <div class="col-md-3">
                 <input type="checkbox" id="filter_organisateur" name="filter_organisateur" value="1"
@@ -139,7 +140,8 @@
                                     {#                                {% endif %} #}
                                 {% endif %}
                                 {% if sortie.etat.libelle != "Clôturée" and sortie.etat.libelle != "Annulée" %}
-                                    <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+                                    <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}"
+                                       onclick="return confirm('Êtes-vous sûr de vouloir annuler cette sortie ?');">Annuler</a>
                                 {% endif %}
 
                             {% endif %}
@@ -151,9 +153,11 @@
                                     {% set isParticipant = true %}
                                 {% endif %}
                             {% endfor %}
-                            {% if isParticipant and sortie.etat.libelle != "Clôturée" and sortie.etat.libelle != "Annulée" and sortie.etat.libelle != "Passée" %}
-                                <a href="{{ path('sortie_desister', {'id': sortie.id}) }}">Se désister</a>
-                                                            {% else %}
+                            {% if isParticipant and sortie.etat.libelle == "Ouverte" %}
+                                <a href="{{ path('sortie_desister', {'id': sortie.id}) }}"
+                                   onclick="return confirm('Êtes-vous sûr de vouloir vous désister de cette sortie ?');">Se
+                                    désister</a>
+                            {% else %}
                                 {% if sortie.etat.libelle == "Ouverte" %}
                                     {% if sortie.dateLimiteInscription > "now"|date('Y-m-d H:i') %}
                                         {% if sortie.participants.count < sortie.nbInscriptionsMax %}
