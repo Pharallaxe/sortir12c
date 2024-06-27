@@ -79,12 +79,17 @@ class ParticipantController extends AbstractController
             /**
              * @var UploadedFile $file
              **/
+
             $file = $participantForm->get('imageProfil')->getData();
-            $newFilename = str_replace(
-                    ' ', '',
-                    $participant->getId()) . '-' . uniqid() . '.' . $file->guessExtension();
-            $file->move($this->getParameter('participants_images_directory'), $newFilename);
-            $participant->setImageProfile($newFilename);
+
+            if(!empty($file)){
+                $newFilename = str_replace(
+                        ' ', '',
+                        $participant->getPseudo()) . '-' . uniqid() . '.' . $file->guessExtension();
+                $file->move($this->getParameter('participants_images_directory'), $newFilename);
+                $participant->setImageProfile($newFilename);
+            }
+
             $entityManager->persist($participant);
             $entityManager->flush();
 
