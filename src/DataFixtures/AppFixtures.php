@@ -88,7 +88,6 @@ class AppFixtures extends Fixture
 
         for ($i = 0; $i < 10; $i++) {
             $participant = new Participant();
-            $participant->setEmail($this->faker->unique()->email);
             $participant->setRoles(['ROLE_USER']);
 //            $password = $this->passwordHasher->hashPassword($participant, 'password');
             $participant->setPassword(
@@ -97,10 +96,18 @@ class AppFixtures extends Fixture
                     '1234'
                 )
             );
-            $participant->setNom($this->faker->lastName);
-            $participant->setPrenom($this->faker->firstName);
+
+            $prenom = $this->faker->firstName;
+            $nom = $this->faker->lastName;
+            $pseudo = strtolower($prenom . '.' . $nom);
+            $email = strtolower($prenom . '.' . $nom . '@example.com');
+
+            $participant->setNom($nom);
+            $participant->setPrenom($prenom);
+            $participant->setPseudo($pseudo);
+            $participant->setEmail($email);
+
             $participant->setTelephone($this->faker->optional()->phoneNumber);
-            $participant->setPseudo($this->faker->userName);
 
             // Assigner un campus aléatoire parmi ceux récupérés
             $randomCampus = $this->faker->randomElement($campusList);
