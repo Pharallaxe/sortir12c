@@ -16,6 +16,10 @@
             <p>Latitude : {{ sortie.lieu.latitude }}</p>
             <p>Longitude : {{ sortie.lieu.longitude }}</p>
         </div>
+        <div>
+            <a class="btn btn-primary" style="margin-top: 10px; margin-left: 10px; margin-bottom: 10px;"
+               href="{{ path('sortie_modifier', {'id': sortie.id}) }}">Modifier</a>
+        </div>
 
         <div class="row justify-content-center">
             <div class="col-md-8">

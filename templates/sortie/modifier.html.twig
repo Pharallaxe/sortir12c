@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% embed 'template/sortieForm.html.twig' %}
+    {% embed 'template/sortieForm.html.twig' with { 'sortieForm' : sortieModifierForm } %}
         {% block form_title %}
-            Créer une sortie !
+            Modifier une sortie !
         {% endblock %}
         {% block form_label_submit %}
-            Créer !
+            Modifier !
         {% endblock %}
     {% endembed %}
 

@@ -112,10 +112,9 @@ class SortieController extends AbstractController
         EntityManagerInterface $entityManager,
         Request $request,
         EtatRepository $etatRepository,
-        LieuRepository $lieuRepository
+        LieuRepository $lieuRepository,
     ): Response
     {
-
         $premierLieu = $lieuRepository->trouverPremierLieuParOrdreAlphabetique();
 
         $sortie = new Sortie();
@@ -139,6 +138,43 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/creer.html.twig', [
             'sortieForm' => $sortieForm,
+            'premierLieu' => $premierLieu
+        ]);
+    }
+
+    #[Route('/sorties/modifier/{id}', name: 'sortie_modifier')]
+    public function modifier(
+        int $id,
+        EntityManagerInterface $entityManager,
+        Request $request,
+        EtatRepository $etatRepository,
+        LieuRepository $lieuRepository,
+        SortieRepository $sortieRepository,
+    ): Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+        if (!$sortie) {
+            throw $this->createNotFoundException('Ooops ! sortie non trouvée !');
+        }
+
+        $premierLieu = $lieuRepository->trouverPremierLieuParOrdreAlphabetique();
+
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            $sortie->setOrganisateur($this->getUser());
+            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Creee']));
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Sortie ajoutée avec succès !');
+            return $this->redirectToRoute('sortie_detailler', ['id' => $sortie->getId()]);
+        }
+
+        return $this->render('sortie/modifier.html.twig', [
+            'sortieModifierForm' => $sortieForm,
             'premierLieu' => $premierLieu
         ]);
     }
