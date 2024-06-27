@@ -8,6 +8,7 @@ use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -75,6 +76,15 @@ class ParticipantController extends AbstractController
                 );
             }
 
+            /**
+             * @var UploadedFile $file
+             **/
+            $file = $participantForm->get('imageProfil')->getData();
+            $newFilename = str_replace(
+                    ' ', '',
+                    $participant->getId()) . '-' . uniqid() . '.' . $file->guessExtension();
+            $file->move($this->getParameter('participants_images_directory'), $newFilename);
+            $participant->setImageProfile($newFilename);
             $entityManager->persist($participant);
             $entityManager->flush();
 

@@ -4,6 +4,15 @@
     <div class="container mt-5">
         <h2>{{ participant.pseudo }}</h2>
         <ul class="list-group mb-3">
+            <li class="list-group-item">
+                {% if participant.imageProfile is not empty %}
+                    <img src="{{ asset('images/profile/' ~ participant.imageProfile) }}" alt="{{ participant.pseudo }}"
+                         class="img-fluid rounded-circle" style="width: 160px; height: 160px;">
+                {% else %}
+                    <img src="{{ asset('images/profile/default.jpg') }}" alt="{{ participant.pseudo }}"
+                         class="img-fluid rounded-circle" style="width: 160px; height: 160px;">
+                {% endif %}
+            </li>
             <li class="list-group-item">Prénom : {{ participant.prenom }}</li>
             <li class="list-group-item">Nom : {{ participant.nom }}</li>
             <li class="list-group-item">Téléphone :

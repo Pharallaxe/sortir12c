@@ -25,10 +25,10 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-       // $this->addLieu(10, $manager);
-       // $this->addEtat($manager);
-       // $this->addCampus($manager);
-       // $this->addParticipant(20, $manager);
+//        $this->addLieu(10, $manager);
+//        $this->addEtat($manager);
+//        $this->addCampus($manager);
+//        $this->addParticipant(20, $manager);
         $this->addSortie(20, $manager);
 
         $manager->flush();
@@ -101,11 +101,13 @@ class AppFixtures extends Fixture
             $nom = $this->faker->lastName;
             $pseudo = strtolower($prenom . '.' . $nom);
             $email = strtolower($prenom . '.' . $nom . '@example.com');
+            $imageProfile = 'default.jpg';
 
             $participant->setNom($nom);
             $participant->setPrenom($prenom);
             $participant->setPseudo($pseudo);
             $participant->setEmail($email);
+            $participant->setImageProfile($imageProfile);
 
             $participant->setTelephone($this->faker->optional()->phoneNumber);
 
