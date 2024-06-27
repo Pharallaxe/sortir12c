@@ -81,6 +81,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
     private Collection $estInscrit;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageProfile = null;
+
     public function __construct()
     {
         $this->estOrganisateur = new ArrayCollection();
@@ -272,6 +275,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeEstInscrit(Sortie $estInscrit): static
     {
         $this->estInscrit->removeElement($estInscrit);
+
+        return $this;
+    }
+
+    public function getImageProfile(): ?string
+    {
+        return $this->imageProfile;
+    }
+
+    public function setImageProfile(?string $imageProfile): static
+    {
+        $this->imageProfile = $imageProfile;
 
         return $this;
     }
