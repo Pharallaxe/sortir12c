@@ -1,3 +1,10 @@
+
 body {
     background-color: skyblue;
+    font-family: "Montserrat", sans-serif;
+}
+
+.form-login{
+    max-width: 330px;
+    padding: 1rem;
 }
