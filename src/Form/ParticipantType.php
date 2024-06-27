@@ -6,8 +6,10 @@ use App\Entity\Campus;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\DomCrawler\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -34,12 +36,24 @@ class ParticipantType extends AbstractType
                 'options' => ['attr' => ['class' => 'form-control']],
                 'required' => false,
                 'mapped' => false,
-                'first_options'  => ['label' => 'Mot de passe'],
+                'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation du mot de passe']
             ])
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
+            ])
+            ->add('imageProfil', FileType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\Image(
+                        [
+                            'maxSize' => '1024k',
+                            'mimeTypesMessage' => 'Le format est invalide',
+                            'maxSizeMessage' => 'Le fichier est trop volumineux'
+                        ]
+                    )
+                ]
             ]);
     }
 
