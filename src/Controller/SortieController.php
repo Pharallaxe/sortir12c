@@ -159,7 +159,7 @@ class SortieController extends AbstractController
         elseif ($sortie->getDateLimiteInscription() < new \DateTime()) {
             $this->addFlash('danger', 'La date limite d\'inscription est dépassée.');
         }
-        elseif ($sortie->getParticipants().count() >= $sortie->getNbInscriptionsMax()) {
+        elseif ($sortie->getParticipants()->count() >= $sortie->getNbInscriptionsMax()) {
             $this->addFlash('danger', 'La sortie est complète.');
         }
 

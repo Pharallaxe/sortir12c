@@ -40,5 +40,17 @@
                 </table>
             </div>
         </div>
+        {% if sortie.etat.libelle != "Créee" %}
+            {% if sortie.dateLimiteInscription > "now"|date('Y-m-d H:i') %}
+                {% if sortie.participants.count < sortie.nbInscriptionsMax %}
+                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {% if app.user and app.user.nom == (sortie.organisateur.nom) %}
+            {% if sortie.etat.libelle == 'Créee' %}
+                <a href="{{ path('sortie_publier', {'id': sortie.id}) }}">Publier</a>
+            {% endif %}
+        {% endif %}
     </div>
 {% endblock %}
