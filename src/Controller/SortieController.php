@@ -10,6 +10,7 @@ use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
+use App\Service\HistoService;
 use App\Service\SortieService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,11 +28,11 @@ class SortieController extends AbstractController
     const MESSAGE_DESISTEMENT_NONINSCRIT = 'Vous n\'êtes pas inscrit à cette sortie.';
     const MESSAGE_DESISTEMENT_IMPOSSIBLE = 'Vous ne pouvez pas vous désister d\'une sortie qui n\'est pas ouverte.';
     const MESSAGE_DESISTEMENT_SUCCESS = 'Désistement de la sortie réussi !';
-    
+
     // MESSAGE DE PUBLICATION
     const MESSAGE_PUBLICATION_SUCCESS = 'Sortie publiée avec succès !';
     const MESSAGE_PUBLICATION_IMPOSSIBLE = 'Vous ne pouvez pas publier une sortie que vous n\'avez pas créée.';
-    
+
     // MESSAGE D'ANNULATION
     const MESSAGE_ANNULATION_SUCCES = 'Sortie annulée avec succès !';
     const MESSAGE_ANNULATION_IMPOSSIBLE = 'Vous ne pouvez pas annuler une sortie que vous n\'avez pas créée.';
@@ -63,9 +64,16 @@ class SortieController extends AbstractController
 
     #[Route('/lister', name: 'lister')]
     public function index(
-        Request $request
+        SortieRepository $sortieRepository,
+        EtatRepository $etatRepository,
+        CampusRepository $campusRepository,
+        Request $request,
+        HistoService $histoService
+
     ): Response
     {
+        $histoService->update();
+
         $filterNom = $request->query->get('filter_nom');
         $filterDateFrom = $request->query->get('filter_date_from');
         $filterDateTo = $request->query->get('filter_date_to');

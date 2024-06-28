@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,8 +23,9 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/', name: 'app_login_redirect')]
-    public function redirectToLogin(): Response
+    public function redirectToLogin(SortieRepository $sortieRepository): Response
     {
+
         return $this->redirectToRoute('app_login');
     }
 

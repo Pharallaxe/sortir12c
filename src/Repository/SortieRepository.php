@@ -15,4 +15,11 @@ class SortieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Sortie::class);
     }
+
+
+
+
+
+
+
 }
