@@ -22,6 +22,8 @@ class SortieRepository extends ServiceEntityRepository
         $this->etatRep = $etatRep;
     }
 
+
+
     public function findAllWithRelations()
     {
         return $this->createQueryBuilder('s')
@@ -39,18 +41,7 @@ class SortieRepository extends ServiceEntityRepository
 
     public function rechercheParCritere(SortieRecherche $sortieRecherche, Participant $user)
     {
-        $qb = $this->createQueryBuilder('s')
-            ->leftJoin('s.campus', 'c')
-            ->addSelect('c')
-            ->leftJoin('s.etat', 'e')
-            ->addSelect('e')
-            ->leftJoin('s.participants', 'p')
-            ->addSelect('p')
-            ->leftJoin('s.organisateur', 'o')
-            ->addSelect('o');
-
-        $sorties = $qb->getQuery()->getResult();
-
+        $sorties = $this->findAllWithRelations();
         return $this->filtrerSorties($sorties, $sortieRecherche, $user);
     }
 

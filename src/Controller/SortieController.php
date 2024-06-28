@@ -112,7 +112,8 @@ class SortieController extends AbstractController
         return $this->creerOuModifierForm($request, $sortie, self::MESSAGE_MODIFICATION_SUCCESS, false, );
     }
 
-    private function creerOuModifierForm($request, $sortie, $message, $creation) {
+    private function creerOuModifierForm($request, $sortie, $message, $creation): Response
+    {
         $premierLieu = $this->lieuRep->trouverPremierLieuParOrdreAlphabetique();
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
