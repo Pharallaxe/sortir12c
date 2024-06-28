@@ -28,8 +28,8 @@ class AppFixtures extends Fixture
         $this->addLieu(10, $manager);
         $this->addEtat($manager);
         $this->addCampus($manager);
-        $this->addParticipant(20, $manager);
-        $this->addSortie(20, $manager);
+        $this->addParticipant(30, $manager);
+        $this->addSortie(50, $manager);
 
         $manager->flush();
     }
@@ -86,15 +86,11 @@ class AppFixtures extends Fixture
             throw new \Exception('Aucun campus trouvé dans la base de données.');
         }
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < $number; $i++) {
             $participant = new Participant();
             $participant->setRoles(['ROLE_USER']);
-//            $password = $this->passwordHasher->hashPassword($participant, 'password');
             $participant->setPassword(
-                $this->userPasswordHasher->hashPassword(
-                    $participant,
-                    '1234'
-                )
+                $this->userPasswordHasher->hashPassword($participant,'1234')
             );
 
             $prenom = $this->faker->firstName;
@@ -139,10 +135,17 @@ class AppFixtures extends Fixture
         $campusRepository = $manager->getRepository(Campus::class);
         $campusList = $campusRepository->findAll();
 
-        // Vérifier qu'il y a au moins un lieu, un état, un participant et un campus dans la base de données
-        if (count($lieuList) === 0 && count($etatList) === 0 && count($participantList) === 0 && count($campusList) === 0) {
-            throw new \Exception('Assurez-vous qu\'il y a au moins un lieu, un état, un participant et un campus dans la base de données.');
-        }
+        // Vérifier qu'il y a au moins un lieu dans la base de données
+        $this->checkListNotEmpty($lieuList, 'lieu');
+
+        // Vérifier qu'il y a au moins un état dans la base de données
+        $this->checkListNotEmpty($etatList, 'état');
+
+        // Vérifier qu'il y a au moins un participant dans la base de données
+        $this->checkListNotEmpty($participantList, 'participant');
+
+        // Vérifier qu'il y a au moins un campus dans la base de données
+        $this->checkListNotEmpty($campusList, 'campus');
 
         for ($i = 0; $i < $number; $i++) {
             $sortie = new Sortie();
@@ -171,10 +174,14 @@ class AppFixtures extends Fixture
                 $randomParticipant = $this->faker->randomElement($participantList);
                 $sortie->addParticipant($randomParticipant);
             }
-
             $manager->persist($sortie);
         }
+        $manager->flush();
+    }
 
-        //$manager->flush();
+    function checkListNotEmpty(array $list, string $itemType) {
+        if (count($list) === 0) {
+            throw new \Exception("Assurez-vous qu'il y a au moins un $itemType dans la base.");
+        }
     }
 }
