@@ -85,7 +85,6 @@ class SortieType extends AbstractType
                         ->addOrderBy('s.nom', 'ASC');
                 }
             ]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

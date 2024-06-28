@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +27,6 @@ class ParticipantController extends AbstractController
 
         $participant = $participantRepository->find($id);
         $participantConnecte = $security->getUser();
-
 
         if (!$participant) {
             throw $this->createNotFoundException("Oups, le profil du participant n'a pas été trouvé !");
@@ -102,5 +100,4 @@ class ParticipantController extends AbstractController
             'modifierParticipantForm' => $participantForm
         ]);
     }
-
 }

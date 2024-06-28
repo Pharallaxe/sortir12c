@@ -25,10 +25,10 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-//        $this->addLieu(10, $manager);
-//        $this->addEtat($manager);
-//        $this->addCampus($manager);
-//        $this->addParticipant(20, $manager);
+        $this->addLieu(10, $manager);
+        $this->addEtat($manager);
+        $this->addCampus($manager);
+        $this->addParticipant(20, $manager);
         $this->addSortie(20, $manager);
 
         $manager->flush();
@@ -140,7 +140,7 @@ class AppFixtures extends Fixture
         $campusList = $campusRepository->findAll();
 
         // Vérifier qu'il y a au moins un lieu, un état, un participant et un campus dans la base de données
-        if (count($lieuList) === 0 || count($etatList) === 0 || count($participantList) === 0 || count($campusList) === 0) {
+        if (count($lieuList) === 0 && count($etatList) === 0 && count($participantList) === 0 && count($campusList) === 0) {
             throw new \Exception('Assurez-vous qu\'il y a au moins un lieu, un état, un participant et un campus dans la base de données.');
         }
 
@@ -150,7 +150,7 @@ class AppFixtures extends Fixture
             $sortie->setDateHeureDebut($this->faker->dateTimeBetween("+5 day", "+10 day"));
             $sortie->setDuree($this->faker->numberBetween(60, 300));
             $sortie->setDateLimiteInscription($this->faker->dateTimeBetween("-15 day", "+2 day"));
-            $sortie->setNbInscriptionsMax($this->faker->numberBetween(0, 5));
+            $sortie->setNbInscriptionsMax($this->faker->numberBetween(5, 15));
             $sortie->setInfosSortie($this->faker->paragraph);
 
             // Assigner un état, un lieu, un participant et un campus aléatoires

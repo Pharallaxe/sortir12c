@@ -15,10 +15,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
-    #[Route('/sorties/lister', name: 'sortie_lister')]
-    public function index(SortieRepository $sortieRepository, EtatRepository $etatRepository, CampusRepository $campusRepository, Request $request): Response
+    #[Route('/lister', name: 'lister')]
+    public function index(
+        SortieRepository $sortieRepository,
+        EtatRepository $etatRepository,
+        CampusRepository $campusRepository,
+        Request $request
+    ): Response
     {
         $filterNom = $request->query->get('filter_nom');
         $filterDateFrom = $request->query->get('filter_date_from');
@@ -94,7 +100,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/sorties/detailler/{id}', name: 'sortie_detailler', requirements: ['id' => '\d+'])]
+    #[Route('/detailler/{id}', name: 'detailler', requirements: ['id' => '\d+'])]
     public function detail(
         int                    $id,
         SortieRepository $sortieRepository): Response
@@ -106,8 +112,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-
-    #[Route('/sorties/creer', name: 'sortie_creer')]
+    #[Route('/creer', name: 'creer')]
     public function creer(
         EntityManagerInterface $entityManager,
         Request $request,
@@ -142,7 +147,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/sorties/modifier/{id}', name: 'sortie_modifier')]
+    #[Route('/modifier/{id}', name: 'modifier')]
     public function modifier(
         int $id,
         EntityManagerInterface $entityManager,
@@ -179,7 +184,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/sorties/annuler/{id}', name: 'sortie_annuler', requirements: ['id' => '\d+'])]
+    #[Route('/annuler/{id}', name: 'annuler', requirements: ['id' => '\d+'])]
     public function annuler(
         int $id,
         EntityManagerInterface $entityManager,
@@ -202,7 +207,7 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
     }
 
-    #[Route('/sorties/inscrire/{id}', name: 'sortie_inscrire', requirements: ['id' => '\d+'])]
+    #[Route('/inscrire/{id}', name: 'inscrire', requirements: ['id' => '\d+'])]
     public function inscrire(
         int $id,
         EntityManagerInterface $entityManager,
@@ -234,7 +239,7 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
     }
 
-    #[Route('/sorties/desister/{id}', name: 'sortie_desister', requirements: ['id' => '\d+'])]
+    #[Route('/desister/{id}', name: 'desister', requirements: ['id' => '\d+'])]
     public function desister(
         int $id,
         EntityManagerInterface $entityManager,
@@ -260,7 +265,7 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
     }
 
-    #[Route('/sorties/publier/{id}', name: 'sortie_publier', requirements: ['id' => '\d+'])]
+    #[Route('/publier/{id}', name: 'publier', requirements: ['id' => '\d+'])]
     public function publier(
         int $id,
         EntityManagerInterface $entityManager,
@@ -270,7 +275,6 @@ class SortieController extends AbstractController
         $etatRepository = $entityManager->getRepository(Etat::class);
 
         $sortie = $sortieRepository->find($id);
-
 
         if ($sortie->getOrganisateur() === $this->getUser()) {
 
@@ -284,13 +288,13 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
     }
 
-
-    #[Route('/sorties/lister/lieu/{idLieu}', name: 'sortie_lister_lieu')]
+    #[Route('/lister/lieu/{idLieu}', name: 'lister_lieu')]
     public function getLieuDetails(
         int $idLieu,
         LieuRepository $lieuRepository,
     ): Response
     {
         $lieu = $lieuRepository->find($idLieu);
-        return $this->json($lieu, Response::HTTP_OK);    }
+        return $this->json($lieu, Response::HTTP_OK);
+    }
 }

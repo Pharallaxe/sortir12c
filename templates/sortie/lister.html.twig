@@ -133,7 +133,7 @@
 
                             {#                            Si le participant loggé est l'organisateur #}
                             {% if app.user and app.user.nom == (sortie.organisateur.nom) %}
-                                {% if sortie.etat.libelle == 'Créee' %}
+                                {% if sortie.etat.libelle == 'Creee' %}
                                     <a href="{{ path('sortie_publier', {'id': sortie.id}) }}">Publier</a>
                                     {#                    {% else %} #}
                                     {#                            <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}">Modifier</a> #}
@@ -146,7 +146,7 @@
 
                             {% endif %}
 
-                            {#                            Si le participant loggé est inscrit à cette sortie #}
+                            {# Si le participant loggé est inscrit à cette sortie #}
                             {% set isParticipant = false %}
                             {% for participant in sortie.participants %}
                                 {% if app.user and app.user.nom == participant.nom %}
