@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
 
     public function addLieu(int $number, ObjectManager $manager): void
     {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < $number; $i++) {
             $lieu = new Lieu();
             $lieu->setNom($this->faker->country);
             $lieu->setRue($this->faker->streetAddress);
