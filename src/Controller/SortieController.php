@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
+use App\Service\SortieService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,11 +20,49 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
+
+    const MESSAGE_AJOUT_SUCCESS = 'Sortie ajoutée avec succès !' ;
+
+    // MESSAGE DE DESISTEMENT
+    const MESSAGE_DESISTEMENT_NONINSCRIT = 'Vous n\'êtes pas inscrit à cette sortie.';
+    const MESSAGE_DESISTEMENT_IMPOSSIBLE = 'Vous ne pouvez pas vous désister d\'une sortie qui n\'est pas ouverte.';
+    const MESSAGE_DESISTEMENT_SUCCESS = 'Désistement de la sortie réussi !';
+    
+    // MESSAGE DE PUBLICATION
+    const MESSAGE_PUBLICATION_SUCCESS = 'Sortie publiée avec succès !';
+    const MESSAGE_PUBLICATION_IMPOSSIBLE = 'Vous ne pouvez pas publier une sortie que vous n\'avez pas créée.';
+    
+    // MESSAGE D'ANNULATION
+    const MESSAGE_ANNULATION_SUCCES = 'Sortie annulée avec succès !';
+    const MESSAGE_ANNULATION_IMPOSSIBLE = 'Vous ne pouvez pas annuler une sortie que vous n\'avez pas créée.';
+
+    // MESSAGES POUR LE TABLEAU
+    const MESSAGE_DEJA_INSCRIT = 'Vous êtes déjà inscrit à cette sortie.';
+    const MESSAGE_NON_OUVERTE = 'Vous ne pouvez pas vous inscrire à une sortie qui n\'est pas ouverte.';
+    const MESSAGE_DATE_LIMITE_DEPASSEE = 'La date limite d\'inscription est dépassée.';
+    const MESSAGE_SORTIE_COMPLETE = 'La sortie est complète.';
+    const MESSAGE_INSCRIPTION_REUSSIE = 'Inscription à la sortie réussie !';
+
+    private $em;
+    private $sortieRep;
+
+    public function __construct(
+        EntityManagerInterface $em,
+        SortieRepository $sortieRep,
+        CampusRepository $campusRep,
+        EtatRepository $etatRep,
+        LieuRepository $lieuRep
+    )
+    {
+        $this->em = $em;
+        $this->sortieRep = $sortieRep;
+        $this->campusRep = $campusRep;
+        $this->etatRep = $etatRep;
+        $this->lieuRep = $lieuRep;
+    }
+
     #[Route('/lister', name: 'lister')]
     public function index(
-        SortieRepository $sortieRepository,
-        EtatRepository $etatRepository,
-        CampusRepository $campusRepository,
         Request $request
     ): Response
     {
@@ -36,7 +76,7 @@ class SortieController extends AbstractController
         $filterNotParticipant = $request->query->get('filter_not_participant');
         $filterPast = $request->query->get('filter_past');
 
-        $queryBuilder = $sortieRepository->createQueryBuilder('s');
+        $queryBuilder = $this->sortieRep->createQueryBuilder('s');
 
         if ($filterNom) {
             $queryBuilder->andWhere('s.nom LIKE :nom')
@@ -86,12 +126,12 @@ class SortieController extends AbstractController
 
         if ($filterPast) {
             $queryBuilder->andWhere('s.etat = :etatPast')
-                ->setParameter('etatPast', $etatRepository->findOneBy(['libelle' => 'passée']));
+                ->setParameter('etatPast', $this->etatRep->findOneBy(['libelle' => 'passée']));
         }
 
         $sorties = $queryBuilder->getQuery()->getResult();
-        $etats = $etatRepository->findAll();
-        $campuses = $campusRepository->findAll();
+        $etats = $this->etatRep->findAll();
+        $campuses = $this->campusRep->findAll();
 
         return $this->render('sortie/lister.html.twig', [
             'sorties' => $sorties,
@@ -101,43 +141,33 @@ class SortieController extends AbstractController
     }
 
     #[Route('/detailler/{id}', name: 'detailler', requirements: ['id' => '\d+'])]
-    public function detail(
-        int                    $id,
-        SortieRepository $sortieRepository): Response
+    public function detail(int $id): Response
     {
-        $sortie = $sortieRepository->find($id);
-
-        return $this->render('sortie/detailler.html.twig', [
-            'sortie' => $sortie,
-        ]);
+        $sortie = $this->sortieRep->find($id);
+        return $this->render('sortie/detailler.html.twig', ['sortie' => $sortie]);
     }
 
     #[Route('/creer', name: 'creer')]
     public function creer(
-        EntityManagerInterface $entityManager,
         Request $request,
-        EtatRepository $etatRepository,
-        LieuRepository $lieuRepository,
     ): Response
     {
-        $premierLieu = $lieuRepository->trouverPremierLieuParOrdreAlphabetique();
+        $premierLieu = $this->lieuRep->trouverPremierLieuParOrdreAlphabetique();
 
         $sortie = new Sortie();
-        if ($this->getUser() !== null) {
-            $sortie->setCampus($this->getUser()->getCampus());
-        }
+        if ($this->getUser() !== null) $sortie->setCampus($this->getUser()->getCampus());
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $sortie->setOrganisateur($this->getUser());
-            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Creee']));
+            $sortie->setEtat($this->etatRep->findOneBy(['libelle' => 'Creee']));
             $sortie->addParticipant($this->getUser());
-            $entityManager->persist($sortie);
-            $entityManager->flush();
+            $this->em->persist($sortie);
+            $this->em->flush();
 
-            $this->addFlash('success', 'Sortie ajoutée avec succès !');
+            $this->addFlash('success', self::MESSAGE_AJOUT_SUCCESS);
             return $this->redirectToRoute('sortie_detailler', ['id' => $sortie->getId()]);
         }
 
@@ -150,31 +180,25 @@ class SortieController extends AbstractController
     #[Route('/modifier/{id}', name: 'modifier')]
     public function modifier(
         int $id,
-        EntityManagerInterface $entityManager,
         Request $request,
-        EtatRepository $etatRepository,
-        LieuRepository $lieuRepository,
-        SortieRepository $sortieRepository,
     ): Response
     {
-        $sortie = $sortieRepository->find($id);
+        $sortie = $this->sortieRep->find($id);
 
-        if (!$sortie) {
-            throw $this->createNotFoundException('Ooops ! sortie non trouvée !');
-        }
+        if (!$sortie) throw $this->createNotFoundException('Ooops ! sortie non trouvée !');
 
-        $premierLieu = $lieuRepository->trouverPremierLieuParOrdreAlphabetique();
+        $premierLieu = $this->lieuRep->trouverPremierLieuParOrdreAlphabetique();
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $sortie->setOrganisateur($this->getUser());
-            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Creee']));
-            $entityManager->persist($sortie);
-            $entityManager->flush();
+            $sortie->setEtat($this->etatRep->findOneBy(['libelle' => 'Creee']));
+            $this->em->persist($sortie);
+            $this->em->flush();
 
-            $this->addFlash('success', 'Sortie ajoutée avec succès !');
+            $this->addFlash('success', self::MESSAGE_AJOUT_SUCCESS);
             return $this->redirectToRoute('sortie_detailler', ['id' => $sortie->getId()]);
         }
 
@@ -185,116 +209,101 @@ class SortieController extends AbstractController
     }
 
     #[Route('/annuler/{id}', name: 'annuler', requirements: ['id' => '\d+'])]
-    public function annuler(
-        int $id,
-        EntityManagerInterface $entityManager,
-        SortieRepository $sortieRepository
-    ): Response
+    public function annuler(int $id): Response
     {
-        $etatRepository = $entityManager->getRepository(Etat::class);
-
-        $sortie = $sortieRepository->find($id);
+        $etatRep = $this->em->getRepository(Etat::class);
+        $sortie = $this->sortieRep->find($id);
 
         if ($sortie->getOrganisateur() === $this->getUser()) {
-            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulee']));
+            $sortie->setEtat($etatRep->findOneBy(['libelle' => 'Annulee']));
             $sortie->setInfosSortie("ANNULEE PAR L'ORGANISATEUR " . $sortie->getInfosSortie());
-            $entityManager->flush();
-            $this->addFlash('success', 'Sortie annulée avec succès !');
-        } else {
-            $this->addFlash('danger', 'Vous ne pouvez pas annuler une sortie que vous n\'avez pas créée.');
+            $this->em->flush();
+            return $this->redirectWithMessage('success', self::MESSAGE_ANNULATION_SUCCES, $id);
         }
 
-        return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
+        return $this->redirectWithMessage('danger', self::MESSAGE_ANNULATION_IMPOSSIBLE, $id);
     }
 
     #[Route('/inscrire/{id}', name: 'inscrire', requirements: ['id' => '\d+'])]
-    public function inscrire(
-        int $id,
-        EntityManagerInterface $entityManager,
-        SortieRepository $sortieRepository
-    ): Response
+    public function inscrire(int $id): Response
     {
-        $sortie = $sortieRepository->find($id);
+        $sortie = $this->sortieRep->find($id);
         $participant = $this->getUser();
 
+
         if ($sortie->getParticipants()->contains($participant)) {
-            $this->addFlash('warning', 'Vous êtes déjà inscrit à cette sortie.');
-        }
-        elseif ($sortie->getEtat()->getLibelle() !== 'Ouverte') {
-            $this->addFlash('danger', 'Vous ne pouvez pas vous inscrire à une sortie qui n\'est pas ouverte.');
-        }
-        elseif ($sortie->getDateLimiteInscription() < new \DateTime()) {
-            $this->addFlash('danger', 'La date limite d\'inscription est dépassée.');
-        }
-        elseif ($sortie->getParticipants()->count() >= $sortie->getNbInscriptionsMax()) {
-            $this->addFlash('danger', 'La sortie est complète.');
+            return $this->redirectWithMessage('warning', self::MESSAGE_DEJA_INSCRIT, $id);
         }
 
-        else {
-            $sortie->addParticipant($participant);
-            $entityManager->flush();
-            $this->addFlash('success', 'Inscription à la sortie réussie !');
+        if ($sortie->getEtat()->getLibelle() !== 'Ouverte') {
+            return $this->redirectWithMessage('danger', self::MESSAGE_NON_OUVERTE, $id);
         }
 
-        return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
+        if ($sortie->getDateLimiteInscription() < new \DateTime()) {
+            return $this->redirectWithMessage('danger', self::MESSAGE_DATE_LIMITE_DEPASSEE, $id);
+        }
+
+        if ($sortie->getParticipants()->count() >= $sortie->getNbInscriptionsMax()) {
+            return $this->redirectWithMessage('danger', self::MESSAGE_SORTIE_COMPLETE, $id);
+        }
+
+        $sortie->addParticipant($participant);
+        $this->em->flush();
+        return $this->redirectWithMessage('success', self::MESSAGE_INSCRIPTION_REUSSIE, $id);
     }
 
     #[Route('/desister/{id}', name: 'desister', requirements: ['id' => '\d+'])]
-    public function desister(
-        int $id,
-        EntityManagerInterface $entityManager,
-        SortieRepository $sortieRepository
-    ): Response
+    public function desister(int $id): Response
     {
-        $sortie = $sortieRepository->find($id);
+        $sortie = $this->sortieRep->find($id);
         $participant = $this->getUser();
 
         if (!$sortie->getParticipants()->contains($participant)) {
-            $this->addFlash('warning', 'Vous n\'êtes pas inscrit à cette sortie.');
-        }
-        elseif ($sortie->getEtat()->getLibelle() !== 'Ouverte') {
-            $this->addFlash('danger', 'Vous ne pouvez pas vous désister d\'une sortie qui n\'est pas ouverte.');
+            return $this->redirectWithMessage('warning',self::MESSAGE_DESISTEMENT_NONINSCRIT, $id);
         }
 
-        else {
-            $sortie->removeParticipant($participant);
-            $entityManager->flush();
-            $this->addFlash('success', 'Désistement de la sortie réussi !');
+        if ($sortie->getEtat()->getLibelle() !== 'Ouverte') {
+            return $this->redirectWithMessage('danger',self::MESSAGE_DESISTEMENT_IMPOSSIBLE, $id);
         }
 
-        return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
+        $sortie->removeParticipant($participant);
+        $this->em->flush();
+        return $this->redirectWithMessage('success',self::MESSAGE_DESISTEMENT_SUCCESS, $id);
     }
 
     #[Route('/publier/{id}', name: 'publier', requirements: ['id' => '\d+'])]
-    public function publier(
-        int $id,
-        EntityManagerInterface $entityManager,
-        SortieRepository $sortieRepository
-    ): Response
+    public function publier(int $id): Response
     {
-        $etatRepository = $entityManager->getRepository(Etat::class);
-
-        $sortie = $sortieRepository->find($id);
+        $etatRep = $this->em->getRepository(Etat::class);
+        $sortie = $this->sortieRep->find($id);
 
         if ($sortie->getOrganisateur() === $this->getUser()) {
-
-            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
-            $entityManager->flush();
-            $this->addFlash('success', 'Sortie publiée avec succès !');
-        } else {
-            $this->addFlash('danger', 'Vous ne pouvez pas publier une sortie que vous n\'avez pas créée.');
+            $sortie->setEtat($etatRep->findOneBy(['libelle' => 'Ouverte']));
+            $this->em->flush();
+            return $this->redirectWithMessage('success',self::MESSAGE_PUBLICATION_SUCCESS, $id);
         }
 
-        return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
+        return $this->redirectWithMessage('danger',self::MESSAGE_PUBLICATION_IMPOSSIBLE, $id);
     }
 
     #[Route('/lister/lieu/{idLieu}', name: 'lister_lieu')]
-    public function getLieuDetails(
-        int $idLieu,
-        LieuRepository $lieuRepository,
-    ): Response
+    public function getLieuDetails(int $idLieu): Response
     {
-        $lieu = $lieuRepository->find($idLieu);
+        $lieu = $this->lieuRep->find($idLieu);
         return $this->json($lieu, Response::HTTP_OK);
+    }
+
+    /**
+     * Redirige vers la page de détails de la sortie avec un message flash.
+     *
+     * @param string $type Le type de message flash (e.g. 'success', 'error').
+     * @param string $message Le contenu du message flash.
+     * @param int $id L'identifiant de la sortie.
+     * @return Response
+     */
+    private function redirectWithMessage($type, $message, $id): Response
+    {
+        $this->addFlash($type, $message);
+        return $this->redirectToRoute('sortie_detailler', ['id' => $id]);
     }
 }
