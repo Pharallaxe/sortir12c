@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Entity\SortieRecherche;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -11,15 +13,87 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private $etatRep;
+
+    public function __construct(ManagerRegistry $registry, EtatRepository $etatRep)
     {
         parent::__construct($registry, Sortie::class);
+        $this->etatRep = $etatRep;
     }
 
+    public function findAllWithRelations()
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.campus', 'c')
+            ->addSelect('c')
+            ->leftJoin('s.etat', 'e')
+            ->addSelect('e')
+            ->leftJoin('s.participants', 'p')
+            ->addSelect('p')
+            ->leftJoin('s.organisateur', 'o')
+            ->addSelect('o')
+            ->getQuery()
+            ->getResult();
+    }
 
+    public function rechercheParCritere(SortieRecherche $sortieRecherche, Participant $user)
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->leftJoin('s.campus', 'c')
+            ->addSelect('c')
+            ->leftJoin('s.etat', 'e')
+            ->addSelect('e')
+            ->leftJoin('s.participants', 'p')
+            ->addSelect('p')
+            ->leftJoin('s.organisateur', 'o')
+            ->addSelect('o');
 
+        $sorties = $qb->getQuery()->getResult();
 
+        return $this->filtrerSorties($sorties, $sortieRecherche, $user);
+    }
 
+    private function filtrerSorties(array $sorties, SortieRecherche $sortieRecherche, Participant $user): array
+    {
+        return array_filter($sorties, function(Sortie $sortie) use ($sortieRecherche, $user) {
+            if (!empty($sortieRecherche->getNom()) && stripos($sortie->getNom(), $sortieRecherche->getNom()) === false) {
+                return false;
+            }
 
+            if (!empty($sortieRecherche->getDateDebut()) && $sortie->getDateHeureDebut() < $sortieRecherche->getDateDebut()) {
+                return false;
+            }
 
+            if (!empty($sortieRecherche->getDateFin())) {
+                $dateFin = clone $sortieRecherche->getDateFin();
+                $dateFin->setTime(23, 59, 59);
+                if ($sortie->getDateHeureDebut() > $dateFin) {
+                    return false;
+                }
+            }
+
+            if (!empty($sortieRecherche->getCampus()) && $sortie->getCampus()->getId() !== $sortieRecherche->getCampus()) {
+                return false;
+            }
+
+            if (!empty($sortieRecherche->isOrganisateur()) && $sortie->getOrganisateur() !== $user) {
+                return false;
+            }
+
+            if (!empty($sortieRecherche->isParticipant()) && !$sortie->getParticipants()->contains($user)) {
+                return false;
+            }
+
+            if (!empty($sortieRecherche->isNotParticipant()) && $sortie->getParticipants()->contains($user)) {
+                return false;
+            }
+
+            if (!empty($sortieRecherche->isPasse()) && $sortie->getEtat()->getLibelle() !== 'Passee') {
+                return false;
+            }
+
+            return true;
+        });
+    }
 }

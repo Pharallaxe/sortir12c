@@ -15,77 +15,42 @@
     {% endif %}
 
     <!-- Filter Form -->
-    <form method="get" action="{{ path('sortie_lister') }}">
-        <div class="row mb-3">
-            <div class="col-md-2">
-                <label for="filter_nom" class="form-label">Nom de la sortie</label>
-                <input type="text" id="filter_nom" name="filter_nom" class="form-control"
-                       value="{{ app.request.query.get('filter_nom') }}">
-            </div>
-            <div class="col-md-2">
-                <label for="filter_date_from" class="form-label">Date de début</label>
-                <input type="date" id="filter_date_from" name="filter_date_from" class="form-control"
-                       value="{{ app.request.query.get('filter_date_from') }}">
-            </div>
-            <div class="col-md-2">
-                <label for="filter_date_to" class="form-label">Date de fin</label>
-                <input type="date" id="filter_date_to" name="filter_date_to" class="form-control"
-                       value="{{ app.request.query.get('filter_date_to') }}">
-            </div>
-            <div class="col-md-2">
-                <label for="filter_etat" class="form-label">Etat</label>
-                <select id="filter_etat" name="filter_etat" class="form-select">
-                    <option value="">Tous</option>
-                    {% for etat in etats %}
-                        <option value="{{ etat.id }}"
-                                {% if app.request.query.get('filter_etat') == etat.id %}selected{% endif %}>
-                            {{ etat.libelle }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label for="filter_campus" class="form-label">Campus</label>
-                <select id="filter_campus" name="filter_campus" class="form-select">
-                    <option value="">Tous</option>
-                    {% for campus in campuses %}
-                        <option value="{{ campus.id }}"
-                                {% if app.request.query.get('filter_campus') == campus.id %}selected{% endif %}>
-                            {{ campus.nom }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label for="filter_organisateur_nom" class="form-label
-            <div class=" col-md-2 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary">Rechercher</button>
-            </div>
+    {{ form_start(form) }}
+    <div class="row mb-3">
+        <div class="col-md-2">
+            {{ form_row(form.nom) }}
         </div>
+        <div class="col-md-2">
+            {{ form_row(form.dateDebut) }}
         </div>
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <input type="checkbox" id="filter_organisateur" name="filter_organisateur" value="1"
-                       {% if app.request.query.get('filter_organisateur') %}checked{% endif %}>
-                <label for="filter_organisateur" class="form-label">Sorties dont je suis l'organisateur</label>
-            </div>
-            <div class="col-md-3">
-                <input type="checkbox" id="filter_participant" name="filter_participant" value="1"
-                       {% if app.request.query.get('filter_participant') %}checked{% endif %}>
-                <label for="filter_participant" class="form-label">Sorties auxquelles je suis inscrit</label>
-            </div>
-            <div class="col-md-3">
-                <input type="checkbox" id="filter_not_participant" name="filter_not_participant" value="1"
-                       {% if app.request.query.get('filter_not_participant') %}checked{% endif %}>
-                <label for="filter_not_participant" class="form-label">Sorties auxquelles je ne suis pas inscrit</label>
-            </div>
-            <div class="col-md-3">
-                <input type="checkbox" id="filter_past" name="filter_past" value="1"
-                       {% if app.request.query.get('filter_past') %}checked{% endif %}>
-                <label for="filter_past" class="form-label">Sorties passées</label>
-            </div>
+        <div class="col-md-2">
+            {{ form_row(form.dateFin) }}
         </div>
-    </form>
+        <div class="col-md-2">
+            {{ form_row(form.etat) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.campus) }}
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-3">
+            {{ form_row(form.organisateur) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.participant) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.notParticipant) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.passe) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
 
     <!-- Table of sorties -->
     <div class="table-responsive" style="max-width: 1200px; margin: 0 auto;">
