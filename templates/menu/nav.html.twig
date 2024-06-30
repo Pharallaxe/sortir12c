@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="{{ asset('images/Sortir.com.png') }}" style="width: 160px; height: 160px;"/>
+            <span class="logo-text">SORTIR.COM</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,18 +10,17 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
                 {% if app.user %}
-                    <li class="nav-item">
+                    <li class="nav-item {% if app.request.get('_route') == 'site_accueil' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('site_accueil') }}">Accueil</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {% if app.request.get('_route') == 'sortie_lister' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('sortie_lister') }}">Liste des sorties</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {% if app.request.get('_route') == 'sortie_creer' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('sortie_creer') }}">Ajouter une sortie</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('participant_detailler', {'id': app.user.id}) }}">Mon
-                            Profil</a>
+                    <li class="nav-item {% if app.request.get('_route') == 'participant_detailler' %}active{% endif %}">
+                        <a class="nav-link" href="{{ path('participant_detailler', {'id': app.user.id}) }}">Mon Profil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Villes</a>

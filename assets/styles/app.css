@@ -1,28 +1,91 @@
-/* Webfont: Luciole-Regular */@font-face {
+/* Webfont: Luciole-Regular */
+@font-face {
     font-family: 'Luciole';
     src: url('../fonts/Luciole-Regular/Luciole-Regular.eot'); /* IE9 Compat Modes */
-    src: url('../fonts/Luciole-Regular/Luciole-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../fonts/Luciole-Regular/Luciole-Regular.woff') format('woff'), /* Modern Browsers */
-    url('../fonts/Luciole-Regular/Luciole-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../fonts/Luciole-Regular/Luciole-Regular.svg#Luciole-Regular') format('svg'); /* Legacy iOS */
+    src: url('../fonts/Luciole-Regular/Luciole-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('../fonts/Luciole-Regular/Luciole-Regular.woff') format('woff'), /* Modern Browsers */ url('../fonts/Luciole-Regular/Luciole-Regular.ttf') format('truetype'), /* Safari, Android, iOS */ url('../fonts/Luciole-Regular/Luciole-Regular.svg#Luciole-Regular') format('svg'); /* Legacy iOS */
     font-style: normal;
     font-weight: normal;
     text-rendering: optimizeLegibility;
 }
 
 body {
-    background-color: skyblue;
-    font-family: "Monserrat", sans-serif;
-    font-weight: 400;
+    font-family: "Montserrat", sans-serif;
+    background-color: #f8f9fa;
+    padding-top: 70px;
 }
 
-h1, h2{
+h1, h2 {
     font-family: "Luciole", sans-serif;
 }
 
-.form-login{
+.form-login {
     max-width: 330px;
     padding: 1rem;
 }
 
+/*test*/
 
+.navbar {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4D61F4;
+    padding: 1rem;
+    transition: color 0.3s ease;
+}
+
+.logo-text:hover {
+    background: #D7FF7B;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    position: relative;
+    /*color:black;*/
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+    color: #4D61F4;
+}
+
+.navbar-nav .nav-link:after {
+    content: '';
+    display: block;
+    height: 2px;
+    width: 0;
+    background: #D7FF7B;
+    transition: width 0.3s;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover:after,
+.navbar-nav .nav-link:focus:after {
+    width: 100%;
+}
+
+.navbar-nav .nav-item.active .nav-link {
+    color: #4D61F4;
+    font-weight: bold;
+}
+
+@media (max-width: 1000px) {
+    .navbar-nav .nav-link:after {
+        bottom: 4px;
+        left: 11%;
+    }
+    .navbar-nav .nav-link:hover:after,
+    .navbar-nav .nav-link:focus:after {
+        width: 20%;
+    }
+}
