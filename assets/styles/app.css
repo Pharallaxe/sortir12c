@@ -1,3 +1,6 @@
+@import url("navigation.css");
+@import url("login.css");
+
 /* Webfont: Luciole-Regular */
 @font-face {
     font-family: 'Luciole';
@@ -14,78 +17,35 @@ body {
     padding-top: 70px;
 }
 
-h1, h2 {
+h1, h2, h3 {
     font-family: "Luciole", sans-serif;
 }
 
-.form-login {
-    max-width: 330px;
-    padding: 1rem;
+.form-control {
+    border-color: #4D61F4;
 }
 
-/*test*/
-
-.navbar {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.form-control:focus {
+    border-color: #4D61F4;
+    box-shadow: 0 0 0 0.25rem rgba(77, 97, 244, 0.25);
 }
 
-.logo-text {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #4D61F4;
-    padding: 1rem;
-    transition: color 0.3s ease;
+.btn-primary {
+    background-color: #4D61F4;
+    border-color: #4D61F4;
 }
 
-.logo-text:hover {
-    background: #D7FF7B;
+.btn-primary:hover {
+    background-color: #3751c7;
+    border-color: #3751c7;
 }
 
-.navbar-nav .nav-link {
-    font-size: 1.1rem;
-    padding: 0.5rem 1rem;
-    margin-left: 1rem;
-    position: relative;
-    /*color:black;*/
-    font-weight: bold;
-    transition: color 0.3s ease;
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(77, 97, 244, 0.5);
 }
 
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link:focus {
-    color: #4D61F4;
+.checkbox .form-check-input:checked {
+    background-color: #4D61F4;
+    border-color: #4D61F4;
 }
 
-.navbar-nav .nav-link:after {
-    content: '';
-    display: block;
-    height: 2px;
-    width: 0;
-    background: #D7FF7B;
-    transition: width 0.3s;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.navbar-nav .nav-link:hover:after,
-.navbar-nav .nav-link:focus:after {
-    width: 100%;
-}
-
-.navbar-nav .nav-item.active .nav-link {
-    color: #4D61F4;
-    font-weight: bold;
-}
-
-@media (max-width: 1000px) {
-    .navbar-nav .nav-link:after {
-        bottom: 4px;
-        left: 11%;
-    }
-    .navbar-nav .nav-link:hover:after,
-    .navbar-nav .nav-link:focus:after {
-        width: 20%;
-    }
-}
