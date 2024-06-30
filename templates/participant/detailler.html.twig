@@ -1,28 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container mt-5">
+    <div class="container container-profile mt-5">
+        <div class="text-center">
         <h2>{{ participant.pseudo }}</h2>
-        <ul class="list-group mb-3">
-            <li class="list-group-item">
                 {% if participant.imageProfile is not empty %}
                     <img src="{{ asset('images/profile/' ~ participant.imageProfile) }}" alt="{{ participant.pseudo }}"
-                         class="img-fluid rounded-circle" style="width: 160px; height: 160px;">
+                         class="img-fluid rounded-circle profile-image">
                 {% else %}
                     <img src="{{ asset('images/profile/default.jpg') }}" alt="{{ participant.pseudo }}"
-                         class="img-fluid rounded-circle" style="width: 160px; height: 160px;">
+                         class="img-fluid rounded-circle profile-image">
                 {% endif %}
-            </li>
-            <li class="list-group-item">Prénom : {{ participant.prenom }}</li>
-            <li class="list-group-item">Nom : {{ participant.nom }}</li>
-            <li class="list-group-item">Téléphone :
+        </div>
+            <ul class="list-group mb-3">
+                <li class="list-group-item"><span>Prénom :</span> {{ participant.prenom }}</li>
+                <li class="list-group-item"><span>Nom :</span> {{ participant.nom }}</li>
+                <li class="list-group-item"><span>Téléphone :</span>
                 {{ participant.telephone is null ? 'non renseigné' : participant.telephone }}
             </li>
-            <li class="list-group-item">Email : {{ participant.email }}</li>
-            <li class="list-group-item">Campus : {{ participant.campus.nom }}</li>
+                <li class="list-group-item"><span>Email :</span> {{ participant.email }}</li>
+                <li class="list-group-item"><span>Campus :</span> {{ participant.campus.nom }}</li>
         </ul>
         {% if participantConnecte and participantConnecte.id == participant.id %}
-            <a href="{{ path('participant_modifier', {'id' : participant.id}) }}" class="btn btn-success">Modifier</a>
+            <a href="{{ path('participant_modifier', {'id' : participant.id}) }}" class="btn btn-primary">Modifier</a>
         {% endif %}
     </div>
 {% endblock %}
