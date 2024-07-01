@@ -7,6 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -16,21 +19,33 @@ class Sortie
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner un nom de sortie')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner une date de début')]
+    #[Assert\DateTime]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner une durée')]
+    #[Assert\Type(type: 'numeric')]
+    #[Assert\Positive]
     #[ORM\Column]
     private ?int $duree = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner une date limite d\'inscription')]
+    #[Assert\DateTime]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner un nombre de places')]
+    #[Assert\Type(type: 'numeric')]
+    #[Assert\Positive]
     #[ORM\Column]
     private ?int $nbInscriptionsMax = null;
 
+    #[Assert\Length(max: 500, maxMessage: "Maximum {{ limit }} caractères")]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $infosSortie = null;
 

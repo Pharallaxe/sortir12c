@@ -34,13 +34,13 @@ class SortieType extends AbstractType
             ])
             ->add('dateHeureDebut', DateTimeType::class, [
                 'widget' => 'single_text',
-                'label' => 'Date heure debut : ',
+                'label' => 'Date et heure de la sortie : ',
                 'invalid_message' => '',
 
             ])
             ->add('dateLimiteInscription', DateTimeType::class, [
                 'widget' => 'single_text',
-                'label' => 'Date limite : ',
+                'label' => 'Date limite d\'inscription :',
                 'invalid_message' => ''
             ])
             ->add('duree', NumberType::class, [
@@ -51,14 +51,14 @@ class SortieType extends AbstractType
                 ]
             ])
             ->add('nbInscriptionsMax', NumberType::class, [
-                'label' => 'Participant max : ',
+                'label' => 'Nombre de places : ',
                 'invalid_message' => '',
                 'attr' => [
                     'placeholder' => 'L\'organisateur est par défaut participant'
                 ]
                 ])
             ->add('infosSortie', TextareaType::class, [
-                'label' => 'Description : ',
+                'label' => 'Description et infos : ',
                 'invalid_message' => '',
                 'attr' => [
                     'placeholder' => 'Votre description'

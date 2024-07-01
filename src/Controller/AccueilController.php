@@ -14,9 +14,9 @@ class AccueilController extends AbstractController
         return $this->render('accueil/accueil.html.twig');
     }
 
-    #[Route('/', name: 'acessibilite')]
+    #[Route('/accessibilite', name: 'accessibilite')]
     public function specifierAccessibilite(): Response
     {
-        return $this->render('accueil/acessibilite.html.twig');
+        return $this->render('accueil/accessibilite.html.twig');
     }
 }
