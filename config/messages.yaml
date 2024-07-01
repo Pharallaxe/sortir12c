@@ -5,7 +5,7 @@ messages:
     noninscrit: 'Vous n''êtes pas inscrit à cette sortie.'
     impossible: 'Vous ne pouvez pas vous désister d''une sortie qui n''est pas ouverte.'
     succes: 'Désistement de la sortie réussi !'
-  publiier:
+  publier:
     succes: 'Sortie publiée avec succès !'
     impossible: 'Vous ne pouvez pas publier une sortie que vous n''avez pas créée.'
   annuler:
