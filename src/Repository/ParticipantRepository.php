@@ -34,14 +34,14 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $this->getEntityManager()->flush();
     }
 
-public function loadUserByIdentifier(string $emailOuPseudo): ?Participant
-{
-    return $this->createQueryBuilder('p')
-        ->where('p.email = :identifier')
-        ->orWhere('p.pseudo = :identifier')
-        ->setParameter('identifier', $emailOuPseudo)
-        ->setMaxResults(1)
-        ->getQuery()
-        ->getSingleResult();
-}
+    public function loadUserByIdentifier(string $emailOuPseudo): ?Participant
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.email = :identifier')
+            ->orWhere('p.pseudo = :identifier')
+            ->setParameter('identifier', $emailOuPseudo)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleResult();
+    }
 }

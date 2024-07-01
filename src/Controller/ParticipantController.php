@@ -79,7 +79,8 @@ class ParticipantController extends AbstractController
 
         if (!$participantForm->isSubmitted() || !$participantForm->isValid()) {
             return $this->render('participant/modifier.html.twig', [
-                'modifierParticipantForm' => $participantForm
+                'modifierParticipantForm' => $participantForm,
+                'participant' => $participant
             ]);
         }
 
@@ -115,4 +116,8 @@ class ParticipantController extends AbstractController
         $this->addFlash('success', $this->messageService->get('participant.succes'));
         return $this->redirectToRoute('participant_detailler', ['id' => $id]);
 
-    }}
+    }
+
+
+
+}
