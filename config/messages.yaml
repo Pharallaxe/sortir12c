@@ -23,6 +23,7 @@ messages:
   participant :
     nontrouve : "Oups, le profil du participant n'a pas été trouvé !"
     mauvaisprofil : "Vous ne pouvez modifier que votre propre profil."
+    succes : 'Le profil a été modifié avec succès.'
 
 
 

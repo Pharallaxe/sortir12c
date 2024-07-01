@@ -50,7 +50,7 @@ class ParticipantController extends AbstractController
         $participantConnecte = $this->security->getUser();
 
         if (!$participant) {
-            throw $this->createNotFoundException("Oups, le profil du participant n'a pas été trouvé !");
+            throw $this->createNotFoundException($this->messageService->get('participant.nontrouve'));
         }
 
         return $this->render('participant/detailler.html.twig', [
@@ -117,23 +117,7 @@ class ParticipantController extends AbstractController
         $this->em->persist($participant);
         $this->em->flush();
 
-        $this->addFlash('success', 'Le profil a été modifié avec succès.');
+        $this->addFlash('success', $this->messageService->get('participant.succes'));
         return $this->redirectToRoute('participant_detailler', ['id' => $id]);
 
-    }
-
-    /**
-     * Redirige vers la page de détails de la sortie avec un message flash.
-     *
-     * @param string $type Le type de message flash (e.g. 'success', 'error').
-     * @param string $message Le contenu du message flash.
-     * @param string $chemin Le chemin de la sortie.
-     * @return Response
-     */
-    private function redirectWithMessage($type, $message, $chemin): Response
-    {
-        $this->addFlash($type, $message);
-        return $this->redirectToRoute($chemin);
-    }
-
-}
+    }}
