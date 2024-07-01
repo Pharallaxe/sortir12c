@@ -1,0 +1,32 @@
+.form-login {
+    max-width: 330px;
+    padding: 1rem;
+    margin-top: 50px;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.form-login label {
+    font-weight: 500;
+}
+
+.h3-underline {
+    position: relative;
+}
+
+.h3-underline::after {
+    content: '';
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #D7FF7B;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+}
+
+.form-login .bi-person-circle {
+    font-size: 4rem;
+    color: #4D61F4;
+}

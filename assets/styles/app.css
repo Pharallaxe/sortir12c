@@ -1,10 +1,52 @@
+@import url("navigation.css");
+@import url("login.css");
+@import url("participant.css");
+
+/* Webfont: Luciole-Regular */
+@font-face {
+    font-family: 'Luciole';
+    src: url('../fonts/Luciole-Regular/Luciole-Regular.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Luciole-Regular/Luciole-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('../fonts/Luciole-Regular/Luciole-Regular.woff') format('woff'), /* Modern Browsers */ url('../fonts/Luciole-Regular/Luciole-Regular.ttf') format('truetype'), /* Safari, Android, iOS */ url('../fonts/Luciole-Regular/Luciole-Regular.svg#Luciole-Regular') format('svg'); /* Legacy iOS */
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
 
 body {
-    background-color: skyblue;
     font-family: "Montserrat", sans-serif;
+    background-color: #f8f9fa;
+    padding-top: 70px;
 }
 
-.form-login{
-    max-width: 330px;
-    padding: 1rem;
+h1, h2, h3 {
+    font-family: "Luciole", sans-serif;
 }
+
+.form-control {
+    border-color: #4D61F4;
+}
+
+.form-control:focus {
+    border-color: #4D61F4;
+    box-shadow: 0 0 0 0.25rem rgba(77, 97, 244, 0.25);
+}
+
+.btn-primary {
+    background-color: #4D61F4;
+    border-color: #4D61F4;
+}
+
+.btn-primary:hover {
+    background-color: #3751c7;
+    border-color: #3751c7;
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(77, 97, 244, 0.5);
+}
+
+.checkbox .form-check-input:checked {
+    background-color: #4D61F4;
+    border-color: #4D61F4;
+}
+
