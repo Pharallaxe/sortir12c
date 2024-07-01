@@ -64,7 +64,11 @@ class SortieRepository extends ServiceEntityRepository
                 }
             }
 
-            if (!empty($sortieRecherche->getCampus()) && $sortie->getCampus()->getId() !== $sortieRecherche->getCampus()) {
+            if (!empty($sortieRecherche->getEtat()) && $sortie->getEtat()->getId() !== $sortieRecherche->getEtat()->getId()) {
+                return false;
+            }
+
+            if (!empty($sortieRecherche->getCampus()) && $sortie->getCampus()->getId() !== $sortieRecherche->getCampus()->getId()) {
                 return false;
             }
 
