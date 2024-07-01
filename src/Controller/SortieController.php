@@ -201,13 +201,6 @@ class SortieController extends AbstractController
         return $this->redirectWithMessage('success',$this->messageService->get('desister.succes'), $id);
     }
 
-    #[Route('/lister/lieu/{idLieu}', name: 'lister_lieu')]
-    public function getLieuDetails(int $idLieu): Response
-    {
-        $lieu = $this->lieuRep->find($idLieu);
-        return $this->json($lieu, Response::HTTP_OK);
-    }
-
     /**
      * Redirige vers la page de détails de la sortie avec un message flash.
      *

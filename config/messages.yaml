@@ -17,3 +17,6 @@ messages:
     depassee: 'La date limite d''inscription est dépassée.'
     complete: 'La sortie est complète.'
     reussie: 'Inscription à la sortie réussie !'
+  lieu :
+    ajouter : 'Lieu ajouté avec succès !'
+    dejaexistant : 'Un lieu avec ce nom existe déjà.'
