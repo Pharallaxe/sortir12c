@@ -89,4 +89,21 @@ class SortieRepository extends ServiceEntityRepository
             return true;
         });
     }
+
+
+    public function findSortiesForCloture(): array
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->leftJoin('s.participants', 'p')
+            ->addSelect('p')
+            ->leftJoin('s.etat', 'e')
+            ->addSelect('e')
+            ->groupBy('s.id')
+            ->having('COUNT(p) = s.nbInscriptionsMax OR s.dateLimiteInscription < :now OR s.dateHeureDebut < :now')
+            ->setParameter('now', new \DateTime('now'));
+
+        return $qb->getQuery()->getResult();
+    }
+
+
 }

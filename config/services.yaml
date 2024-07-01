@@ -1,6 +1,7 @@
 # config/services.yaml
 parameters:
     participants_images_directory: '%kernel.project_dir%/assets/images/profile'
+    timezone: '%env(APP_TIMEZONE)%'
 
 services:
     _defaults:

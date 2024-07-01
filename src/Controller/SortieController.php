@@ -13,6 +13,7 @@ use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Service\HistoService;
 use App\Service\MessageService;
+use App\Service\ClotureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,9 +49,10 @@ class SortieController extends AbstractController
     }
 
     #[Route('/lister', name: 'lister')]
-    public function lister(Request $request, HistoService $histoService): Response
+    public function index(Request $request, HistoService $histoService, ClotureService $clotureService ): Response
     {
         $histoService->update();
+        $clotureService->update();
 
         $etats = $this->etatRep->findAll();
         $campuses = $this->campusRep->findAll();
@@ -129,7 +131,7 @@ class SortieController extends AbstractController
         $etatRep = $this->em->getRepository(Etat::class);
         $sortie = $this->sortieRep->find($id);
 
-        
+
         if ($sortie->getOrganisateur() !== $this->getUser()) {
             return $this->redirectWithMessage(
                 'danger',
