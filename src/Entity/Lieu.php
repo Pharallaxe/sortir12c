@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\LieuRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LieuRepository::class)]
 class Lieu
@@ -13,9 +14,13 @@ class Lieu
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner un nom de lieu')]
+    #[Assert\Length(max: 30, maxMessage: 'Maximum {{ limit }} caractères')]
     #[ORM\Column(length: 30)]
     private ?string $nom = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner une rue')]
+    #[Assert\Length(max: 255, maxMessage: 'Maximum {{ limit }} caractères')]
     #[ORM\Column(length: 255)]
     private ?string $rue = null;
 
@@ -25,9 +30,13 @@ class Lieu
     #[ORM\Column(nullable: true)]
     private ?float $longitude = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner une nom de ville')]
+    #[Assert\Length(max: 255, maxMessage: 'Maximum {{ limit }} caractères')]
     #[ORM\Column(length: 255)]
     private ?string $nomDeVille = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner un code postal')]
+    #[Assert\Length(max: 5, maxMessage: 'Maximum {{ limit }} caractères')]
     #[ORM\Column(length: 5)]
     private ?string $codePostal = null;
 
