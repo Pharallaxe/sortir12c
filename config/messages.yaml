@@ -20,3 +20,10 @@ messages:
   lieu :
     ajouter : 'Lieu ajouté avec succès !'
     dejaexistant : 'Un lieu avec ce nom existe déjà.'
+  participant :
+    nontrouve : "Oups, le profil du participant n'a pas été trouvé !"
+    mauvaisprofil : "Vous ne pouvez modifier que votre propre profil."
+
+
+
+
