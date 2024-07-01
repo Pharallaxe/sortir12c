@@ -9,14 +9,3 @@ import './styles/app.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
-document.addEventListener('DOMContentLoaded', function() {
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#inputPassword');
-
-    togglePassword.addEventListener('click', function() {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        this.querySelector('i').classList.toggle('bi-eye');
-        this.querySelector('i').classList.toggle('bi-eye-slash');
-    });
-});
