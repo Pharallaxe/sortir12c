@@ -1,28 +1,35 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Mon profile
+{% endblock %}
+
 {% block body %}
     <div class="container container-profile mt-5">
         <div class="text-center">
-        <h2>{{ participant.pseudo }}</h2>
-                {% if participant.imageProfile is not empty %}
-                    <img src="{{ asset('images/profile/' ~ participant.imageProfile) }}" alt="{{ participant.pseudo }}"
-                         class="img-fluid rounded-circle profile-image">
-                {% else %}
-                    <img src="{{ asset('images/profile/default.jpg') }}" alt="{{ participant.pseudo }}"
-                         class="img-fluid rounded-circle profile-image">
-                {% endif %}
+            <h2>{{ participant.pseudo }}</h2>
+            {% if participant.imageProfile is not empty %}
+                <img src="{{ asset('images/profile/' ~ participant.imageProfile) }}" alt="{{ participant.pseudo }}"
+                     class="img-fluid rounded-circle profile-image">
+            {% else %}
+                <img src="{{ asset('images/profile/default.jpg') }}" alt="{{ participant.pseudo }}"
+                     class="img-fluid rounded-circle profile-image">
+            {% endif %}
         </div>
-            <ul class="list-group mb-3">
-                <li class="list-group-item"><span>Prénom :</span> {{ participant.prenom }}</li>
-                <li class="list-group-item"><span>Nom :</span> {{ participant.nom }}</li>
-                <li class="list-group-item"><span>Téléphone :</span>
+        <ul class="list-group mb-3">
+            <li class="list-group-item"><span>Prénom :</span> {{ participant.prenom }}</li>
+            <li class="list-group-item"><span>Nom :</span> {{ participant.nom }}</li>
+            <li class="list-group-item"><span>Téléphone :</span>
                 {{ participant.telephone is null ? 'non renseigné' : participant.telephone }}
             </li>
-                <li class="list-group-item"><span>Email :</span> {{ participant.email }}</li>
-                <li class="list-group-item"><span>Campus :</span> {{ participant.campus.nom }}</li>
+            <li class="list-group-item"><span>Email :</span> {{ participant.email }}</li>
+            <li class="list-group-item"><span>Campus :</span> {{ participant.campus.nom }}</li>
         </ul>
+
         {% if participantConnecte and participantConnecte.id == participant.id %}
+            <div class="d-grid gap-3 d-md-flex justify-content-md-end">
             <a href="{{ path('participant_modifier', {'id' : participant.id}) }}" class="btn btn-primary">Modifier</a>
+            </div>
         {% endif %}
     </div>
 {% endblock %}

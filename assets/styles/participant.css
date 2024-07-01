@@ -10,10 +10,15 @@
 .container-profile span{
     color: #4D61F4;
     font-weight: 500;
+    display: inline-block;
+    width: 6.5rem;
 }
 
 .container-profile label {
     font-weight: 500;
+}
+.container-profile label > li{
+    color: red;
 }
 
 .profile-image {

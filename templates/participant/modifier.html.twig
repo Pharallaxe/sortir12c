@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Modifier mon profile
+{% endblock %}
+
 {% block body %}
     <div class="container container-profile w-100 m-auto">
         <h2>Modifier mon profil</h2>
@@ -20,7 +24,10 @@
             {{ form_row(modifierParticipantForm.password.second, {'attr': {'class': 'form-control'}}) }}
         </div>
 
+        <div class="d-grid gap-3 d-md-flex justify-content-md-end">
+        <a href="{{ path('participant_detailler', {'id' : participant.id}) }}" class="btn btn-primary">Retour</a>
         <button type="submit" class="btn btn-success">Enregistrer</button>
+        </div>
 
         {{ form_end(modifierParticipantForm) }}
     </div>
