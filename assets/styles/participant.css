@@ -1,4 +1,4 @@
-.container-profile {
+.container-form {
     max-width: 600px;
     margin: auto;
     background-color: #f8f9fa;
@@ -7,18 +7,15 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.container-profile span{
+.container-form span{
     color: #4D61F4;
     font-weight: 500;
     display: inline-block;
     width: 6.5rem;
 }
 
-.container-profile label {
+.container-form label {
     font-weight: 500;
-}
-.container-profile label > li{
-    color: red;
 }
 
 .profile-image {

@@ -1,32 +1,52 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Modifier mon profile
+    Modifier mon profil
 {% endblock %}
 
 {% block body %}
-    <div class="container container-profile w-100 m-auto">
+    <div class="container container-form w-100 m-auto">
         <h2>Modifier mon profil</h2>
         {{ form_start(modifierParticipantForm, {'attr': {'class': 'row g-3'}}) }}
 
         {% for field in modifierParticipantForm %}
             {% if field.vars.name != 'password' %}
+            {% if field.vars.name != '_token' %}
                 <div class="mb-3">
-                    {{ form_row(field, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_label(field) }}
+                    {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                    {% if not field.vars.valid %}
+                        <div class="text-danger">
+                            {{ form_errors(field) }}
+                        </div>
+                    {% endif %}
                 </div>
+            {% endif %}
             {% endif %}
         {% endfor %}
 
         <div class="mb-3">
-            {{ form_row(modifierParticipantForm.password.first, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(modifierParticipantForm.password.first) }}
+            {{ form_widget(modifierParticipantForm.password.first, {'attr': {'class': 'form-control'}}) }}
+            {% if not modifierParticipantForm.password.first.vars.valid %}
+                <div class="text-danger">
+                    {{ form_errors(modifierParticipantForm.password.first) }}
+                </div>
+            {% endif %}
         </div>
         <div class="mb-3">
-            {{ form_row(modifierParticipantForm.password.second, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(modifierParticipantForm.password.second) }}
+            {{ form_widget(modifierParticipantForm.password.second, {'attr': {'class': 'form-control'}}) }}
+            {% if not modifierParticipantForm.password.second.vars.valid %}
+                <div class="text-danger">
+                    {{ form_errors(modifierParticipantForm.password.second) }}
+                </div>
+            {% endif %}
         </div>
 
         <div class="d-grid gap-3 d-md-flex justify-content-md-end">
-        <a href="{{ path('participant_detailler', {'id' : participant.id}) }}" class="btn btn-primary">Retour</a>
-        <button type="submit" class="btn btn-success">Enregistrer</button>
+            <a href="{{ path('participant_detailler', {'id' : participant.id}) }}" class="btn btn-primary">Retour</a>
+            <button type="submit" class="btn btn-success">Enregistrer</button>
         </div>
 
         {{ form_end(modifierParticipantForm) }}

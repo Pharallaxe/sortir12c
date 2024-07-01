@@ -15,42 +15,42 @@ class LieuType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom : ',
+                'label' => 'Nom',
                 'invalid_message' => '',
                 'attr' => [
                     'placeholder' => 'Nom de lieu'
                 ]
             ])
             ->add('rue', TextType::class, [
-                'label' => 'Rue : ',
+                'label' => 'Rue',
                 'invalid_message' => '',
                 'attr' => [
                     'placeholder' => 'Nom de la rue'
                 ]
             ])
             ->add('latitude', NumberType::class, [
-                'label' => 'Latitude : ',
+                'label' => 'Latitude',
                 'invalid_message' => '',
                 'attr' => [
                     'placeholder' => '45.5655'
                 ]
             ])
             ->add('longitude', NumberType::class, [
-                'label' => 'Longitude : ',
+                'label' => 'Longitude',
                 'invalid_message' => '',
                 'attr' => [
                     'placeholder' => '45.5655'
                 ]
             ])
             ->add('nomDeVille', TextType::class, [
-                'label' => 'Nom de ville : ',
+                'label' => 'Nom de ville',
                 'invalid_message' => '',
                 'attr' => [
                     'placeholder' => 'Rennes'
                 ]
             ])
             ->add('codePostal', TextType::class, [
-                'label' => 'Code Postal : ',
+                'label' => 'Code Postal',
                 'invalid_message' => '',
                 'attr' => [
                     'placeholder' => '35000',

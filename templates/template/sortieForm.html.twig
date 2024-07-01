@@ -1,84 +1,108 @@
-<h2>{% block form_title %}{% endblock %}</h2>
+<div class="container container-form w-100 m-auto">
+    <h2 class="text-center">{% block form_title %}{% endblock %}</h2>
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h1 class="mb-4 text-center">Créer une nouvelle sortie</h1>
-            {{ form_start(sortieForm, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+    {{ form_start(sortieForm, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
 
-            <div class="mb-3 row">
-                {{ form_label(sortieForm.nom, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
-                <div class="col-sm-8">
-                    {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}
+    <div class="mb-3 row">
+        {{ form_label(sortieForm.nom, null, {'label_attr': {'class': 'col-form-label'}}) }}
+            {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}
+            {% if not sortieForm.nom.vars.valid %}
+                <div class="text-danger">
+                    {{ form_errors(sortieForm.nom) }}
                 </div>
-            </div>
-            <div class="mb-3 row">
-                {{ form_label(sortieForm.dateHeureDebut, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
-                <div class="col-sm-8">
-                    {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
+            {% endif %}
+    </div>
+    <div class="mb-3 row">
+        {{ form_label(sortieForm.dateHeureDebut, null, {'label_attr': {'class': 'col-form-label'}}) }}
+            {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
+            {% if not sortieForm.dateHeureDebut.vars.valid %}
+                <div class="text-danger">
+                    {{ form_errors(sortieForm.dateHeureDebut) }}
                 </div>
-            </div>
-            <div class="mb-3 row">
-                {{ form_label(sortieForm.duree, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
-                <div class="col-sm-8">
-                    {{ form_widget(sortieForm.duree, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="mb-3 row">
-                {{ form_label(sortieForm.dateLimiteInscription, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
-                <div class="col-sm-8">
-                    {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="mb-3 row">
-                {{ form_label(sortieForm.nbInscriptionsMax, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
-                <div class="col-sm-8">
-                    {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="mb-3 row">
-                {{ form_label(sortieForm.infosSortie, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
-                <div class="col-sm-8">
-                    {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="mb-3 row">
-                {{ form_label(sortieForm.campus, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
-                <div class="col-sm-8">
-                    {{ form_widget(sortieForm.campus, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="mb-3 row">
-                {{ form_label(sortieForm.lieu, null, {'label_attr': {'class': 'col-sm-4 col-form-label'}}) }}
-                <div class="col-sm-7">
-                    {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-control'}}) }}
-                </div>
-                <div class="col-sm-1 text-end d-flex justify-content-center align-items-center">
-                    <a href="{{ path('lieu_creer') }}" class="btn btn-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                        <span class="text-white" style="font-size: 24px; font-weight: bold">+</span>
-                    </a>
-                </div>
-            </div>
+            {% endif %}
+    </div>
+    <div class="mb-3 row">
+        {{ form_label(sortieForm.duree, null, {'label_attr': {'class': 'col-form-label'}}) }}
 
-            <div class="mb-3 row">
-                <div >Rue : <span id="rue">{{ premierLieu.rue }}</span></div>
-            </div>
-            <div class="mb-3 row">
-                <div >Code Postal : <span id="codePostal">{{ premierLieu.codePostal }}</span></div>
-            </div>
-            <div class="mb-3 row">
-                <div >Latitude : <span id="latitude">{{ premierLieu.latitude }}</span></div>
-            </div>
-            <div class="mb-3 row">
-                <div>Longitude : <span id="longitude">{{ premierLieu.longitude }}</span></div>
-            </div>
-
-            <div class="mb-3 text-center">
-                <button type="submit" class="btn btn-success">{% block form_label_submit %}{% endblock %}</button>
-            </div>
-            {{ form_end(sortieForm) }}
+            {{ form_widget(sortieForm.duree, {'attr': {'class': 'form-control'}}) }}
+            {% if not sortieForm.duree.vars.valid %}
+                <div class="text-danger">
+                    {{ form_errors(sortieForm.duree) }}
+                </div>
+            {% endif %}
+    </div>
+    <div class="mb-3 row">
+        {{ form_label(sortieForm.dateLimiteInscription, null, {'label_attr': {'class': 'col-form-label'}}) }}
+            {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
+            {% if not sortieForm.dateLimiteInscription.vars.valid %}
+                <div class="text-danger">
+                    {{ form_errors(sortieForm.dateLimiteInscription) }}
+                </div>
+            {% endif %}
+    </div>
+    <div class="mb-3 row">
+        {{ form_label(sortieForm.nbInscriptionsMax, null, {'label_attr': {'class': 'col-form-label'}}) }}
+            {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}
+            {% if not sortieForm.nbInscriptionsMax.vars.valid %}
+                <div class="text-danger">
+                    {{ form_errors(sortieForm.nbInscriptionsMax) }}
+                </div>
+            {% endif %}
+    </div>
+    <div class="mb-3 row">
+        {{ form_label(sortieForm.infosSortie, null, {'label_attr': {'class': 'col-form-label'}}) }}
+            {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'form-control'}}) }}
+            {% if not sortieForm.infosSortie.vars.valid %}
+                <div class="text-danger">
+                    {{ form_errors(sortieForm.infosSortie) }}
+                </div>
+            {% endif %}
+    </div>
+    <div class="mb-3 row">
+        {{ form_label(sortieForm.campus, null, {'label_attr': {'class': 'col-form-label'}}) }}
+            {{ form_widget(sortieForm.campus, {'attr': {'class': 'form-control'}}) }}
+            {% if not sortieForm.campus.vars.valid %}
+                <div class="text-danger">
+                    {{ form_errors(sortieForm.campus) }}
+                </div>
+            {% endif %}
+    </div>
+    <div class="mb-3 row">
+        {{ form_label(sortieForm.lieu, null, {'label_attr': {'class': 'col-form-label'}}) }}
+        <div class="col-sm-7">
+            {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-control'}}) }}
+            {% if not sortieForm.lieu.vars.valid %}
+                <div class="text-danger">
+                    {{ form_errors(sortieForm.lieu) }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-sm-1 text-end d-flex justify-content-center align-items-center">
+            <a href="{{ path('lieu_creer') }}" class="btn btn-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                <span class="text-white" style="font-size: 24px; font-weight: bold">+</span>
+            </a>
         </div>
     </div>
+
+    <div class="mb-3 row">
+        <div>Rue : <span id="rue">{{ premierLieu.rue }}</span></div>
+    </div>
+    <div class="mb-3 row">
+        <div>Code Postal : <span id="codePostal">{{ premierLieu.codePostal }}</span></div>
+    </div>
+    <div class="mb-3 row">
+        <div>Latitude : <span id="latitude">{{ premierLieu.latitude }}</span></div>
+    </div>
+    <div class="mb-3 row">
+        <div>Longitude : <span id="longitude">{{ premierLieu.longitude }}</span></div>
+    </div>
+
+    <div class="d-grid gap-3 d-md-flex justify-content-md-end">
+        <button type="reset" class="btn btn-primary">Annuler</button>
+        <button type="submit" class="btn btn-success">{% block form_label_submit %}{% endblock %}</button>
+    </div>
+    {{ form_end(sortieForm) }}
+
 </div>
 <script>
 
