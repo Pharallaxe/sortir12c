@@ -14,4 +14,6 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-
+    App\Service\MessageService:
+        arguments:
+            $projectDir: '%kernel.project_dir%'

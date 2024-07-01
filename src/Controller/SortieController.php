@@ -12,6 +12,7 @@ use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Service\HistoService;
+use App\Service\MessageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,38 +23,20 @@ use Symfony\Component\Routing\Attribute\Route;
 class SortieController extends AbstractController
 {
 
-    const MESSAGE_AJOUT_SUCCESS = 'Sortie ajoutée avec succès !' ;
-    const MESSAGE_MODIFICATION_SUCCESS = 'Sortie modifiée avec succès !' ;
-
-    // MESSAGE DE DESISTEMENT
-    const MESSAGE_DESISTEMENT_NONINSCRIT = 'Vous n\'êtes pas inscrit à cette sortie.';
-    const MESSAGE_DESISTEMENT_IMPOSSIBLE = 'Vous ne pouvez pas vous désister d\'une sortie qui n\'est pas ouverte.';
-    const MESSAGE_DESISTEMENT_SUCCESS = 'Désistement de la sortie réussi !';
-
-    // MESSAGE DE PUBLICATION
-    const MESSAGE_PUBLICATION_SUCCESS = 'Sortie publiée avec succès !';
-    const MESSAGE_PUBLICATION_IMPOSSIBLE = 'Vous ne pouvez pas publier une sortie que vous n\'avez pas créée.';
-
-    // MESSAGE D'ANNULATION
-    const MESSAGE_ANNULATION_SUCCES = 'Sortie annulée avec succès !';
-    const MESSAGE_ANNULATION_IMPOSSIBLE = 'Vous ne pouvez pas annuler une sortie que vous n\'avez pas créée.';
-
-    // MESSAGES POUR LE TABLEAU
-    const MESSAGE_DEJA_INSCRIT = 'Vous êtes déjà inscrit à cette sortie.';
-    const MESSAGE_NON_OUVERTE = 'Vous ne pouvez pas vous inscrire à une sortie qui n\'est pas ouverte.';
-    const MESSAGE_DATE_LIMITE_DEPASSEE = 'La date limite d\'inscription est dépassée.';
-    const MESSAGE_SORTIE_COMPLETE = 'La sortie est complète.';
-    const MESSAGE_INSCRIPTION_REUSSIE = 'Inscription à la sortie réussie !';
-
     private $em;
     private $sortieRep;
+    private $campusRep;
+    private $etatRep;
+    private $lieuRep;
+    private $messageService;
 
     public function __construct(
         EntityManagerInterface $em,
         SortieRepository $sortieRep,
         CampusRepository $campusRep,
         EtatRepository $etatRep,
-        LieuRepository $lieuRep
+        LieuRepository $lieuRep,
+        MessageService $messageService
     )
     {
         $this->em = $em;
@@ -61,10 +44,11 @@ class SortieController extends AbstractController
         $this->campusRep = $campusRep;
         $this->etatRep = $etatRep;
         $this->lieuRep = $lieuRep;
+        $this->messageService = $messageService;
     }
 
     #[Route('/lister', name: 'lister')]
-    public function index(Request $request, HistoService $histoService): Response
+    public function lister(Request $request, HistoService $histoService): Response
     {
         $histoService->update();
 
@@ -91,7 +75,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/detailler/{id}', name: 'detailler', requirements: ['id' => '\d+'])]
-    public function detail(int $id): Response
+    public function detailler(int $id): Response
     {
         $sortie = $this->sortieRep->find($id);
         return $this->render('sortie/detailler.html.twig', ['sortie' => $sortie]);
@@ -102,14 +86,16 @@ class SortieController extends AbstractController
     {
         $sortie = new Sortie();
         if ($this->getUser() !== null) {$sortie->setCampus($this->getUser()->getCampus());}
-        return $this->creerOuModifierForm($request, $sortie, self::MESSAGE_AJOUT_SUCCESS, true, );
+        $message = $this->messageService->get('creer');
+        return $this->creerOuModifierForm($request, $sortie, $message, true, );
     }
 
     #[Route('/modifier/{id}', name: 'modifier')]
     public function modifier(int $id, Request $request ): Response
     {
         $sortie = $this->sortieRep->find($id);
-        return $this->creerOuModifierForm($request, $sortie, self::MESSAGE_MODIFICATION_SUCCESS, false, );
+        $message = $this->messageService->get('modifier');
+        return $this->creerOuModifierForm($request, $sortie, $message, false, );
     }
 
     private function creerOuModifierForm($request, $sortie, $message, $creation): Response
@@ -143,14 +129,15 @@ class SortieController extends AbstractController
         $etatRep = $this->em->getRepository(Etat::class);
         $sortie = $this->sortieRep->find($id);
 
+        
         if ($sortie->getOrganisateur() !== $this->getUser()) {
-            return $this->redirectWithMessage('danger', self::MESSAGE_ANNULATION_IMPOSSIBLE, $id);
+            return $this->redirectWithMessage('danger', $this->messageService->get('annuler.impossible'), $id);
         }
 
         $sortie->setEtat($etatRep->findOneBy(['libelle' => 'Annulee']));
         $sortie->setInfosSortie("ANNULEE PAR L'ORGANISATEUR " . $sortie->getInfosSortie());
         $this->em->flush();
-        return $this->redirectWithMessage('success', self::MESSAGE_ANNULATION_SUCCES, $id);
+        return $this->redirectWithMessage('success', $this->messageService->get('annuler.succes'), $id);
     }
 
     #[Route('/publier/{id}', name: 'publier', requirements: ['id' => '\d+'])]
@@ -160,12 +147,12 @@ class SortieController extends AbstractController
         $sortie = $this->sortieRep->find($id);
 
         if ($sortie->getOrganisateur() !== $this->getUser()) {
-            return $this->redirectWithMessage('danger',self::MESSAGE_PUBLICATION_IMPOSSIBLE, $id);
+            return $this->redirectWithMessage('danger',$this->messageService->get('publier.impossible'), $id);
         }
 
         $sortie->setEtat($etatRep->findOneBy(['libelle' => 'Ouverte']));
         $this->em->flush();
-        return $this->redirectWithMessage('success',self::MESSAGE_PUBLICATION_SUCCESS, $id);
+        return $this->redirectWithMessage('success',$this->messageService->get('publier.succes'), $id);
     }
 
     #[Route('/inscrire/{id}', name: 'inscrire', requirements: ['id' => '\d+'])]
@@ -175,24 +162,24 @@ class SortieController extends AbstractController
         $participant = $this->getUser();
 
         if ($sortie->getParticipants()->contains($participant)) {
-            return $this->redirectWithMessage('warning', self::MESSAGE_DEJA_INSCRIT, $id);
+            return $this->redirectWithMessage('warning', $this->messageService->get('inscrire.dejainscrit'), $id);
         }
 
         if ($sortie->getEtat()->getLibelle() !== 'Ouverte') {
-            return $this->redirectWithMessage('danger', self::MESSAGE_NON_OUVERTE, $id);
+            return $this->redirectWithMessage('danger', $this->messageService->get('inscrire.nonouverte'), $id);
         }
 
         if ($sortie->getDateLimiteInscription() < new \DateTime()) {
-            return $this->redirectWithMessage('danger', self::MESSAGE_DATE_LIMITE_DEPASSEE, $id);
+            return $this->redirectWithMessage('danger', $this->messageService->get('inscrire.depassee'), $id);
         }
 
         if ($sortie->getParticipants()->count() >= $sortie->getNbInscriptionsMax()) {
-            return $this->redirectWithMessage('danger', self::MESSAGE_SORTIE_COMPLETE, $id);
+            return $this->redirectWithMessage('danger', $this->messageService->get('inscrire.complete'), $id);
         }
 
         $sortie->addParticipant($participant);
         $this->em->flush();
-        return $this->redirectWithMessage('success', self::MESSAGE_INSCRIPTION_REUSSIE, $id);
+        return $this->redirectWithMessage('success', $this->messageService->get('inscrire.reussie'), $id);
     }
 
     #[Route('/desister/{id}', name: 'desister', requirements: ['id' => '\d+'])]
@@ -202,16 +189,16 @@ class SortieController extends AbstractController
         $participant = $this->getUser();
 
         if (!$sortie->getParticipants()->contains($participant)) {
-            return $this->redirectWithMessage('warning',self::MESSAGE_DESISTEMENT_NONINSCRIT, $id);
+            return $this->redirectWithMessage('warning', $this->messageService->get('desister.noninscrit'), $id);
         }
 
         if ($sortie->getEtat()->getLibelle() !== 'Ouverte') {
-            return $this->redirectWithMessage('danger',self::MESSAGE_DESISTEMENT_IMPOSSIBLE, $id);
+            return $this->redirectWithMessage('danger',$this->messageService->get('desister.impossible'), $id);
         }
 
         $sortie->removeParticipant($participant);
         $this->em->flush();
-        return $this->redirectWithMessage('success',self::MESSAGE_DESISTEMENT_SUCCESS, $id);
+        return $this->redirectWithMessage('success',$this->messageService->get('desister.succes'), $id);
     }
 
     #[Route('/lister/lieu/{idLieu}', name: 'lister_lieu')]

@@ -1,0 +1,19 @@
+messages:
+  creer : 'Sortie ajoutée avec succès !'
+  modifier: 'Sortie modifiée avec succès !'
+  desister:
+    noninscrit: 'Vous n''êtes pas inscrit à cette sortie.'
+    impossible: 'Vous ne pouvez pas vous désister d''une sortie qui n''est pas ouverte.'
+    succes: 'Désistement de la sortie réussi !'
+  publiier:
+    succes: 'Sortie publiée avec succès !'
+    impossible: 'Vous ne pouvez pas publier une sortie que vous n''avez pas créée.'
+  annuler:
+    succes: 'Sortie annulée avec succès !'
+    impossible: 'Vous ne pouvez pas annuler une sortie que vous n''avez pas créée.'
+  inscrire:
+    dejainscrit: 'Vous êtes déjà inscrit à cette sortie.'
+    nonouverte: 'Vous ne pouvez pas vous inscrire à une sortie qui n''est pas ouverte.'
+    depassee: 'La date limite d''inscription est dépassée.'
+    complete: 'La sortie est complète.'
+    reussie: 'Inscription à la sortie réussie !'
