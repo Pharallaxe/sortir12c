@@ -23,12 +23,12 @@ use Symfony\Component\Routing\Attribute\Route;
 class SortieController extends AbstractController
 {
 
-    private $em;
-    private $sortieRep;
-    private $campusRep;
-    private $etatRep;
-    private $lieuRep;
-    private $messageService;
+    private EntityManagerInterface $em;
+    private SortieRepository $sortieRep;
+    private CampusRepository $campusRep;
+    private EtatRepository $etatRep;
+    private LieuRepository $lieuRep;
+    private MessageService $messageService;
 
     public function __construct(
         EntityManagerInterface $em,

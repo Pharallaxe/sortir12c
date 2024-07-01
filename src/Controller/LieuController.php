@@ -19,9 +19,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class LieuController extends AbstractController
 {
 
-    private $em;
-    private $lieuRep;
-    private $messageService;
+    private EntityManagerInterface $em;
+    private LieuRepository $lieuRep;
+    private MessageService $messageService;
 
     public function __construct(
         EntityManagerInterface $em,

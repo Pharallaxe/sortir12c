@@ -2,13 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Participant;
 use App\Form\ParticipantType;
-use App\Repository\CampusRepository;
-use App\Repository\EtatRepository;
-use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
-use App\Repository\SortieRepository;
 use App\Service\MessageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,10 +19,10 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class ParticipantController extends AbstractController
 {
 
-    private $em;
-    private $participantRep;
-    private $security;
-    private $messageService;
+    private EntityManagerInterface $em;
+    private ParticipantRepository $participantRep;
+    private Security $security;
+    private MessageService $messageService;
 
     public function __construct(
         EntityManagerInterface $em,
