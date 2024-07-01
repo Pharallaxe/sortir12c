@@ -20,6 +20,7 @@ class Sortie
     private ?int $id = null;
 
     #[Assert\NotBlank(message: 'Veuillez renseigner un nom de sortie')]
+    #[Assert\Length(max: 255, maxMessage: "Maximum {{ limit }} caractères")]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
