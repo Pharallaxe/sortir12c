@@ -31,10 +31,6 @@ class SortieRepository extends ServiceEntityRepository
             ->addSelect('c')
             ->leftJoin('s.etat', 'e')
             ->addSelect('e')
-            ->leftJoin('s.participants', 'p')
-            ->addSelect('p')
-            ->leftJoin('s.organisateur', 'o')
-            ->addSelect('o')
             ->getQuery()
             ->getResult();
     }
