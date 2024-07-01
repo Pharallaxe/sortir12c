@@ -131,13 +131,19 @@ class SortieController extends AbstractController
 
         
         if ($sortie->getOrganisateur() !== $this->getUser()) {
-            return $this->redirectWithMessage('danger', $this->messageService->get('annuler.impossible'), $id);
+            return $this->redirectWithMessage(
+                'danger',
+                $this->messageService->get('annuler.impossible'),
+                $id);
         }
 
         $sortie->setEtat($etatRep->findOneBy(['libelle' => 'Annulee']));
         $sortie->setInfosSortie("ANNULEE PAR L'ORGANISATEUR " . $sortie->getInfosSortie());
         $this->em->flush();
-        return $this->redirectWithMessage('success', $this->messageService->get('annuler.succes'), $id);
+        return $this->redirectWithMessage(
+            'success',
+            $this->messageService->get('annuler.succes'),
+            $id);
     }
 
     #[Route('/publier/{id}', name: 'publier', requirements: ['id' => '\d+'])]
