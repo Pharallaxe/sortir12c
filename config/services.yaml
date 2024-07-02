@@ -18,3 +18,7 @@ services:
     App\Service\MessageService:
         arguments:
             $projectDir: '%kernel.project_dir%'
+
+#    App\Repository\ParticipantRepository:
+#        arguments:
+#            $registry: '@doctrine'
