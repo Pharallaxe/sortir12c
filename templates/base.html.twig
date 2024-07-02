@@ -52,9 +52,9 @@
             }
         }
 
-        .none {
-            display: none;
-        }
+        /*.none {*/
+        /*    display: none;*/
+        /*}*/
     </style>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,12 +76,6 @@
     {% endblock %}
 </head>
 <body class="acc-body">
-
-<div class="loading-container">
-    <div class="loading loading3"></div>
-    <div class="loading loading2"></div>
-    <div class="loading loading1"></div>
-</div>
 <header class="none">
     {% block header %}
         {% include 'menu/nav.html.twig' %}
@@ -108,6 +102,11 @@
         <div>&copy;GsaProd - {{ "now"| date('Y') }}</div>
     {% endblock %}
 </footer>
+<div class="loading-container">
+    <div class="loading loading3"></div>
+    <div class="loading loading2"></div>
+    <div class="loading loading1"></div>
+</div>
 </body>
 
 {% block extraJs %}
