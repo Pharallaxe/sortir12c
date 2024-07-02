@@ -20,7 +20,14 @@
     {% endblock %}
 </head>
 <body class="acc-body">
-<header>
+<div id="readGuideContainer">
+</div>
+<div class="supercontainer">
+    <div class="loading loading3"></div>
+    <div class="loading loading2"></div>
+    <div class="loading loading1"></div>
+</div>
+<header class="none">
     {% block header %}
         {% include 'menu/nav.html.twig' %}
         {% for label, messages in app.flashes %}
@@ -33,22 +40,29 @@
     {% endblock %}
 </header>
 
-<main>
+<main class="none">
     {% block body %}
 
     {% endblock %}
 </main>
 
-<footer>
+<footer class="none">
     {% block footer %}
         <div>&copy;GsaProd - {{ "now"| date('Y') }}</div>
     {% endblock %}
 </footer>
 </body>
-<div id="readGuideContainer">
-</div>
+
 {% block extraJs %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/accessibility.js') }}"></script>
+    <script>
+        window.addEventListener("load", function() {
+            document.querySelector("header").classList.remove("none");
+            document.querySelector("main").classList.remove("none");
+            document.querySelector("footer").classList.remove("none");
+            document.querySelector(".supercontainer").classList.add("none");
+        });
+    </script>
 {% endblock %}
 </html>

@@ -53,3 +53,7 @@
         transform: rotate(360deg);
     }
 }
+
+.none {
+    display: none;
+}
