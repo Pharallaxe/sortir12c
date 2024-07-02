@@ -1,13 +1,40 @@
 /*********************************************************************************
+ * PARTIE CONSTANTES
+ *********************************************************************************/
+
+const CSS_SIMPLE_PROPERTIES = [["--font-size-title", 2, "px"], // fontSizeTitle{In-Decrease}Button
+    ["--font-size-text", 2, "px"],    // fontSizeText{In-Decrease}Button
+    ["--line-height", 0.1, ""],       // lineHeight{In-Decrease}Button
+    ["--letter-spacing", 0.05, "em"], // letterSpacing{In-Decrease}Button
+    ["--word-spacing", 0.1, "em"],    // wordSpacing{In-Decrease}Button
+    ["--margin", 5, "px"],            // margin{In-Decrease}Button
+    ["--padding", 5, "px"],           // padding{In-Decrease}Button
+    ["--border-radius", 4, "px"],     // borderRadius{In-Decrease}Button
+];
+
+const CSS_COMPLEXE_PROPERTIES = [
+    ["--background-color", "backgroundColor", ["blue", "green", "purple", "red", "black", "yellow"]],
+    ["--font-family", "fontFamily", ["Arial", "Verdana", "Georgia", "Courier New", "Roboto", "Ms Gothic", "Garamond"]],
+];
+
+class Config {
+    static accessibilityPanel = $("#accessibilityPanel");
+    static accessibilityStorageName = "accessibility";
+}
+
+
+/*********************************************************************************
  * PARTIE OUTILS
  *********************************************************************************/
 
-// Fonction pour créer les objets CssSimpleProperty
-function createCssSimpleProperties(cssProperties) {
-    cssProperties.forEach(property => {
-        new CssSimpleProperty(property[0], property[1], property[2],
-        )
-    });
+/**
+ * Capitalise la première lettre d'une chaîne de caractères.
+ *
+ * @param {string} string - La chaîne de caractères à capitaliser.
+ * @returns {string} La chaîne de caractères avec la première lettre capitalisée.
+ */
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 /**
@@ -20,37 +47,29 @@ function $(selector) {
 }
 
 /*********************************************************************************
- * PARTIE CONSTANTES
- *********************************************************************************/
-
-class Config {
-    static accessibilityPanel = $("#accessibilityPanel");
-    static accessibilityStorageName = "accessibility";
-}
-
-
-const CSS_PROPERTIES = [
-    ["--font-size",         2,   "px"], // fontSize{In-Decrease}Button
-    ["--line-height",     0.1,     ""], // lineHeight{In-Decrease}Button
-    ["--letter-spacing", 0.05,   "em"], // letterSpacing{In-Decrease}Button
-    ["--word-spacing",    0.1,   "em"], // wordSpacing{In-Decrease}Button
-];
-
-
-/*********************************************************************************
  * PARTIE ENREGISTREMENT
  *********************************************************************************/
 
 /**
  * Enregistre les paramètres d'accessibilité dans le localStorage.
+ * @param {string} cssCategory - La catégorie du paramètre (select, range, ou boolean).
  * @param {string} cssProperty - La propriété CSS à enregistrer.
- * @param {string} cssValue - La valeur de la propriété CSS à enregistrer.
+ * @param {string|number|boolean} cssValue - La valeur de la propriété CSS à enregistrer.
  */
-function saveAccessibilitySettings(cssProperty, cssValue) {
+function saveAccessibilitySettings(cssCategory, cssProperty, cssValue) {
     const existingAccessibilitySettings = JSON.parse(localStorage.getItem(Config.accessibilityStorageName)) || {};
-    existingAccessibilitySettings[cssProperty] = cssValue;
+    // Assurez-vous que la catégorie existe
+    if (!existingAccessibilitySettings[cssCategory]) {
+        existingAccessibilitySettings[cssCategory] = {};
+    }
+
+    // Enregistrez la valeur dans la catégorie appropriée
+    existingAccessibilitySettings[cssCategory][cssProperty] = cssValue;
+
+    // Sauvegardez les paramètres mis à jour
     localStorage.setItem(Config.accessibilityStorageName, JSON.stringify(existingAccessibilitySettings));
 }
+
 
 /*********************************************************************************
  * PARTIE CLASSE
@@ -66,6 +85,13 @@ class CssProperty {
     getPropertyName() {
         return this.#propertyName;
     }
+
+    capitalizePrefix(words) {
+        return words[0] + words
+            .slice(1)
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join('');
+    }
 }
 
 class CssSimpleProperty extends CssProperty {
@@ -76,11 +102,18 @@ class CssSimpleProperty extends CssProperty {
     #decreaseButton;
     #increaseButton;
 
+    /**
+     * Constructeur de la classe CssNumberProperty.
+     *
+     * @param {string} propertyName - Le nom de la propriété CSS (ex: "my-custom-property").
+     * @param {number} value - La valeur initiale de la propriété CSS.
+     * @param {string} [unit=px] - L'unité de la propriété CSS (par défaut : "px").
+     */
     constructor(propertyName, value, unit = "px") {
         super(propertyName);
         this.#value = value;
         this.#unit = unit;
-        this.getCssPropertyButtons(propertyName)
+        this.setCssPropertyButtons(propertyName)
         this.#delayAnimation = 300;
         this.#classAnimation = "animate";
         this.#initialize();
@@ -118,18 +151,14 @@ class CssSimpleProperty extends CssProperty {
         return this.#classAnimation;
     }
 
-    getCssPropertyButtons(cssProperty) {
-
-        // Récupérer les termes de la propriété
+    /**
+     * Définit les boutons d'augmentation et de diminution pour une propriété CSS.
+     *
+     * @param {string} cssProperty - La propriété CSS complète (ex: "--my-custom-property-buttons").
+     */
+    setCssPropertyButtons(cssProperty) {
         const parts = cssProperty.split('-').slice(2);
-
-        // Construire le préfixe en camelCase.
-        const buttonPrefix =
-            parts[0] +
-            parts
-                .slice(1)
-                .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-                .join('');
+        const buttonPrefix = this.capitalizePrefix(parts)
 
         this.setDecreaseButton(`#${buttonPrefix}DecreaseButton`);
         this.setIncreaseButton(`#${buttonPrefix}IncreaseButton`);
@@ -144,6 +173,12 @@ class CssSimpleProperty extends CssProperty {
         this.#addEventButton(this.getIncreaseButton(), this.getValue());
     }
 
+    /**
+     * Ajoute un événement de clic à un élément et ajuste la racine du document en fonction de la valeur passée.
+     *
+     * @param {HTMLElement} element - L'élément auquel l'événement de clic doit être ajouté.
+     * @param {any} value - La valeur à utiliser pour ajuster la racine du document.
+     */
     #addEventButton(element, value) {
         element.addEventListener("click", () => {
             this.#adjustRoot(value);
@@ -163,43 +198,59 @@ class CssSimpleProperty extends CssProperty {
         const rootElement = document.documentElement;
         const currentRootValue = parseFloat(getComputedStyle(rootElement)
             .getPropertyValue(this.getPropertyName()));
-        const newPropertyValue = `${currentRootValue + adjustmentValue}${this.getUnit()}`;
-        rootElement.style.setProperty(this.getPropertyName(), newPropertyValue);
-        saveAccessibilitySettings(this.getPropertyName(), newPropertyValue);
+        const newPropertyValue = currentRootValue + adjustmentValue;
+        const newPropertyValueWithUnit = `${newPropertyValue}${this.getUnit()}`;
+        rootElement.style.setProperty(this.getPropertyName(), newPropertyValueWithUnit);
+        saveAccessibilitySettings("range", this.getPropertyName(), newPropertyValueWithUnit);
     }
 }
 
-class FontFamily {
-    #fontFamilySelect;
-    #propertyName;
-    #fontFamilies;
+class CssSelectProperty extends CssProperty {
+    #propertyStyle;
+    #valuesArray;
+    #propertySelect;
 
-    constructor() {
-        this.#propertyName = "--font-family";
-        this.#fontFamilySelect = $("#fontFamilySelect");
-        this.#fontFamilies = [
-            "Times New Roman",
-            "Arial",
-            "Verdana",
-            "Georgia",
-            "Courier New",
-            "Roboto",
-            "Comic Sans MS",
-            "Ms Gothic",
-            "Garamond",
-        ];
+    /**
+     * Constructeur de la classe CssSelectProperty.
+     *
+     * @param {string} propertyName - Le nom de la propriété CSS.
+     * @param {string} propertyStyle - Le style de la propriété CSS.
+     * @param {string[]} valueArray - Le tableau de valeurs de la propriété CSS.
+     */
+    constructor(propertyName, propertyStyle, valueArray,) {
+        super(propertyName)
+        this.#propertyStyle = propertyStyle;
+        this.#valuesArray = valueArray;
+        this.setCssPropertySelect(propertyName)
     }
 
-    getFontFamilySelect() {
-        return this.#fontFamilySelect
+    getPropertySelect() {
+        return this.#propertySelect;
     }
 
-    getPropertyName() {
-        return this.#propertyName
+    setPropertySelect(value) {
+        this.#propertySelect = $(value);
     }
 
-    getFontFamilies() {
-        return this.#fontFamilies
+    getValuesArray() {
+        return this.#valuesArray;
+    }
+
+    getPropertyStyle() {
+        return this.#propertyStyle;
+    }
+
+    /**
+     * Définit la propriété CSS sélectionnée.
+     *
+     * @param {string} cssProperty - La propriété CSS complète.
+     */
+    setCssPropertySelect(cssProperty) {
+        console.log(cssProperty)
+        const parts = cssProperty.split('-').slice(2);
+        const selectPrefix = this.capitalizePrefix(parts);
+        console.log(selectPrefix);
+        this.setPropertySelect(`#${selectPrefix}Select`);
     }
 
     /**
@@ -210,11 +261,11 @@ class FontFamily {
      * - Les paramètres d'accessibilité sont enregistrés dans le localStorage avec la nouvelle famille de polices
      */
     initialize() {
-        this.getFontFamilySelect().addEventListener("change", () => {
-            const selectedFontFamily = this.getFontFamilySelect().value;
-            this.getFontFamilySelect().style.fontFamily = this.getFontFamilySelect().value;
-            document.documentElement.style.setProperty(this.getPropertyName(), selectedFontFamily);
-            saveAccessibilitySettings(this.getPropertyName(), selectedFontFamily);
+        this.getPropertySelect().addEventListener("change", () => {
+            const selectedProperty = this.getPropertySelect().value;
+            this.getPropertySelect().style[this.getPropertyStyle()] = this.getPropertySelect().value;
+            document.documentElement.style.setProperty(this.getPropertyName(), selectedProperty);
+            saveAccessibilitySettings("select", this.getPropertyName(), selectedProperty);
         });
     }
 
@@ -222,31 +273,162 @@ class FontFamily {
      * Crée les options du select de la famille de polices et sélectionne l'option correspondant
      * à la valeur actuelle.
      */
-    createFontFamilyOptions(accessibilitySettings) {
-        const currentFontFamily = accessibilitySettings[this.getPropertyName()] || this.getFontFamilies()[0];
+    createPropertyOptions(settings) {
+        const currentValue = settings[this.getPropertyName()] || this.getValuesArray()[0];
 
         // Supprimer les options existantes
-        this.getFontFamilySelect().innerHTML = "";
+        this.getPropertySelect().innerHTML = "";
 
         // Créer les options pour chaque famille de polices
-        this.getFontFamilies().forEach(fontFamily => {
+        this.getValuesArray().forEach(value => {
             const option = document.createElement("option");
-            option.value = fontFamily;
-            option.text = fontFamily;
-            if (fontFamily === currentFontFamily) {
+            option.value = value;
+            option.text = value;
+
+            if (value === currentValue) {
                 option.selected = true;
             }
-            option.style.fontFamily = fontFamily;
-            this.getFontFamilySelect().add(option);
+            option.style[this.getPropertyStyle()] = value;
+            this.getPropertySelect().add(option);
         });
 
-        this.getFontFamilySelect().style.fontFamily = currentFontFamily;
+        this.getPropertySelect().style[this.getPropertyStyle()] = currentValue;
     }
 }
 
+class CssReadGuideProperty {
+    #height;
+    #backgroundColor;
+    #opacity;
+    #readGuideBottom;
+    #readGuideTop;
+
+    /**
+     * Crée une nouvelle instance de CssReadGuideProperty.
+     *
+     * @param {number} height - La hauteur du guide de lecture.
+     * @param {string} backgroundColor - La couleur de fond du guide de lecture au format hexadécimal (ex: "#FFFFFF").
+     * @param {number} opacity - L'opacité du guide de lecture (valeur entre 0 et 1).
+     */
+    constructor(height, backgroundColor, opacity) {
+        this.#height = height;
+        this.#opacity = opacity;
+        this.#backgroundColor = this.createBackgroundColor(backgroundColor);
+        this.#readGuideBottom = this.createReadGuide("bottom");
+        this.#readGuideTop = this.createReadGuide("top");
+        this.addEventMouse();
+    }
+
+    getReadGuideBottom() {
+        return this.#readGuideBottom;
+    }
+
+    getReadGuideTop() {
+        return this.#readGuideTop;
+    }
+
+    getHeight() {
+        return this.#height;
+    }
+
+    getBackgroundColor() {
+        return this.#backgroundColor;
+    }
+
+    getOpacity() {
+        return this.#opacity;
+    }
+
+    /**
+     * Crée la couleur de fond du guide de lecture au format RGBA.
+     *
+     * @param {string} backgroundColor - La couleur de fond au format hexadécimal (ex: "#FFFFFF").
+     * @returns {string} La couleur de fond au format RGBA.
+     */
+    createBackgroundColor(backgroundColor) {
+        const r = parseInt(backgroundColor.slice(1, 3), 16);
+        const g = parseInt(backgroundColor.slice(3, 5), 16);
+        const b = parseInt(backgroundColor.slice(5, 7), 16);
+        const hetToRGB = `${r}, ${g}, ${b}`;
+        return `rgba(${hetToRGB}, ${this.getOpacity()})`;
+    }
+
+    /**
+     * Crée un élément de guide de lecture.
+     *
+     * @param {string} type - Le type de guide de lecture ("top" ou "bottom").
+     * @returns {HTMLElement} L'élément de guide de lecture créé.
+     */
+    createReadGuide(type) {
+        let guideElement = document.createElement("div");
+        guideElement.id = "readGuide" + capitalizeFirstLetter(type);
+        guideElement.style.position = "fixed";
+        guideElement.style.width = "100%";
+        guideElement.style.height = "100%";
+        guideElement.style.left = "0";
+        guideElement.style.backgroundColor = this.getBackgroundColor();
+        guideElement.style.display = "block";
+        guideElement.style.zIndex = "9999";
+        $("#readGuideContainer").appendChild(guideElement);
+        return guideElement;
+    }
+
+    /**
+     * Ajoute un événement de clic sur le bouton "readGuideButton" pour afficher/masquer les guides de lecture.
+     */
+    addEventMouse() {
+        document.addEventListener("mousemove", (event) => {
+            const middleHeight = this.getHeight() / 2;
+            this.getReadGuideBottom().style.top = `${event.clientY + this.getHeight() / 2}px`;
+            this.getReadGuideTop().style.bottom = `${window.innerHeight - event.clientY + this.getHeight() / 2}px`;
+        });
+    }
+
+    addEventListeners() {
+        $("#readGuideButton").addEventListener("click", () => {
+            const currentValue = document.documentElement.style.getPropertyValue("--read-guide-display");
+            const newValue = currentValue === "block" ? "none" : "block";
+            document.documentElement.style.setProperty("--read-guide-display", newValue);
+            saveAccessibilitySettings("boolean", "--read-guide-display", newValue);
+        });
+    }
+}
+
+
 /*********************************************************************************
- * PARTIE ENREGISTREMENT
+ * PARTIE INITIALISATION
  *********************************************************************************/
+
+/**
+ * Crée des objets CssSelectProperty à partir d'une liste de propriétés.
+ *
+ * @param {Array} properties - Liste de propriétés à créer. Chaque propriété est un tableau contenant trois éléments :
+ *   - Le premier élément est le nom de la propriété.
+ *   - Le deuxième élément est la valeur par défaut de la propriété.
+ *   - Le troisième élément est la description de la propriété.
+ */
+function createCssSelectProperties(properties) {
+    properties.forEach(property => {
+        const selectProperty = new CssSelectProperty(property[0], property[1], property[2]);
+        selectProperty.initialize();
+        selectProperty.createPropertyOptions(property[1],);
+    });
+}
+
+/**
+ * Crée des objets CssSimpleProperty à partir d'une liste de propriétés.
+ *
+ * @param {Array} properties - Liste de propriétés à créer. Chaque propriété est un tableau contenant trois éléments :
+ *   - Le premier élément est le nom de la propriété.
+ *   - Le deuxième élément est la valeur par défaut de la propriété.
+ *   - Le troisième élément est la description de la propriété.
+ */
+function createCssSimpleProperties(properties) {
+    properties.forEach(property => {
+        new CssSimpleProperty(property[0], property[1], property[2],);
+    });
+}
+
 
 /**
  * Lit les paramètres d'accessibilité depuis le localStorage et met à jour les styles en conséquence.
@@ -257,19 +439,29 @@ function readAccessibilitySettings() {
     const accessibilitySettings = JSON.parse(localStorage.getItem(Config.accessibilityStorageName)) || {};
 
     // Mettre à jour les variables CSS avec les valeurs enregistrées
-    for (const [property, value] of Object.entries(accessibilitySettings)) {
-        document.documentElement.style.setProperty(property, value);
+    for (const category in accessibilitySettings) {
+        for (const [property, value] of Object.entries(accessibilitySettings[category])) {
+            document.documentElement.style.setProperty(property, value);
+        }
     }
 
-    // Gérer la création du panel font-family
-    if (Config.accessibilityPanel) {
+    const read = new CssReadGuideProperty(100, "#000000", 0.6);
 
-        createCssSimpleProperties(CSS_PROPERTIES);
+    if (!Config.accessibilityPanel) return;
 
-        const fontFamilySelect = new FontFamily();
-        fontFamilySelect.initialize()
-        fontFamilySelect.createFontFamilyOptions(accessibilitySettings);
-    }
+    // Créer le comportement des propriétés css simple à valeur
+    createCssSimpleProperties(CSS_SIMPLE_PROPERTIES);
+
+    // Créer le comportement des selects
+    createCssSelectProperties(CSS_COMPLEXE_PROPERTIES);
+
+    // Créer le comportement du reset
+    $("#resetButton").addEventListener("click", () => {
+        localStorage.removeItem(Config.accessibilityStorageName);
+        location.reload();
+    });
+
+    read.addEventListeners();
 }
 
 readAccessibilitySettings();

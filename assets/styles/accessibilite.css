@@ -80,7 +80,7 @@
 
 /* Mode desktop */
 @media screen and (min-width: 1024px) {
-    body {
+    .body {
         flex-direction: row;
         justify-content: center;
         align-items: flex-start;
@@ -145,12 +145,20 @@
 ****************************/
 
 :root {
-    --font-size: 16px;
+    --font-size-title: 18px;
+    --font-size-text: 14px;
     --line-height: 1.1;
     --letter-spacing: 0;
-    --font-family: "Lucida Sans";
     --word-spacing: 0.25em;
-    --margin : 0px;
+    --margin: 5px;
+    --padding: 10px;
+    --border-radius: 5px;
+
+    --font-family: "Lucida Sans";
+    --background-color: "white";
+    --text-color: "black";
+
+    --read-guide-display : none;
 }
 
 
@@ -159,11 +167,33 @@
 ****************************/
 
 
-.acc {
-    font-size: var(--font-size);
+.acc-body {
+    font-size: var(--font-size-text);
     letter-spacing: var(--letter-spacing);
     line-height: var(--line-height);
     word-spacing: var(--word-spacing);
     font-family: var(--font-family), serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.acc-titre {
+    font-size: var(--font-size-title);
+    margin: calc(var(--margin) + 1em) var(--margin) calc(var(--margin) + 0.5em) var(--margin);
+    padding: var(--padding);
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    text-decoration: underline;
+    background-color: palevioletred;
+}
+
+.acc-text {
     margin: var(--margin);
+    padding: var(--padding);
+    border-radius: var(--border-radius);
+    background-color: paleturquoise;
+}
+
+#readGuideContainer {
+    display: var(--read-guide-display);
 }
