@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+<nav class="navbar navbar-expand-xl navbar-light bg-light fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ path('site_accueil') }}">
+        <a class="navbar-brand" href="{{ path('sortie_lister') }}">
             <span class="logo-text">SORTIR.COM</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -12,9 +12,6 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
                 {% if app.user %}
-                    <li class="nav-item {% if app.request.get('_route') == 'site_accueil' %}active{% endif %}">
-                        <a class="nav-link" href="{{ path('site_accueil') }}">Accueil</a>
-                    </li>
                     <li class="nav-item {% if app.request.get('_route') == 'sortie_lister' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('sortie_lister') }}">Liste des sorties</a>
                     </li>
@@ -26,6 +23,9 @@
                     </li>
                     <li class="nav-item {% if app.request.get('_route') == 'accessibilite' %}active{% endif %}">
                         <a class="nav-link" href="{{ path('accessibilite') }}">Accessibilité</a>
+                    </li>
+                    <li class="nav-item {% if app.request.get('_route') == 'site_description' %}active{% endif %}">
+                        <a class="nav-link" href="{{ path('site_description') }}">À propos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>

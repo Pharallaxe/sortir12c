@@ -1,25 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <main class="container">
-        <div class="row mt-5">
+    <div class="container">
+        <div class="row">
             <div class="col-12 col-md-6">{{ include('accueil/svg.html.twig') }}</div>
             <div class="col-12 col-md-6 p-5">
-                <h1>Bienvenue sur <span class="border-bottom border-primary">Sortir.com</span></h1>
+                <h1>À propos de <span class="border-bottom border-primary">Sortir.com</span></h1>
                 <p class="lead">Une application web pour les élèves de l'ENI</p>
-                <p class="mt-2">Bienvenue sur la page d'accueil du projet Sortir.com, une initiative visant à moderniser
+                <p class="mt-2">Bienvenue sur le projet Sortir.com, une initiative visant à moderniser
                     la gestion des activités extra-scolaires organisées par le Bureau des élèves.</p>
                 <p>Notre objectif est de transformer la manière dont les activités sont planifiées et communiquées, en
                     passant d'un système traditionnel d'affichage papier à une plateforme web interactive et accessible.
                     Grâce à cette plateforme, les stagiaires actuels et anciens pourront facilement accéder aux
                     informations sur les activités, s'inscrire en ligne, et rester connectés avec la communauté de
                     l'ENI.</p>
-                {% if app.user %}
-                    <a href="{{ path('sortie_lister') }}" class="btn btn-primary">Liste des sorties</a>
-                {% else %}
-                    <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
-                {% endif %}
+                <a href="{{ path('sortie_lister') }}" class="btn btn-primary">Liste des sorties</a>
             </div>
         </div>
-    </main>
+    </div>
 {% endblock %}
