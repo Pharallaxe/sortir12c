@@ -8,10 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class HistoService
 {
-
-    private $sortieRepository;
-    private $etatRepository;
-    private $em;
+    private SortieRepository $sortieRepository;
+    private EtatRepository $etatRepository;
+    private EntityManagerInterface $em;
 
     public function __construct(
         SortieRepository $sortieRepository,
@@ -33,11 +32,9 @@ class HistoService
             $oneMonthAgo->modify('-1 month');
             $oneMonthAgo->setTime(0, 0, 0);
             $dateHeureDebut = $sortie->getDateHeureDebut();
-            $dateHeureDebutFormatted = $dateHeureDebut->format('Y-m-d H:i:s');
 
             if ($dateHeureDebut < $oneMonthAgo) {
                 $sortie->setEtat($etat);
-                $this->em->persist($sortie);
             }
         }
 
