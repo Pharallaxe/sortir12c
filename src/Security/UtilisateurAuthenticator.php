@@ -48,7 +48,7 @@ class UtilisateurAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-         return new RedirectResponse($this->urlGenerator->generate('site_accueil'));
+         return new RedirectResponse($this->urlGenerator->generate('sortie_lister'));
     }
 
     protected function getLoginUrl(Request $request): string
