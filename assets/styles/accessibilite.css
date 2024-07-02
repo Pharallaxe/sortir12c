@@ -1,0 +1,169 @@
+.body {
+    margin: 0;
+    padding: 80px 20px 20px; /* Espace pour le menu fixe en haut */
+    background-color: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+}
+
+.accessibility {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.text {
+    background-color: antiquewhite;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.panel {
+    min-height: 100px;
+    background-color: rgba(0, 128, 0, 0.25);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mode portable (par défaut) */
+.accessibility {
+    flex-direction: column;
+}
+
+.panel {
+    width: 100%;
+}
+
+/* Mode tablette */
+@media screen and (min-width: 500px) {
+    .accessibility {
+        flex-direction: column;
+    }
+
+    .panel {
+        width: calc(50% - 10px); /* Deux panels de largeur */
+    }
+
+    .accessibility {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .accessibility {
+        flex-direction: column;
+    }
+
+    .panel {
+        width: calc(32% - 10px); /* Deux panels de largeur */
+    }
+
+    .accessibility {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+}
+
+
+/* Mode desktop */
+@media screen and (min-width: 1024px) {
+    body {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .accessibility, .text {
+        width: calc(50% - 20px);
+    }
+
+    .accessibility {
+        order: 1;
+    }
+
+    .text {
+        order: 2;
+    }
+
+    .panel {
+        width: calc(50% - 10px); /* Maintient deux panels de largeur */
+    }
+}
+
+.panel p {
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+}
+
+.panel .buttons {
+    display: flex;
+}
+
+.panel button, .panel select {
+    background-color: rgb(0, 128, 0);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    font-size: 16px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.panel button {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.panel select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.panel button.animate {
+    transform: scale(0.95);
+}
+
+/****************************
+* Variables accessibilité
+****************************/
+
+:root {
+    --font-size: 16px;
+    --line-height: 1.1;
+    --letter-spacing: 0;
+    --font-family: "Lucida Sans";
+    --word-spacing: 0.25em;
+    --margin : 0px;
+}
+
+
+/****************************
+* Mise en page accessibilité
+****************************/
+
+
+.acc {
+    font-size: var(--font-size);
+    letter-spacing: var(--letter-spacing);
+    line-height: var(--line-height);
+    word-spacing: var(--word-spacing);
+    font-family: var(--font-family), serif;
+    margin: var(--margin);
+}
