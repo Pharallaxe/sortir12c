@@ -8,10 +8,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AccueilController extends AbstractController
 {
-    #[Route('/', name: 'site_accueil')]
-    public function accueillir(): Response
+    #[Route('/a-propos', name: 'site_description')]
+    public function decrire(): Response
     {
-        return $this->render('accueil/accueil.html.twig');
+        return $this->render('accueil/decrire.html.twig');
     }
 
     #[Route('/accessibilite', name: 'accessibilite')]
