@@ -146,15 +146,15 @@
 
 :root {
     --font-size-title: 18px;
-    --font-size-text: 14px;
-    --line-height: 1.1;
+    --font-size-text: 15px;
+    --line-height: 1.5;
     --letter-spacing: 0;
     --word-spacing: 0.25em;
     --margin: 5px;
     --padding: 10px;
     --border-radius: 5px;
 
-    --font-family: "Lucida Sans";
+    --font-family: "Montserrat";
     --background-color: "white";
     --text-color: "black";
 
@@ -172,7 +172,7 @@
     letter-spacing: var(--letter-spacing);
     line-height: var(--line-height);
     word-spacing: var(--word-spacing);
-    font-family: var(--font-family), serif;
+    font-family: var(--font-family), sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
 }

@@ -3,8 +3,6 @@
 @import url("participant.css");
 @import url("accessibilite.css");
 @import url("footer.css");
-@import url("loader.css");
-
 
 
 /* Webfont: Luciole-Regular */
@@ -20,7 +18,6 @@
 body {
     font-family: "Montserrat", sans-serif;
     background-color: #f8f9fa;
-    padding-top: 70px;
 }
 
 h1, h2, h3 {
