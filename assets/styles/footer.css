@@ -3,16 +3,23 @@ html, body {
 }
 
 body {
-    display: flex;
-    flex-direction: column;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 90px 2fr 100px;
+
+}
+
+header  {
+    height: 100%;
+    width: 100%;
 }
 
 main {
-    margin-bottom: 25px;
+
 }
 
 footer {
-    height: 100px;
+    height: 100%;
     width: 100%;
     background-color: #4D61F4;
     color: #f8f9fa;
