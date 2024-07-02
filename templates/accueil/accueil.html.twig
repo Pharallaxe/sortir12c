@@ -14,7 +14,11 @@
                     Grâce à cette plateforme, les stagiaires actuels et anciens pourront facilement accéder aux
                     informations sur les activités, s'inscrire en ligne, et rester connectés avec la communauté de
                     l'ENI.</p>
-                <a href="{{ path('sortie_lister') }}" class="btn btn-primary">Liste des sorties</a>
+                {% if app.user %}
+                    <a href="{{ path('sortie_lister') }}" class="btn btn-primary">Liste des sorties</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+                {% endif %}
             </div>
         </div>
     </div>
