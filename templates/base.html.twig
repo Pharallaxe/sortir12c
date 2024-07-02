@@ -1,6 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style >
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: #f3f3f3;
+        }
+
+        .loading {
+            position: absolute;
+            border-radius: 50%;
+            border: 8px solid transparent;
+            animation: spin infinite linear;
+        }
+
+        .loading1 {
+            width: 100px;
+            height: 100px;
+            border-top-color: #3498db;
+            border-right-color: #3498db;
+            animation-duration: 1.0s;
+        }
+
+        .loading2 {
+            width: 130px;
+            height: 130px;
+            border-top-color: #D7FF7B;
+            border-left-color: #D7FF7B;
+            animation-duration: 2.0s;
+        }
+
+        .loading3 {
+            width: 160px;
+            height: 160px;
+            border-bottom-color: #4D61F4;
+            border-left-color: #4D61F4;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .none {
+            display: none;
+        }
+    </style>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
@@ -20,9 +76,8 @@
     {% endblock %}
 </head>
 <body class="acc-body">
-<div id="readGuideContainer">
-</div>
-<div class="supercontainer">
+
+<div class="loading-container">
     <div class="loading loading3"></div>
     <div class="loading loading2"></div>
     <div class="loading loading1"></div>
@@ -41,6 +96,8 @@
 </header>
 
 <main class="none">
+    <div id="readGuideContainer">
+    </div>
     {% block body %}
 
     {% endblock %}
@@ -61,7 +118,7 @@
             document.querySelector("header").classList.remove("none");
             document.querySelector("main").classList.remove("none");
             document.querySelector("footer").classList.remove("none");
-            document.querySelector(".supercontainer").classList.add("none");
+            document.querySelector(".loading-container").classList.add("none");
         });
     </script>
 {% endblock %}
