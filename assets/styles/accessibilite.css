@@ -1,7 +1,7 @@
 .body {
     margin: 0;
     padding: 80px 20px 20px; /* Espace pour le menu fixe en haut */
-    background-color: #f1f1f1;
+    /*background-color: #f8f9fa;*/
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,9 +18,13 @@
 
 .text {
     background-color: antiquewhite;
-    padding: 20px;
+    padding: 5px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.exemple {
+    padding: 10px;
 }
 
 .panel {
@@ -123,6 +127,22 @@
     border-radius: 5px;
 }
 
+#backgroundColorSelect {
+    background-color: var(--background-color);
+    color: black;
+    font-weight : bold;
+}
+
+#textColorSelect {
+    background-color: white;
+    color: var(--text-color);
+    font-weight : bold;
+}
+
+#textAlignSelect {
+    font-weight : bold;
+}
+
 .panel button {
     text-decoration: none;
     display: inline-block;
@@ -153,8 +173,9 @@
     --border-radius: 5px;
 
     --font-family: "Montserrat";
-    --background-color: "blue";
+    --background-color: "#f8f9fa";
     --text-color: "black";
+    --text-align : left;
 
     --read-guide-display : none;
 }
@@ -174,6 +195,15 @@
     color: var(--text-color);
 }
 
+.acc-test {
+    font-size: var(--font-size-text);
+    letter-spacing: var(--letter-spacing);
+    line-height: var(--line-height);
+    word-spacing: var(--word-spacing);
+    font-family: var(--font-family), sans-serif;
+    color: var(--text-color);
+}
+
 .acc-titre {
     font-size: var(--font-size-title);
     margin: calc(var(--margin) + 1em) var(--margin) calc(var(--margin) + 0.5em) var(--margin);
@@ -189,6 +219,7 @@
     padding: var(--padding);
     border-radius: var(--border-radius);
     background-color: paleturquoise;
+    text-align: var(--text-align);
 }
 
 #readGuideContainer {

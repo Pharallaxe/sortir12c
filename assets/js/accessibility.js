@@ -13,8 +13,10 @@ const CSS_SIMPLE_PROPERTIES = [["--font-size-title", 2, "px"], // fontSizeTitle{
 ];
 
 const CSS_COMPLEXE_PROPERTIES = [
-    ["--background-color", "backgroundColor", ["blue", "green", "purple", "red", "black", "yellow"]],
+    ["--background-color", "backgroundColor", ["#F8F9FA", "#F5C3C2", "#A7D2E8", "#FEF0C3", "#C1E1C1", "#E6E6FA"]],
+    ["--text-color", "color", ["#0c0c0c", "#720b0a", "#063c5a", "#695803", "#005602", "#4e4ef3"]],
     ["--font-family", "fontFamily", ["Arial", "Verdana", "Georgia", "Courier New", "Roboto", "Ms Gothic", "Garamond"]],
+    ["--text-align", "textAlign", ["left", "right", "center", "justify"]],
 ];
 
 class Config {
