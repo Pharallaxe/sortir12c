@@ -17,6 +17,7 @@ class FirstTest extends WebTestCase
     private $entityManager;
 
 
+    // Récupération de l'entity manager
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
@@ -27,9 +28,10 @@ class FirstTest extends WebTestCase
 
     }
 
+    // Test de création d'une sortie
     public function testSomething(): void
     {
-        // Create a new Sortie
+        // Création d'une sortie
         $sortie = new Sortie();
         $sortie->setNom('Sortie test');
         $sortie->setDateHeureDebut(new \DateTime('2021-06-01 12:00:00'));
@@ -47,9 +49,11 @@ class FirstTest extends WebTestCase
         $this->entityManager->persist($sortie);
         $this->entityManager->flush();
 
+        // Récupération de toutes les sorties
         $allSorties = $this->entityManager->getRepository(Sortie::class)->findAll();
         $sortieFound = false;
 
+        // Vérification que la sortie a bien été créée
         foreach ($allSorties as $sortie) {
             if ($sortie->getNom() == 'Sortie test') {
                 $sortieFound = true;
