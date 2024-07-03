@@ -13,7 +13,8 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 /**
  * @extends ServiceEntityRepository<Participant>
  */
-class ParticipantRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserLoaderInterface
+class ParticipantRepository extends ServiceEntityRepository
+    implements PasswordUpgraderInterface, UserLoaderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -23,10 +24,16 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
-    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
+    public function upgradePassword(
+        PasswordAuthenticatedUserInterface $user,
+        string $newHashedPassword
+    ): void
     {
         if (!$user instanceof Participant) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+            throw new UnsupportedUserException(
+                sprintf('Instances of "%s" are not supported.',
+                    $user::class)
+            );
         }
 
         $user->setPassword($newHashedPassword);

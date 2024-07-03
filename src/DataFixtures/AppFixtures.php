@@ -54,7 +54,7 @@ class AppFixtures extends Fixture
     // Ajoute des états à la base de données
     public function addEtat(ObjectManager $manager)
     {
-        $etatNoms = ['Creee', 'Ouverte', 'Cloturee', 'Annulee', 'Historisee', 'Activite en cours', 'Passee'];
+        $etatNoms = ['Créée', 'Ouverte', 'Clôturée', 'Annulée', 'Historisée', 'Activité en cours', 'Passée'];
 
         foreach ($etatNoms as $nom) {
             $etat = new Etat();
@@ -91,21 +91,42 @@ class AppFixtures extends Fixture
         }
 
         for ($i = 0; $i < $number; $i++) {
+
             $participant = new Participant();
             $participant->setRoles(['ROLE_USER']);
             $participant->setPassword(
-                $this->userPasswordHasher->hashPassword($participant,'1234')
+                $this->userPasswordHasher->hashPassword($participant, '1234')
             );
 
-            $prenom = $this->faker->firstName;
-            $nom = $this->faker->lastName;
+            if ($i == 0) {
+                $prenom = 'Sandra';
+                $nom = 'D';
+            } else if ($i == 1) {
+                $prenom = 'Antoine';
+                $nom = 'DA';
+            } else if ($i == 2) {
+                $prenom = 'Guillaume';
+                $nom = 'B';
+            } else {
+                $prenom = $this->faker->firstName;
+                $nom = $this->faker->lastName;
+            }
+
             $pseudo = strtolower($prenom . '.' . $nom);
             $email = strtolower($prenom . '.' . $nom . '@example.com');
             $imageProfile = 'default.jpg';
 
             $participant->setNom($nom);
             $participant->setPrenom($prenom);
-            $participant->setPseudo($pseudo);
+            if ($i == 0) {
+                $participant->setPseudo('san');
+            } else if ($i == 1) {
+                $participant->setPseudo('ant');
+            } else if ($i == 2) {
+                $participant->setPseudo('gui');
+            } else {
+                $participant->setPseudo($pseudo);
+            }
             $participant->setEmail($email);
             $participant->setImageProfile($imageProfile);
 
@@ -155,9 +176,9 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < $number; $i++) {
             $sortie = new Sortie();
             $sortie->setNom($this->faker->sentence(3));
-            $sortie->setDateHeureDebut($this->faker->dateTimeBetween("+5 day", "+10 day"));
+            $sortie->setDateHeureDebut($this->faker->dateTimeBetween('+5 day', '+10 day'));
             $sortie->setDuree($this->faker->numberBetween(60, 300));
-            $sortie->setDateLimiteInscription($this->faker->dateTimeBetween("-15 day", "+2 day"));
+            $sortie->setDateLimiteInscription($this->faker->dateTimeBetween('-15 day', '+2 day'));
             $sortie->setNbInscriptionsMax($this->faker->numberBetween(5, 15));
             $sortie->setInfosSortie($this->faker->paragraph);
 
@@ -184,7 +205,8 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    function checkListNotEmpty(array $list, string $itemType) {
+    function checkListNotEmpty(array $list, string $itemType)
+    {
         if (count($list) === 0) {
             throw new \Exception("Assurez-vous qu'il y a au moins un $itemType dans la base.");
         }

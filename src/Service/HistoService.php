@@ -30,7 +30,8 @@ class HistoService
         //Récupérer l'état "Historis"
         $etat = $this->etatRepository->find(5);
 
-        //Pour chaque sortie, si la date de début est plus vielle q'un mois, on change l'état de la sortie à "Historisee"
+        // Pour chaque sortie, si la date de début est plus vielle q'un mois,
+        // on change l'état de la sortie à "Historisee"
         foreach ($sorties as $sortie) {
             $oneMonthAgo = new \DateTime('now');
             $oneMonthAgo->modify('-1 month');

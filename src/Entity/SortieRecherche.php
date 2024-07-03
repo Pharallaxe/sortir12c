@@ -66,21 +66,9 @@ class SortieRecherche
         return $this->campus;
     }
 
-    public function setCampus(?Campus $campus): self
-    {
-        $this->campus = $campus;
-        return $this;
-    }
-
     public function isOrganisateur(): bool
     {
         return $this->organisateur;
-    }
-
-    public function setOrganisateur(bool $organisateur): self
-    {
-        $this->organisateur = $organisateur;
-        return $this;
     }
 
     public function isParticipant(): bool

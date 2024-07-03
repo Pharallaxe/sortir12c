@@ -113,7 +113,7 @@ class SortieRepository extends ServiceEntityRepository
 
             // Vérifier si la sortie est passée
             if (!empty($sortieRecherche->isPasse())
-                && $sortie->getEtat()->getLibelle() !== 'Passee') {
+                && $sortie->getEtat()->getLibelle() !== 'Passée') {
                 return false;
             }
 
@@ -125,14 +125,18 @@ class SortieRepository extends ServiceEntityRepository
     //Récupérer les sorties qui doivent être cloturées
     public function findSortiesForCloture(): array
     {
-        //Récupérer les sorties qui ont atteint le nombre maximum d'inscriptions, ou dont la date de début est passée, ou dont la date limite d'inscription est passée
+        //Récupérer les sorties qui ont atteint le nombre maximum d'inscriptions, ou dont
+        //la date de début est passée, ou dont la date limite d'inscription est passée
         $qb = $this->createQueryBuilder('s')
             ->leftJoin('s.participants', 'p')
             ->addSelect('p')
             ->leftJoin('s.etat', 'e')
             ->addSelect('e')
             ->groupBy('s.id')
-            ->having('COUNT(p) = s.nbInscriptionsMax OR s.dateLimiteInscription < :now OR s.dateHeureDebut < :now')
+            ->having(
+                'COUNT(p) = s.nbInscriptionsMax OR 
+                s.dateLimiteInscription < :now OR 
+                s.dateHeureDebut < :now')
             ->setParameter('now', new \DateTime('now'));
 
         return $qb->getQuery()->getResult();

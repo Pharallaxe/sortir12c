@@ -56,8 +56,7 @@ class LieuType extends AbstractType
                 'attr' => [
                     'placeholder' => '35000',
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

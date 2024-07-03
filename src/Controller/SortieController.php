@@ -128,7 +128,7 @@ class SortieController extends AbstractController
         }
 
         $sortie->setOrganisateur($this->getUser());
-        $sortie->setEtat($this->etatRep->findOneBy(['libelle' => 'Creee']));
+        $sortie->setEtat($this->etatRep->findOneBy(['libelle' => 'Créée']));
         if ($creation) {
             $sortie->addParticipant($this->getUser());
         }
@@ -156,7 +156,7 @@ class SortieController extends AbstractController
         }
 
         // Passe l'état de la sortie à "Annulée"
-        $sortie->setEtat($etatRep->findOneBy(['libelle' => 'Annulee']));
+        $sortie->setEtat($etatRep->findOneBy(['libelle' => 'Annulée']));
 
         // Ajoute un message d'annulation au début de la description de la sortie
         $sortie->setInfosSortie("ANNULEE PAR L'ORGANISATEUR " . $sortie->getInfosSortie());
@@ -177,7 +177,8 @@ class SortieController extends AbstractController
 
         // Vérifie si la sortie est bien créée par l'utilisateur connecté
         if ($sortie->getOrganisateur() !== $this->getUser()) {
-            return $this->redirectWithMessage('danger', $this->messageService->get('publier.impossible'), $id);
+            return $this->redirectWithMessage(
+                'danger', $this->messageService->get('publier.impossible'), $id);
         }
 
         // Passe l'état de la sortie à "Ouverte"
@@ -196,28 +197,33 @@ class SortieController extends AbstractController
 
         // Vérifie si le participant est déjà inscrit à la sortie
         if ($sortie->getParticipants()->contains($participant)) {
-            return $this->redirectWithMessage('warning', $this->messageService->get('inscrire.dejainscrit'), $id);
+            return $this->redirectWithMessage(
+                'warning', $this->messageService->get('inscrire.dejainscrit'), $id);
         }
 
         // Vérifie si la sortie est ouverte
         if ($sortie->getEtat()->getLibelle() !== 'Ouverte') {
-            return $this->redirectWithMessage('danger', $this->messageService->get('inscrire.nonouverte'), $id);
+            return $this->redirectWithMessage(
+                'danger', $this->messageService->get('inscrire.nonouverte'), $id);
         }
 
         // Vérifie si la date limite d'inscription est dépassée
         if ($sortie->getDateLimiteInscription() < new \DateTime()) {
-            return $this->redirectWithMessage('danger', $this->messageService->get('inscrire.depassee'), $id);
+            return $this->redirectWithMessage(
+                'danger', $this->messageService->get('inscrire.depassee'), $id);
         }
 
         // Vérifie si le nombre de participants est atteint
         if ($sortie->getParticipants()->count() >= $sortie->getNbInscriptionsMax()) {
-            return $this->redirectWithMessage('danger', $this->messageService->get('inscrire.complete'), $id);
+            return $this->redirectWithMessage(
+                'danger', $this->messageService->get('inscrire.complete'), $id);
         }
 
         // Ajoute le participant à la sortie
         $sortie->addParticipant($participant);
         $this->em->flush();
-        return $this->redirectWithMessage('success', $this->messageService->get('inscrire.reussie'), $id);
+        return $this->redirectWithMessage(
+            'success', $this->messageService->get('inscrire.reussie'), $id);
     }
 
     // Affiche la page de désinscription d'une sortie grâce à son id
@@ -230,18 +236,21 @@ class SortieController extends AbstractController
 
         // Vérifie si le participant est inscrit à la sortie
         if (!$sortie->getParticipants()->contains($participant)) {
-            return $this->redirectWithMessage('warning', $this->messageService->get('desister.noninscrit'), $id);
+            return $this->redirectWithMessage(
+                'warning', $this->messageService->get('desister.noninscrit'), $id);
         }
 
         // Vérifie si la sortie est ouverte
         if ($sortie->getEtat()->getLibelle() !== 'Ouverte') {
-            return $this->redirectWithMessage('danger', $this->messageService->get('desister.impossible'), $id);
+            return $this->redirectWithMessage(
+                'danger', $this->messageService->get('desister.impossible'), $id);
         }
 
         // Supprime le participant de la sortie
         $sortie->removeParticipant($participant);
         $this->em->flush();
-        return $this->redirectWithMessage('success', $this->messageService->get('desister.succes'), $id);
+        return $this->redirectWithMessage(
+            'success', $this->messageService->get('desister.succes'), $id);
     }
 
     /**

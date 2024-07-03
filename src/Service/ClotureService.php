@@ -39,11 +39,11 @@ class ClotureService
 
         //Créer des variables pour pouvoir utiliser les états "Cloturee" et "Passee"
         foreach ($etats as $etat) {
-            if ($etat->getLibelle() == 'Cloturee') {
+            if ($etat->getLibelle() == 'Clôturée') {
                 $etatCloturee = $etat;
             }
 
-            if ($etat->getLibelle() == 'Passee') {
+            if ($etat->getLibelle() == 'Passée') {
                 $etatPassee = $etat;
             }
         }
