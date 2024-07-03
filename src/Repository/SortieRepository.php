@@ -13,8 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
-
-    private $etatRep;
+    private EtatRepository $etatRep;
 
     // Recherche du repository de l'entité Etat
     public function __construct(ManagerRegistry $registry, EtatRepository $etatRep)
@@ -22,8 +21,6 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
         $this->etatRep = $etatRep;
     }
-
-
 
     // Récupérer toutes les sorties et leurs relations
     public function findAllWithRelations()
@@ -40,27 +37,41 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     // Récupérer les sorties en fonction des critères de recherche
-    public function rechercheParCritere(SortieRecherche $sortieRecherche, Participant $user)
+    public function rechercheParCritere(
+        SortieRecherche $sortieRecherche,
+        Participant $user
+    ): array
     {
         $sorties = $this->findAllWithRelations();
         return $this->filtrerSorties($sorties, $sortieRecherche, $user);
     }
 
 
-    private function filtrerSorties(array $sorties, SortieRecherche $sortieRecherche, Participant $user): array
+    private function filtrerSorties(
+        array $sorties,
+        SortieRecherche $sortieRecherche,
+        Participant $user
+    ): array
     {
         return array_filter($sorties, function(Sortie $sortie) use ($sortieRecherche, $user) {
-            // Vérifier si le nom de la sortie n'est pas vide et que le nom de la sortie ne contient pas le nom de la sortie recherchée
-            if (!empty($sortieRecherche->getNom()) && stripos($sortie->getNom(), $sortieRecherche->getNom()) === false) {
+            // Vérifier si le nom de la sortie n'est pas vide et que le nom de
+            // la sortie ne contient pas le nom de la sortie recherchée
+
+            if (!empty($sortieRecherche->getNom()) &&
+                stripos($sortie->getNom(), $sortieRecherche->getNom()) === false) {
                 return false;
             }
 
-            // Vérifier si la date de début de la sortie n'est pas vide et que la date de début de la sortie est antérieure à la date de début de la sortie
-            if (!empty($sortieRecherche->getDateDebut()) && $sortie->getDateHeureDebut() < $sortieRecherche->getDateDebut()) {
+            // Vérifier si la date de début de la sortie n'est pas vide et que
+            // la date de début de la sortie est antérieure à la date de début de
+            // la sortie
+            if (!empty($sortieRecherche->getDateDebut()) &&
+                $sortie->getDateHeureDebut() < $sortieRecherche->getDateDebut()) {
                 return false;
             }
 
-            // Vérifier si la date de fin de la sortie n'est pas vide et que la date de fin de la sortie est postérieure à la date de fin de la recherche
+            // Vérifier si la date de fin de la sortie n'est pas vide et que la date
+            // de fin de la sortie est postérieure à la date de fin de la recherche
             if (!empty($sortieRecherche->getDateFin())) {
                 $dateFin = clone $sortieRecherche->getDateFin();
                 $dateFin->setTime(23, 59, 59);
@@ -69,32 +80,40 @@ class SortieRepository extends ServiceEntityRepository
                 }
             }
 
-            // Vérifier si l'état de la sortie n'est pas vide et que l'état de la sortie est différent de l'état de la recherche
-            if (!empty($sortieRecherche->getEtat()) && $sortie->getEtat()->getId() !== $sortieRecherche->getEtat()->getId()) {
+            // Vérifier si l'état de la sortie n'est pas vide et que l'état de la sortie
+            //est différent de l'état de la recherche
+            if (!empty($sortieRecherche->getEtat()) &&
+                $sortie->getEtat()->getId() !== $sortieRecherche->getEtat()->getId()) {
                 return false;
             }
-            // Vérifier si le campus de la sortie n'est pas vide et que le campus de la sortie est différent du campus de la recherche
-            if (!empty($sortieRecherche->getCampus()) && $sortie->getCampus()->getId() !== $sortieRecherche->getCampus()->getId()) {
+            // Vérifier si le campus de la sortie n'est pas vide et que le campus de la
+            //sortie est différent du campus de la recherche
+            if (!empty($sortieRecherche->getCampus()) &&
+                $sortie->getCampus()->getId() !== $sortieRecherche->getCampus()->getId()) {
                 return false;
             }
 
             // Vérifier si l'utilisateur est l'organisateur de la sortie
-            if (!empty($sortieRecherche->isOrganisateur()) && $sortie->getOrganisateur() !== $user) {
+            if (!empty($sortieRecherche->isOrganisateur()) &&
+                $sortie->getOrganisateur() !== $user) {
                 return false;
             }
 
             // Vérifier si l'utilisateur est inscrit à la sortie
-            if (!empty($sortieRecherche->isParticipant()) && !$sortie->getParticipants()->contains($user)) {
+            if (!empty($sortieRecherche->isParticipant()) &&
+                !$sortie->getParticipants()->contains($user)) {
                 return false;
             }
 
             // Vérifier si l'utilisateur n'est pas inscrit à la sortie
-            if (!empty($sortieRecherche->isNotParticipant()) && $sortie->getParticipants()->contains($user)) {
+            if (!empty($sortieRecherche->isNotParticipant())
+                && $sortie->getParticipants()->contains($user)) {
                 return false;
             }
 
             // Vérifier si la sortie est passée
-            if (!empty($sortieRecherche->isPasse()) && $sortie->getEtat()->getLibelle() !== 'Passee') {
+            if (!empty($sortieRecherche->isPasse())
+                && $sortie->getEtat()->getLibelle() !== 'Passee') {
                 return false;
             }
 
@@ -118,6 +137,4 @@ class SortieRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
-
-
 }
