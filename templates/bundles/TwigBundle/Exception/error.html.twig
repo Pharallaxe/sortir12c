@@ -1,25 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <style>
+        .styled-text {
+            font-size: 125px; /* Taille du texte */
+            color: white; /* Couleur du texte */
+            -webkit-text-stroke: 2px black; /* Contour épais */
+            text-shadow: 2px 2px 0px rgba(255, 0, 0, 0.7), /* Ombre rouge */ -2px 2px 0px rgba(77, 97, 244, 0.7), /* Ombre rouge */ 2px -2px 0px rgba(77, 97, 244, 0.7), /* Ombre rouge */ -2px -2px 0px rgba(77, 97, 244, 0.7); /* Ombre rouge */
+        }
+    </style>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body text-center">
+                    <h1 class="card-title text-danger mb-4">Oups ! Une erreur est survenue</h1>
+                    {% if status_code %}
+                        <h3 class="styled-text mb-3">{{ status_code }}</h3>
+                    {% endif %}
 
-    <h1>Twig Error</h1>
-    {% if exception %}
-        <h2>{{ exception.message }}</h2>
-    {% else %}
-        <h2>Something went wrong</h2>
-    {% endif %}
+                    <h3 class="text-muted mb-3">A très vite !</h3>
+                    <div class="mt-4">
+                        {% if app.user %}
+                            <a href="{{ path('sortie_lister') }}" class="btn btn-primary btn-lg">Retour à l'accueil</a>
+                        {% else %}
+                            <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg">Se connecter</a>
+                        {% endif %}
+                    </div>
 
-    {% if status_code %}
-        <h3>HTTP Status Code: {{ status_code }}</h3>
-    {% endif %}
-
-    {% if status_text %}
-        <h3>HTTP Status Text: {{ status_text }}</h3>
-    {% endif %}
-
-    {% if message %}
-        <h3>Message: {{ message }}</h3>
-    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}
