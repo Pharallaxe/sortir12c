@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+// Contrôleur pour les pages d'accueil et de paramétrage de l'accessibilité du site
 class AccueilController extends AbstractController
 {
     #[Route('/a-propos', name: 'site_description')]

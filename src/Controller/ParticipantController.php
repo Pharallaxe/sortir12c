@@ -15,6 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+// Contrôleur pour les pages de gestion des participants
 #[Route('/participant', name: 'participant_')]
 class ParticipantController extends AbstractController
 {
@@ -37,6 +38,7 @@ class ParticipantController extends AbstractController
         $this->messageService = $messageService;
     }
 
+    // Affiche la page de détail d'un participant grâce à son identifiant
     #[Route('/detailler/{id}', name: 'detailler', requirements: ['id' => '\d+'])]
     public function participantProfil(int $id): Response
     {
@@ -54,6 +56,7 @@ class ParticipantController extends AbstractController
         ]);
     }
 
+    // Affiche la page de modification d'un participant grâce à son identifiant
     #[Route('/modifier/{id}', name: 'modifier', requirements: ['id' => '\d+'])]
     public function participantModifierProfil(
         int                         $id,
@@ -74,9 +77,12 @@ class ParticipantController extends AbstractController
             throw new AccessDeniedException($this->messageService->get('participant.mauvaisprofil'));
         }
 
+        // Création du formulaire de modification de participant
         $participantForm = $this->createForm(ParticipantType::class, $participant);
         $participantForm->handleRequest($request);
 
+
+        //Validation du formulaire
         if (!$participantForm->isSubmitted() || !$participantForm->isValid()) {
             return $this->render('participant/modifier.html.twig', [
                 'modifierParticipantForm' => $participantForm,
