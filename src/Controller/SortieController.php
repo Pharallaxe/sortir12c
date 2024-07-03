@@ -93,6 +93,7 @@ class SortieController extends AbstractController
     public function creer(Request $request): Response
     {
         $sortie = new Sortie();
+
         if ($this->getUser() !== null) {
             $sortie->setCampus($this->getUser()->getCampus());
         }

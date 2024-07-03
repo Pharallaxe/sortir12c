@@ -19,7 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 // Formulaire de création de sortie
 class SortieType extends AbstractType
 {
-
     public function buildForm(
         FormBuilderInterface $builder,
         array $options
@@ -37,7 +36,6 @@ class SortieType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Date et heure de la sortie',
                 'invalid_message' => '',
-
             ])
             ->add('dateLimiteInscription', DateTimeType::class, [
                 'widget' => 'single_text',
@@ -64,7 +62,6 @@ class SortieType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Votre description'
                 ]
-
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,

@@ -25,7 +25,7 @@ class Sortie
     private ?string $nom = null;
 
     #[Assert\NotBlank(message: 'Veuillez renseigner une date de début')]
-    #[Assert\DateTime]
+    #[Assert\Type("DateTime")]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
@@ -36,7 +36,7 @@ class Sortie
     private ?int $duree = null;
 
     #[Assert\NotBlank(message: 'Veuillez renseigner une date limite d\'inscription')]
-    #[Assert\DateTime]
+    #[Assert\Type("DateTime")]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
