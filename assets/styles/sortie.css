@@ -7,7 +7,7 @@
 }
 
 
-.container-detail span{
+.container-detail span {
     color: #4D61F4;
     font-weight: 500;
     display: inline-block;
@@ -16,4 +16,42 @@
 
 .container-detail label {
     font-weight: 500;
+}
+
+.container-liste {
+    max-width: 1500px;
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container-liste span {
+    color: #4D61F4;
+    font-weight: 500;
+}
+
+.table .bi-check-lg {
+    color: green;
+    font-size: 1.5rem;
+}
+
+.container-liste thead th {
+    height: 30px;
+}
+
+.container-liste .w-6 {
+    width: 6%;
+}
+
+.container-liste .w-10 {
+    width: 10%;
+}
+
+.container-liste .w-15 {
+    width: 15%;
+}
+
+.container-liste .w-17 {
+    width: 17%;
 }
