@@ -26,12 +26,14 @@ class UtilisateurAuthenticator extends AbstractLoginFormAuthenticator
     {
     }
 
+    // Fonction qui permet de connecter l'utilisateur avec son email et son mot de passe
     public function authenticate(Request $request): Passport
     {
         $email = $request->getPayload()->getString('email');
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
+        //
         return new Passport(
             new UserBadge($email),
             new PasswordCredentials($request->getPayload()->getString('password')),
@@ -42,6 +44,7 @@ class UtilisateurAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
+    // Redirection après la connexion
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {

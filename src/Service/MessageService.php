@@ -4,15 +4,18 @@ namespace App\Service;
 
 use Symfony\Component\Yaml\Yaml;
 
+// Service pour gérer les messages
 class MessageService
 {
     private array $messages;
 
+    // Récupérer les messages du fichier messages.yaml
     public function __construct(string $projectDir)
     {
         $this->messages = Yaml::parseFile($projectDir . '/config/messages.yaml')['messages'];
     }
 
+    // Récupérer un message à partir de sa clé
     public function get(string $key): string
     {
         $keys = explode('.', $key);

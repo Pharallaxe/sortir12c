@@ -34,6 +34,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    // Ajoute des lieux à la base de données
     public function addLieu(int $number, ObjectManager $manager): void
     {
         for ($i = 0; $i < $number; $i++) {
@@ -50,6 +51,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    // Ajoute des états à la base de données
     public function addEtat(ObjectManager $manager)
     {
         $etatNoms = ['Creee', 'Ouverte', 'Cloturee', 'Annulee', 'Historisee', 'Activite en cours', 'Passee'];
@@ -62,6 +64,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    // Ajoute des campus à la base de données
     public function addCampus(ObjectManager $manager)
     {
 
@@ -75,6 +78,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    // Ajoute des participants à la base de données
     public function addParticipant(int $number, ObjectManager $manager): void
     {
         // Récupérer tous les campus existants
@@ -117,6 +121,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    // Ajoute des sorties à la base de données
     public function addSortie(int $number, ObjectManager $manager): void
     {
         // Récupérer tous les lieux existants

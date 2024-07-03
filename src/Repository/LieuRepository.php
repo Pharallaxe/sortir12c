@@ -16,6 +16,7 @@ class LieuRepository extends ServiceEntityRepository
         parent::__construct($registry, Lieu::class);
     }
 
+    // Retourne le premier lieu par ordre alphabétique
     public function trouverPremierLieuParOrdreAlphabetique(): ?Lieu
     {
         return $this->createQueryBuilder('l')
