@@ -2,22 +2,22 @@
  * PARTIE CONSTANTES
  *********************************************************************************/
 
-const CSS_SIMPLE_PROPERTIES = [["--font-size-title", 2, "px"], // fontSizeTitle{In-Decrease}Button
-    ["--font-size-text", 2, "px"],    // fontSizeText{In-Decrease}Button
-    ["--line-height", 0.1, ""],       // lineHeight{In-Decrease}Button
-    ["--letter-spacing", 0.05, "em"], // letterSpacing{In-Decrease}Button
-    ["--word-spacing", 0.1, "em"],    // wordSpacing{In-Decrease}Button
-    ["--margin", 5, "px"],            // margin{In-Decrease}Button
-    ["--padding", 5, "px"],           // padding{In-Decrease}Button
-    ["--border-radius", 4, "px"],     // borderRadius{In-Decrease}Button
+const CSS_SIMPLE_PROPERTIES = [
+    ["--font-size-title", 2, "px", 10, 45], // fontSizeTitle{In-Decrease}Button
+    ["--font-size-text", 2, "px", 10, 28],    // fontSizeText{In-Decrease}Button
+    ["--line-height", 0.1, "", 0.85, 2.5],       // lineHeight{In-Decrease}Button
+    ["--letter-spacing", 0.05, "em", -0.15, 0.7], // letterSpacing{In-Decrease}Button
+    ["--word-spacing", 0.1, "em", 0, 1],    // wordSpacing{In-Decrease}Button
+    ["--margin", 5, "px", 0, 45],            // margin{In-Decrease}Button
+    ["--padding", 5, "px", 0, 35],           // padding{In-Decrease}Button
+    ["--border-radius", 4, "px", 0, 50],     // borderRadius{In-Decrease}Button
 ];
 
 const CSS_COMPLEXE_PROPERTIES = [
     ["--background-color", "backgroundColor", ["#F8F9FA", "#F5C3C2", "#A7D2E8", "#FEF0C3", "#C1E1C1", "#E6E6FA"]],
     ["--text-color", "color", ["#0c0c0c", "#720b0a", "#063c5a", "#695803", "#005602", "#4e4ef3"]],
     ["--font-family", "fontFamily", ["Arial", "Verdana", "Georgia", "Courier New", "Roboto", "Ms Gothic", "Garamond"]],
-    ["--text-align", "textAlign", ["left", "right", "center", "justify"]],
-];
+    ["--text-align", "textAlign", ["left", "right", "center", "justify"]],];
 
 class Config {
     static accessibilityPanel = $("#accessibilityPanel");
@@ -103,6 +103,8 @@ class CssSimpleProperty extends CssProperty {
     #classAnimation;
     #decreaseButton;
     #increaseButton;
+    #min;
+    #max;
 
     /**
      * Constructeur de la classe CssNumberProperty.
@@ -110,12 +112,16 @@ class CssSimpleProperty extends CssProperty {
      * @param {string} propertyName - Le nom de la propriété CSS (ex: "my-custom-property").
      * @param {number} value - La valeur initiale de la propriété CSS.
      * @param {string} [unit=px] - L'unité de la propriété CSS (par défaut : "px").
+     * @param {number} min - La valeur minimale.
+     * @param {string} max - La valeur maximale.
      */
-    constructor(propertyName, value, unit = "px") {
+    constructor(propertyName, value, unit = "px", min, max) {
         super(propertyName);
         this.#value = value;
         this.#unit = unit;
-        this.setCssPropertyButtons(propertyName)
+        this.#min = min;
+        this.#max = max;
+        this.setCssPropertyButtons(propertyName);
         this.#delayAnimation = 300;
         this.#classAnimation = "animate";
         this.#initialize();
@@ -151,6 +157,14 @@ class CssSimpleProperty extends CssProperty {
 
     getClassAnimation() {
         return this.#classAnimation;
+    }
+
+    getMax() {
+        return this.#max;
+    }
+
+    getMin() {
+        return this.#min;
     }
 
     /**
@@ -200,7 +214,12 @@ class CssSimpleProperty extends CssProperty {
         const rootElement = document.documentElement;
         const currentRootValue = parseFloat(getComputedStyle(rootElement)
             .getPropertyValue(this.getPropertyName()));
-        const newPropertyValue = currentRootValue + adjustmentValue;
+        let newPropertyValue = currentRootValue + adjustmentValue;
+
+        // Paramétrages
+        if (newPropertyValue >= this.getMax()) newPropertyValue = this.getMax();
+        if (newPropertyValue <= this.getMin()) newPropertyValue = this.getMin();
+
         const newPropertyValueWithUnit = `${newPropertyValue}${this.getUnit()}`;
         rootElement.style.setProperty(this.getPropertyName(), newPropertyValueWithUnit);
         saveAccessibilitySettings("range", this.getPropertyName(), newPropertyValueWithUnit);
@@ -248,10 +267,8 @@ class CssSelectProperty extends CssProperty {
      * @param {string} cssProperty - La propriété CSS complète.
      */
     setCssPropertySelect(cssProperty) {
-        console.log(cssProperty)
         const parts = cssProperty.split('-').slice(2);
         const selectPrefix = this.capitalizePrefix(parts);
-        console.log(selectPrefix);
         this.setPropertySelect(`#${selectPrefix}Select`);
     }
 
@@ -427,7 +444,7 @@ function createCssSelectProperties(properties) {
  */
 function createCssSimpleProperties(properties) {
     properties.forEach(property => {
-        new CssSimpleProperty(property[0], property[1], property[2],);
+        new CssSimpleProperty(property[0], property[1], property[2], property[3], property[4]);
     });
 }
 
