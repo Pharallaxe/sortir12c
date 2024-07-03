@@ -6,7 +6,6 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
-
 }
 
 .accessibility {
@@ -76,7 +75,6 @@
         justify-content: space-between;
     }
 }
-
 
 /* Mode desktop */
 @media screen and (min-width: 1024px) {
@@ -155,12 +153,11 @@
     --border-radius: 5px;
 
     --font-family: "Montserrat";
-    --background-color: "white";
+    --background-color: "blue";
     --text-color: "black";
 
     --read-guide-display : none;
 }
-
 
 /****************************
 * Mise en page accessibilité

@@ -6,16 +6,11 @@ body {
     min-height: 100vh;
     display: grid;
     grid-template-rows: 90px 2fr 100px;
-
 }
 
 header  {
     height: 100%;
     width: 100%;
-}
-
-main {
-
 }
 
 footer {

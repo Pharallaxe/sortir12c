@@ -1,7 +1,10 @@
+{% set noneClass = app.request.attributes.get('_route') == 'app_login' ? '' : 'none' %}
+{% set antiNoneClass = app.request.attributes.get('_route') != 'app_login' ? '' : 'none' %}
+
 <!DOCTYPE html>
 <html>
 <head>
-    <style >
+    <style>
         .loading-container {
             display: flex;
             justify-content: center;
@@ -52,9 +55,9 @@
             }
         }
 
-        /*.none {*/
-        /*    display: none;*/
-        /*}*/
+        .none {
+            display: none;
+        }
     </style>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,7 +79,7 @@
     {% endblock %}
 </head>
 <body class="acc-body">
-<header class="none">
+<header class="{{ noneClass }}">
     {% block header %}
         {% include 'menu/nav.html.twig' %}
         {% for label, messages in app.flashes %}
@@ -89,7 +92,7 @@
     {% endblock %}
 </header>
 
-<main class="none">
+<main class="{{ noneClass }}">
     <div id="readGuideContainer">
     </div>
     {% block body %}
@@ -97,12 +100,12 @@
     {% endblock %}
 </main>
 
-<footer class="none">
+<footer class="{{ noneClass }}">
     {% block footer %}
         <div>&copy;GsaProd - {{ "now"| date('Y') }}</div>
     {% endblock %}
 </footer>
-<div class="loading-container">
+<div class="loading-container {{ antiNoneClass }}">
     <div class="loading loading3"></div>
     <div class="loading loading2"></div>
     <div class="loading loading1"></div>
@@ -111,14 +114,20 @@
 
 {% block extraJs %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('js/accessibility.js') }}"></script>
+    <script type="module" src="{{ asset('js/accessibility.js') }}"></script>
+
+    {% if app.request.attributes.get('_route') != 'app_login' %}
+
+
     <script>
-        window.addEventListener("load", function() {
+        window.addEventListener("load", function () {
             document.querySelector("header").classList.remove("none");
             document.querySelector("main").classList.remove("none");
             document.querySelector("footer").classList.remove("none");
             document.querySelector(".loading-container").classList.add("none");
         });
     </script>
+
+    {% endif %}
 {% endblock %}
 </html>
