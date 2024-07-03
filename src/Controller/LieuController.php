@@ -4,10 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Lieu;
 use App\Form\LieuType;
-use App\Repository\CampusRepository;
-use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
-use App\Repository\SortieRepository;
 use App\Service\MessageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+// Contrôleur pour les pages de gestion des lieux
 #[Route('/lieu', name: 'lieu_')]
 class LieuController extends AbstractController
 {
@@ -34,24 +32,29 @@ class LieuController extends AbstractController
         $this->messageService = $messageService;
     }
 
+    // Affiche la page de création d'un lieu
     #[Route('/creer', name: 'creer')]
     public function creer( Request $request ): Response
     {
 
         $lieu = new Lieu();
 
+        // Création du formulaire de création de lieu
         $lieuForm = $this->createForm(LieuType::class, $lieu);
         $lieuForm->handleRequest($request);
 
+        //Validation du formulaire
         if ($lieuForm->isSubmitted() && $lieuForm->isValid()) {
             $existantLieu = $this->lieuRep->findOneBy(['nom' => $lieu->getNom()]);
 
+            // Vérifie si le lieu existe déjà
             if ($existantLieu) {
                 return $this->redirectWithMessage(
                     'danger',
                     $this->messageService->get('lieu.dejaexistant'),
                     'lieu_creer');
             }
+
 
             $this->em->persist($lieu);
             $this->em->flush();
@@ -65,6 +68,8 @@ class LieuController extends AbstractController
             'lieuForm' => $lieuForm
         ]);
     }
+
+    // Affiche la page de modification d'un lieu grâce à son id
     #[Route('/lister/lieu/{idLieu}', name: 'lister_lieu')]
     public function getLieuDetails(int $idLieu): Response
     {

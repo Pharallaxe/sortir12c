@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
+// Contrôleur pour les pages d'erreur
 class ErrorController extends AbstractController
 {
     public function show(Request $request, Throwable $exception): Response
@@ -20,10 +21,12 @@ class ErrorController extends AbstractController
         $path = "bundles/TwigBundle/Exception/error.html.twig";
         $message = $exception->getMessage();
 
+        //En cas d'erreur 404, on affiche une page dédiée
 //        if ($statusCode === 404) {
 //            $path = 'bundles/TwigBundle/Exception/error404.html.twig';
 //        }
 
+        //Pour les autres erreurs, on affiche une page générique
         return $this->render($path, [
             'status_code' => $statusCode,
             'status_text' => Response::$statusTexts[$statusCode],

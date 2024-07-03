@@ -34,6 +34,7 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $this->getEntityManager()->flush();
     }
 
+    // Retourne le participant correspondant à l'email ou au pseudo
     public function loadUserByIdentifier(string $emailOuPseudo): ?Participant
     {
         return $this->createQueryBuilder('p')
