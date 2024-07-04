@@ -65,11 +65,11 @@
             <tr>
                 <th class="w-15 text-center">Nom de la sortie</th>
                 <th class="w-10 text-center">Date de la sortie</th>
-                <th class="w-10 text-center">Clôture</th>
-                <th class="w-6 text-center">Inscrits / Places</th>
+                <th class="w-10 text-center none-md">Clôture</th>
+                <th class="w-6 text-center none-md">Inscrits / Places</th>
                 <th class="w-10 text-center">Etat</th>
-                <th class="w-6 text-center">Inscrit</th>
-                <th class="w-6 text-center">Organisateur</th>
+                <th class="w-6 text-center none-md">Inscrit</th>
+                <th class="w-6 text-center none-md">Organisateur</th>
                 <th class="w-15 text-center">Actions</th>
             </tr>
             </thead>
@@ -92,19 +92,20 @@
                     <tr>
                         <td class="w-15 text-center">{{ sortie.nom }}</td>
                         <td class="w-10 text-center">{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
-                        <td class="w-10 text-center">{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
-                        <td class="w-6 text-center">{{ sortie.participants.count }}
+                        <td class="w-10 text-center none-md">{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
+                        <td class="w-6 text-center none-md">{{ sortie.participants.count }}
                             / {{ sortie.nbInscriptionsMax }}</td>
                         <td class="w-10 text-center">{{ etatLib }}</td>
-                        <td class="w-6 text-center">
+                        <td class="w-6 text-center none-md">
                             {% if isParticipant %}
                                 <i class="bi bi-check-lg"></i>
                             {% endif %}
                         </td>
-                        <td class="w-6 text-center">
+                        <td class="w-6 text-center none-md">
                             <a href="{{ path('participant_detailler', {'id': sortie.organisateur.id}) }}">
                                 {{ sortie.organisateur.nom | title }} {{ sortie.organisateur.prenom | slice(0,1) }}.
-                            </a></td>
+                            </a>
+                        </td>
                         <td class="w-15 text-center">
                             {# Détail d'une sortie #}
                             <a href="{{ path('sortie_detailler', {'id': sortie.id}) }}" class="btn btn-primary mb-1">Afficher</a>
@@ -112,7 +113,7 @@
                             {# Si le participant loggé est l'organisateur #}
                             {% if app.user and app.user.nom == (sortie.organisateur.nom) %}
                                 {% if etatLib == 'Créée' %}
-                                    <a href="{{ path('sortie_publier', {'id': sortie.id}) }}" class="btn btn-success mb-1">Publier</a>
+                                    <a href="{{ path('sortie_publier', {'id': sortie.id}) }}" class="btn btn-secondary mb-1">Publier</a>
                                     {# {% else %} #}
                                     {# <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}">Modifier</a> #}
                                     {# {% endif %} #}
@@ -133,7 +134,7 @@
                                 {% if etatLib == "Ouverte" and
                                     sortie.dateLimiteInscription|date('U') > "now"|date('U') and
                                     sortie.participants.count < sortie.nbInscriptionsMax %}
-                                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-primary mb-1">
+                                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-success mb-1">
                                         S'inscrire
                                     </a>
                                 {% endif %}

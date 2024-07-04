@@ -7,7 +7,7 @@
 }
 
 .container-detail span {
-    color: #4D61F4;
+    color: var(--primary-color);
     font-weight: 500;
     display: inline-block;
     width: 9rem;
@@ -26,7 +26,7 @@
 }
 
 .container-liste span {
-    color: #4D61F4;
+    color: var(--primary-color);
     font-weight: 500;
 }
 
@@ -66,4 +66,10 @@
 
 .container-liste .w-17 {
     width: 17%;
+}
+
+@media (pointer: coarse) {
+   .none-md{
+       display:none;
+   }
 }

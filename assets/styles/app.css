@@ -15,27 +15,72 @@
     text-rendering: optimizeLegibility;
 }
 
+:root{
+    --primary-color: #4D61F4;
+    --secondary-color: #D7FF7B;
+}
+
 body {
     font-family: "Montserrat", sans-serif;
     background-color: #f8f9fa;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 64px 2fr 100px;
+}
+
+header  {
+    height: 100%;
+    width: 100%;
 }
 
 h1, h2, h3 {
     font-family: "Luciole", sans-serif;
 }
 
+h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/**********************************************
+        FORMULAIRE
+ ***********************************************/
+
 .form-control {
-    border-color: #4D61F4;
+    border-color: var(--primary-color);
 }
 
 .form-control:focus {
-    border-color: #4D61F4;
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 0.25rem rgba(77, 97, 244, 0.25);
 }
 
+.container-form {
+    max-width: 600px;
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container-form span{
+    color: var(--primary-color);
+    font-weight: 500;
+    display: inline-block;
+    width: 6.5rem;
+}
+
+.container-form label {
+    font-weight: 500;
+}
+
+/**********************************************
+        BOUTONS
+ ***********************************************/
+
 .btn-primary {
-    background-color: #4D61F4;
-    border-color: #4D61F4;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .btn-primary:hover {
@@ -48,7 +93,6 @@ h1, h2, h3 {
 }
 
 .checkbox .form-check-input:checked {
-    background-color: #4D61F4;
-    border-color: #4D61F4;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
-
