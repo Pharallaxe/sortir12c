@@ -1,78 +1,76 @@
-
-
-<div class="container container-form w-100 m-auto">
+<div class="container container-form-sortie w-100 m-auto">
     <h2 class="text-center">{% block form_title %}{% endblock %}</h2>
 
     {{ form_start(sortieForm, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
 
     <div class="mb-3">
         {{ form_label(sortieForm.nom, null, {'label_attr': {'class': 'col-form-label'}}) }}
-            {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}
-            {% if not sortieForm.nom.vars.valid %}
-                <div class="text-danger">
-                    {{ form_errors(sortieForm.nom) }}
-                </div>
-            {% endif %}
+        {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}
+        {% if not sortieForm.nom.vars.valid %}
+            <div class="text-danger">
+                {{ form_errors(sortieForm.nom) }}
+            </div>
+        {% endif %}
     </div>
     <div class="mb-3">
         {{ form_label(sortieForm.dateHeureDebut, null, {'label_attr': {'class': 'col-form-label'}}) }}
-            {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
-            {% if not sortieForm.dateHeureDebut.vars.valid %}
-                <div class="text-danger">
-                    {{ form_errors(sortieForm.dateHeureDebut) }}
-                </div>
-            {% endif %}
+        {{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
+        {% if not sortieForm.dateHeureDebut.vars.valid %}
+            <div class="text-danger">
+                {{ form_errors(sortieForm.dateHeureDebut) }}
+            </div>
+        {% endif %}
     </div>
     <div class="mb-3">
         {{ form_label(sortieForm.duree, null, {'label_attr': {'class': 'col-form-label'}}) }}
 
-            {{ form_widget(sortieForm.duree, {'attr': {'class': 'form-control'}}) }}
-            {% if not sortieForm.duree.vars.valid %}
-                <div class="text-danger">
-                    {{ form_errors(sortieForm.duree) }}
-                </div>
-            {% endif %}
+        {{ form_widget(sortieForm.duree, {'attr': {'class': 'form-control'}}) }}
+        {% if not sortieForm.duree.vars.valid %}
+            <div class="text-danger">
+                {{ form_errors(sortieForm.duree) }}
+            </div>
+        {% endif %}
     </div>
     <div class="mb-3">
         {{ form_label(sortieForm.dateLimiteInscription, null, {'label_attr': {'class': 'col-form-label'}}) }}
-            {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
-            {% if not sortieForm.dateLimiteInscription.vars.valid %}
-                <div class="text-danger">
-                    {{ form_errors(sortieForm.dateLimiteInscription) }}
-                </div>
-            {% endif %}
+        {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
+        {% if not sortieForm.dateLimiteInscription.vars.valid %}
+            <div class="text-danger">
+                {{ form_errors(sortieForm.dateLimiteInscription) }}
+            </div>
+        {% endif %}
     </div>
     <div class="mb-3">
         {{ form_label(sortieForm.nbInscriptionsMax, null, {'label_attr': {'class': 'col-form-label'}}) }}
-            {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}
-            {% if not sortieForm.nbInscriptionsMax.vars.valid %}
-                <div class="text-danger">
-                    {{ form_errors(sortieForm.nbInscriptionsMax) }}
-                </div>
-            {% endif %}
+        {{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}
+        {% if not sortieForm.nbInscriptionsMax.vars.valid %}
+            <div class="text-danger">
+                {{ form_errors(sortieForm.nbInscriptionsMax) }}
+            </div>
+        {% endif %}
     </div>
     <div class="mb-3">
         {{ form_label(sortieForm.infosSortie, null, {'label_attr': {'class': 'col-form-label'}}) }}
-            {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'form-control'}}) }}
-            {% if not sortieForm.infosSortie.vars.valid %}
-                <div class="text-danger">
-                    {{ form_errors(sortieForm.infosSortie) }}
-                </div>
-            {% endif %}
+        {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'form-control'}}) }}
+        {% if not sortieForm.infosSortie.vars.valid %}
+            <div class="text-danger">
+                {{ form_errors(sortieForm.infosSortie) }}
+            </div>
+        {% endif %}
     </div>
     <div class="mb-3">
         {{ form_label(sortieForm.campus, null, {'label_attr': {'class': 'col-form-label'}}) }}
-            {{ form_widget(sortieForm.campus, {'attr': {'class': 'form-control'}}) }}
-            {% if not sortieForm.campus.vars.valid %}
-                <div class="text-danger">
-                    {{ form_errors(sortieForm.campus) }}
-                </div>
-            {% endif %}
+        {{ form_widget(sortieForm.campus, {'attr': {'class': 'form-control'}}) }}
+        {% if not sortieForm.campus.vars.valid %}
+            <div class="text-danger">
+                {{ form_errors(sortieForm.campus) }}
+            </div>
+        {% endif %}
     </div>
     <div class="mb-3 row">
         {{ form_label(sortieForm.lieu, null, {'label_attr': {'class': 'col-form-label'}}) }}
         <div class="col-sm-7">
-            {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-control'}}) }}
+            {{ form_widget(sortieForm.lieu, {'attr': {'class': 'form-control form-select'}}) }}
             {% if not sortieForm.lieu.vars.valid %}
                 <div class="text-danger">
                     {{ form_errors(sortieForm.lieu) }}
@@ -80,24 +78,28 @@
             {% endif %}
         </div>
         <div class="col-sm-1 text-end d-flex justify-content-center align-items-center">
-            <a href="{{ path('lieu_creer') }}" class="btn btn-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+            <a href="{{ path('lieu_creer') }}"
+               class="btn btn-dark rounded-circle d-flex justify-content-center align-items-center"
+               style="width: 40px; height: 40px;">
                 <span class="text-white" style="font-size: 24px; font-weight: bold">+</span>
             </a>
         </div>
     </div>
+    <div class="card p-3 mb-3">
+        <div class="mb-3 row">
+            <div><span class="label-lieu">Rue :</span> <span id="rue">{{ premierLieu.rue }}</span></div>
+        </div>
+        <div class="mb-3 row">
+            <div><span class="label-lieu">Code Postal :</span> <span id="codePostal">{{ premierLieu.codePostal }}</span></div>
+        </div>
+        <div class="mb-3 row">
+            <div><span class="label-lieu">Latitude :</span> <span id="latitude">{{ premierLieu.latitude }}</span></div>
+        </div>
+        <div class="mb-3 row">
+            <div><span class="label-lieu">Longitude :</span> <span id="longitude">{{ premierLieu.longitude }}</span></div>
+        </div>
+    </div>
 
-    <div class="mb-3 row">
-        <div>Rue : <span id="rue">{{ premierLieu.rue }}</span></div>
-    </div>
-    <div class="mb-3 row">
-        <div>Code Postal : <span id="codePostal">{{ premierLieu.codePostal }}</span></div>
-    </div>
-    <div class="mb-3 row">
-        <div>Latitude : <span id="latitude">{{ premierLieu.latitude }}</span></div>
-    </div>
-    <div class="mb-3 row">
-        <div>Longitude : <span id="longitude">{{ premierLieu.longitude }}</span></div>
-    </div>
 
     <div class="d-grid gap-3 d-md-flex justify-content-md-end">
         <button type="reset" class="btn btn-primary">Annuler</button>
@@ -110,7 +112,7 @@
 
     function recupererLieu(idLieu) {
         // TODO - Revoir le nom de l'url
-        fetch(`http://localhost/sortir12c/public/sorties/lister/lieu/${idLieu}`, { method: "GET" })
+        fetch(`http://localhost/sortir12c/public/sorties/lister/lieu/${idLieu}`, {method: "GET"})
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -118,7 +120,7 @@
                 return response.json();
             })
             .then(data => {
-                // console.log(data);
+                console.log(data);
                 if (data.error) {
                     alert('Lieu non trouvé');
                     return;
@@ -138,7 +140,6 @@
         let lieuSelect = document.getElementById('sortie_lieu');
         lieuSelect.addEventListener('change', (event) => {
             let idLieu = event.target.value;
-            console.log(idLieu);
             recupererLieu(idLieu)
 
         });
