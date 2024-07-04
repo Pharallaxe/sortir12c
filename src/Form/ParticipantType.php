@@ -44,6 +44,9 @@ class ParticipantType extends AbstractType
             ])
             ->add('imageProfil', FileType::class, [
                 'mapped' => false,
+                'attr' => [
+                    'accept' => 'image/jpeg,image/png,image/gif'
+                ],
                 'constraints' => [
                     new \Symfony\Component\Validator\Constraints\Image(
                         [
