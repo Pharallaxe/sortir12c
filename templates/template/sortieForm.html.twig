@@ -107,8 +107,15 @@
 <script>
 
     function recupererLieu(idLieu) {
+        // Générer l'URL de base avec un placeholder
+        const baseUrl = "{{ path('lieu_lister', {'idLieu': '111111111111111111111'}) }}";
+
+        // Remplacer le placeholder par l'ID réel
+        const url = baseUrl.replace('111111111111111111111', idLieu);
+
+
         // TODO - Revoir le nom de l'url
-        fetch(`http://localhost/sortir12c/public/sorties/lister/lieu/${idLieu}`, { method: "GET" })
+        fetch(url, { method: "GET" })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -116,7 +123,6 @@
                 return response.json();
             })
             .then(data => {
-                console.log(data);
                 if (data.error) {
                     alert('Lieu non trouvé');
                     return;
@@ -127,9 +133,6 @@
                 document.getElementById('latitude').textContent = data.latitude;
                 document.getElementById('longitude').textContent = data.longitude;
             })
-            .catch(error => {
-                console.error('Erreur:', error);
-            });
     }
 
     document.addEventListener('DOMContentLoaded', (event) => {
@@ -137,7 +140,6 @@
         lieuSelect.addEventListener('change', (event) => {
             let idLieu = event.target.value;
             recupererLieu(idLieu)
-
         });
     });
 
