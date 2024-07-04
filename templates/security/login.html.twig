@@ -3,12 +3,15 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+
+{#    Formulaire de connexion#}
     <div class="form-login w-100 m-auto">
         <form method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
+{#            Si l'utilisateur est déjà connecté, afficher un message et un bouton de déconnexion#}
             {% if app.user %}
                 <div class="alert alert-info">
                     Vous êtes connecté(e) en tant que {{ app.user.userIdentifier }},

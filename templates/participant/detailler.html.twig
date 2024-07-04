@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Mon profile
+    Mon profil
 {% endblock %}
 
 {% block body %}
+{#     Affichage les informations du participant#}
     <div class="container container-form mb-5">
         <div class="text-center">
             <h2>{{ participant.pseudo }}</h2>
@@ -26,6 +27,7 @@
             <li class="list-group-item"><span>Campus :</span> {{ participant.campus.nom }}</li>
         </ul>
 
+{#         Si le participant connecté est le propriétaire du profil, afficher le bouton de modification#}
         {% if participantConnecte and participantConnecte.id == participant.id %}
             <div class="d-grid gap-3 d-md-flex justify-content-md-end">
             <a href="{{ path('participant_modifier', {'id' : participant.id}) }}" class="btn btn-primary">Modifier</a>
