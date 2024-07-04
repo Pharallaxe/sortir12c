@@ -82,17 +82,18 @@
 <header class="{{ noneClass }}">
     {% block header %}
         {% include 'menu/nav.html.twig' %}
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }}" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
+
     {% endblock %}
 </header>
 
 <main class="{{ noneClass }}">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
     <div id="readGuideContainer">
     </div>
     {% block body %}

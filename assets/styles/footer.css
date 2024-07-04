@@ -5,7 +5,7 @@ html, body {
 body {
     min-height: 100vh;
     display: grid;
-    grid-template-rows: 90px 2fr 100px;
+    grid-template-rows: 64px 2fr 100px;
 }
 
 header  {
