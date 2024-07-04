@@ -1,6 +1,7 @@
 messages:
   creer : 'Sortie ajoutée avec succès !'
   modifier: 'Sortie modifiée avec succès !'
+  date : "La date d'inscription doit être avant la date de début !"
   desister:
     noninscrit: 'Vous n''êtes pas inscrit à cette sortie.'
     impossible: 'Vous ne pouvez pas vous désister d''une sortie qui n''est pas ouverte.'

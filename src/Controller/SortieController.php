@@ -127,6 +127,14 @@ class SortieController extends AbstractController
             ]);
         }
 
+
+        // Comparaison des dates
+        $isDateDebutBeforeOrEqualToDateFin = $sortie->getDateHeureDebut() < $sortie->getDateLimiteInscription();
+        if ($isDateDebutBeforeOrEqualToDateFin) {
+            return $this->redirectWithMessage('danger', $this->messageService->get('date'), $sortie->getId());
+        }
+
+
         $sortie->setOrganisateur($this->getUser());
         $sortie->setEtat($this->etatRep->findOneBy(['libelle' => 'Créée']));
         if ($creation) {
