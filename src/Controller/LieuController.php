@@ -70,7 +70,7 @@ class LieuController extends AbstractController
     }
 
     // Affiche la page de modification d'un lieu grâce à son id
-    #[Route('/lister/lieu/{idLieu}', name: 'lister_lieu')]
+    #[Route('/lister/{idLieu}', name: 'lister', requirements: ['idLieu' => '\d+'])]
     public function getLieuDetails(int $idLieu): Response
     {
         $lieu = $this->lieuRep->find($idLieu);
