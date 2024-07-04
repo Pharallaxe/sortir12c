@@ -10,6 +10,7 @@ use App\Repository\LieuRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -42,14 +43,14 @@ class SortieType extends AbstractType
                 'label' => 'Date limite d\'inscription',
                 'invalid_message' => ''
             ])
-            ->add('duree', NumberType::class, [
+            ->add('duree', IntegerType::class, [
                 'label' => 'Durée',
                 'invalid_message' => '',
                 'attr' => [
                     'placeholder' => 'Nombre de minutes'
                 ]
             ])
-            ->add('nbInscriptionsMax', NumberType::class, [
+            ->add('nbInscriptionsMax', IntegerType::class, [
                 'label' => 'Nombre de places',
                 'invalid_message' => '',
                 'attr' => [
