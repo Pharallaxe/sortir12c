@@ -12,6 +12,16 @@ class SortieRecherche
     private ?DateTime $dateFin = null;
     private ?Etat $etat = null;
     private ?Campus $campus = null;
+
+    public function setOrganisateur(bool $organisateur): void
+    {
+        $this->organisateur = $organisateur;
+    }
+
+    public function setCampus(?Campus $campus): void
+    {
+        $this->campus = $campus;
+    }
     private bool $organisateur = false;
     private bool $participant = false;
     private bool $notParticipant = false;
