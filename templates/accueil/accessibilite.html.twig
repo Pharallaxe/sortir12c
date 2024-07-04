@@ -1,169 +1,193 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="container-liste">
 
-    <div class="body">
+        <h2 class="text-center">Outils Accessibilité</h2>
+
+        <div class="body">
 
 {#         Permet de régler la taille de la police, la hauteur de la police, l'espacement des lettres, l'espacement des mots, la marge, le padding, le border-radius, la police, la couleur de fond, la couleur de texte, l'alignement et le guide de lecture.#}
-        <div class="party accessibility" id="accessibilityPanel">
+            <div class="party accessibility" id="accessibilityPanel">
 
 {#            Permet de régler la taille du titre.#}
-            <div class="panel">
-                <p>Taille titre</p>
-                <div class="buttons">
-                    <button id="fontSizeTitleDecreaseButton">-</button>
-                    <button id="fontSizeTitleIncreaseButton">+</button>
+                <div class="panel">
+                    <p>Taille titre</p>
+                    <div class="buttons">
+                        <button id="fontSizeTitleDecreaseButton">-</button>
+                        <button id="fontSizeTitleIncreaseButton">+</button>
+                    </div>
                 </div>
-            </div>
 
 {#            Permet de régler la taille de la police.#}
-            <div class="panel">
-                <p>Taille text</p>
-                <div class="buttons">
-                    <button id="fontSizeTextDecreaseButton">-</button>
-                    <button id="fontSizeTextIncreaseButton">+</button>
+                <div class="panel">
+                    <p>Taille text</p>
+                    <div class="buttons">
+                        <button id="fontSizeTextDecreaseButton">-</button>
+                        <button id="fontSizeTextIncreaseButton">+</button>
+                    </div>
                 </div>
-            </div>
 
 {#             Permet de régler la hauteur de la police.#}
-            <div class="panel">
-                <p>Hauteur de police</p>
-                <div class="buttons">
-                    <button id="lineHeightDecreaseButton">-</button>
-                    <button id="lineHeightIncreaseButton">+</button>
+                <div class="panel">
+                    <p>Hauteur de police</p>
+                    <div class="buttons">
+                        <button id="lineHeightDecreaseButton">-</button>
+                        <button id="lineHeightIncreaseButton">+</button>
+                    </div>
                 </div>
-            </div>
 
 {#             Permet de régler l'espacement des lettres.#}
-            <div class="panel">
-                <p>Espace des lettres</p>
-                <div class="buttons">
-                    <button id="letterSpacingDecreaseButton">-</button>
-                    <button id="letterSpacingIncreaseButton">+</button>
+                <div class="panel">
+                    <p>Espace des lettres</p>
+                    <div class="buttons">
+                        <button id="letterSpacingDecreaseButton">-</button>
+                        <button id="letterSpacingIncreaseButton">+</button>
+                    </div>
                 </div>
-            </div>
 
 {#             Permet de régler l'espacement des mots.#}
-            <div class="panel">
-                <p>Espace des mots</p>
-                <div class="buttons">
-                    <button id="wordSpacingDecreaseButton">-</button>
-                    <button id="wordSpacingIncreaseButton">+</button>
+                <div class="panel">
+                    <p>Espace des mots</p>
+                    <div class="buttons">
+                        <button id="wordSpacingDecreaseButton">-</button>
+                        <button id="wordSpacingIncreaseButton">+</button>
+                    </div>
                 </div>
-            </div>
 
 {#            Permet de régler la marge.#}
-            <div class="panel">
-                <p>Margin</p>
-                <div class="buttons">
-                    <button id="marginDecreaseButton">-</button>
-                    <button id="marginIncreaseButton">+</button>
+                <div class="panel">
+                    <p>Margin</p>
+                    <div class="buttons">
+                        <button id="marginDecreaseButton">-</button>
+                        <button id="marginIncreaseButton">+</button>
+                    </div>
                 </div>
-            </div>
 
 {#             Permet de régler le padding.#}
-            <div class="panel padding">
-                <p>Padding</p>
-                <div class="buttons">
-                    <button id="paddingDecreaseButton">-</button>
-                    <button id="paddingIncreaseButton">+</button>
+                <div class="panel padding">
+                    <p>Padding</p>
+                    <div class="buttons">
+                        <button id="paddingDecreaseButton">-</button>
+                        <button id="paddingIncreaseButton">+</button>
+                    </div>
                 </div>
-            </div>
 
 {#            Permet de régler le border-radius.#}
-            <div class="panel border-radius">
-                <p>Border-radius</p>
-                <div class="buttons">
-                    <button id="borderRadiusDecreaseButton">-</button>
-                    <button id="borderRadiusIncreaseButton">+</button>
+                <div class="panel border-radius">
+                    <p>Border-radius</p>
+                    <div class="buttons">
+                        <button id="borderRadiusDecreaseButton">-</button>
+                        <button id="borderRadiusIncreaseButton">+</button>
+                    </div>
                 </div>
-            </div>
 
 {#             Permet de choisir la police.#}
-            <div class="panel font-size">
-                <p>Police</p>
-                <select id="fontFamilySelect"></select>
-            </div>
+                <div class="panel font-size">
+                    <p>Police</p>
+                    <select id="fontFamilySelect"></select>
+                </div>
 
 {#             Permet de choisir la couleur de fond.#}
-            <div class="panel background-color">
-                <p>Couleur de fond</p>
-                <select id="backgroundColorSelect"></select>
-            </div>
+                <div class="panel background-color">
+                    <p>Couleur de fond</p>
+                    <select id="backgroundColorSelect"></select>
+                </div>
 
 {#             Permet de choisir la couleur de texte.#}
-            <div class="panel text-color">
-                <p>Couleur de texte</p>
-                <select id="textColorSelect"></select>
-            </div>
+                <div class="panel text-color">
+                    <p>Couleur de texte</p>
+                    <select id="textColorSelect"></select>
+                </div>
 
 {#             Permet de choisir l'alignement du texte.#}
-            <div class="panel text-align">
-                <p>Alignement</p>
-                <select id="textAlignSelect"></select>
-            </div>
+                <div class="panel text-align">
+                    <p>Alignement</p>
+                    <select id="textAlignSelect"></select>
+                </div>
 
 {#             Permet d'afficher le guide de lecture.#}
-            <div class="panel read-guide">
-                <p>Guide de lecture</p>
-                <div class="buttons">
-                    <button id="readGuideButton">Cliquez ici</button>
+                <div class="panel read-guide">
+                    <p>Guide de lecture</p>
+                    <div class="buttons">
+                        <button id="readGuideButton">Cliquez ici</button>
+                    </div>
                 </div>
-            </div>
 
 {#             Permet de réinitialiser les paramètres.#}
-            <div class="panel rest">
-                <p>Reset</p>
-                <button id="resetButton" class="">
-                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"
-                         fill="white">
-                        <path d="M2.458 9.012c-.297.947-.458 1.955-.458 3 0 5.52 4.481 10 10 10 5.52 0 10-4.48 10-10 0-5.519-4.48-10-10-10-2.121 0-4.083.668-5.703 1.796l1.703 2.204h-6.58l1.935-6.012 1.718 2.223c1.958-1.389 4.346-2.211 6.927-2.211 6.623 0 12 5.377 12 12s-5.377 11.988-12 11.988-12-5.365-12-11.988c0-1.036.132-2.041.379-3h2.079zm10.35-3.012c.292.821.375 1.346 1.01 1.609.637.264 1.073-.052 1.854-.423l1.142 1.142c-.373.787-.687 1.218-.423 1.854.262.634.784.716 1.609 1.009v1.617c-.816.29-1.347.375-1.61 1.01-.264.636.052 1.071.424 1.853l-1.142 1.142c-.79-.375-1.219-.687-1.85-.424-.639.265-.723.793-1.014 1.611h-1.616c-.292-.821-.375-1.347-1.01-1.61-.637-.264-1.072.052-1.854.423l-1.142-1.142c.366-.771.689-1.212.423-1.854-.263-.635-.793-.719-1.609-1.009v-1.617c.817-.29 1.346-.373 1.609-1.009.264-.637-.051-1.07-.423-1.854l1.142-1.142c.788.374 1.218.687 1.854.423.635-.263.719-.792 1.01-1.609h1.616zm-.808 8c-1.105 0-2-.896-2-2 0-1.105.895-2.001 2-2.001 1.104 0 2 .896 2 2.001 0 1.104-.896 2-2 2z"/>
-                    </svg>
-                </button>
+                <div class="panel rest">
+                    <p>Reset</p>
+                    <button id="resetButton" class="">
+                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
+                             clip-rule="evenodd"
+                             fill="white">
+                            <path d="M2.458 9.012c-.297.947-.458 1.955-.458 3 0 5.52 4.481 10 10 10 5.52 0 10-4.48 10-10 0-5.519-4.48-10-10-10-2.121 0-4.083.668-5.703 1.796l1.703 2.204h-6.58l1.935-6.012 1.718 2.223c1.958-1.389 4.346-2.211 6.927-2.211 6.623 0 12 5.377 12 12s-5.377 11.988-12 11.988-12-5.365-12-11.988c0-1.036.132-2.041.379-3h2.079zm10.35-3.012c.292.821.375 1.346 1.01 1.609.637.264 1.073-.052 1.854-.423l1.142 1.142c-.373.787-.687 1.218-.423 1.854.262.634.784.716 1.609 1.009v1.617c-.816.29-1.347.375-1.61 1.01-.264.636.052 1.071.424 1.853l-1.142 1.142c-.79-.375-1.219-.687-1.85-.424-.639.265-.723.793-1.014 1.611h-1.616c-.292-.821-.375-1.347-1.01-1.61-.637-.264-1.072.052-1.854.423l-1.142-1.142c.366-.771.689-1.212.423-1.854-.263-.635-.793-.719-1.609-1.009v-1.617c.817-.29 1.346-.373 1.609-1.009.264-.637-.051-1.07-.423-1.854l1.142-1.142c.788.374 1.218.687 1.854.423.635-.263.719-.792 1.01-1.609h1.616zm-.808 8c-1.105 0-2-.896-2-2 0-1.105.895-2.001 2-2.001 1.104 0 2 .896 2 2.001 0 1.104-.896 2-2 2z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
-        </div>
 
 
 {#         Panneau d'exemples de texte.#}
-        <div class="party text">
-            <div class="exemple acc-test">
-                <p class="acc-titre">Titre 1</p>
-                <p class="acc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut risus in augue luctus
-                    venenatis. Sed tincidunt, magna a ultricies accumsan, mi enim tempor nulla, eget malesuada magna nisl ut
-                    lacus. Aliquam lobortis. Aliquam lobortis. Suspendisse potenti. Ut fringilla. Suspendisse potenti. Ut
-                    fringilla.</p>
-                <p class="acc-titre">Titre 2</p>
-                <p class="acc-text">Cras commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur
-                    pede. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Nullam quis ante. Etiam sit amet orci
-                    eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.
-                    Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>
-                <p class="acc-titre">Titre 3</p>
-                <p class="acc-text">Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus
-                    ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras
-                    dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu,
-                    consequat vitae, eleifend ac, enim.</p>
-                <button class="btn-action">Cliquez ici</button>
-                <p class="acc-titre">Titre 4</p>
-                <p class="acc-text">Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut
-                    metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur
-                    ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus,
-                    sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>
-                <p class="acc-titre">Titre 5</p>
-                <p class="acc-text">Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante
-                    tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci
-                    eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.
-                    Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p> <a href="#">Lien vers une autre
-                    page</a>
-                <p class="acc-titre">Titre 6</p>
-                <p class="acc-text">Cras commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur
-                    pede. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Nullam quis ante. Etiam sit amet orci
-                    eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.
-                    Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p> <span class="span">Texte en
+            <div class="party text">
+                <div class="exemple acc-test">
+                    <p class="acc-titre">Titre 1</p>
+                    <p class="acc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut risus in augue
+                        luctus
+                        venenatis. Sed tincidunt, magna a ultricies accumsan, mi enim tempor nulla, eget malesuada magna
+                        nisl ut
+                        lacus. Aliquam lobortis. Aliquam lobortis. Suspendisse potenti. Ut fringilla. Suspendisse
+                        potenti. Ut
+                        fringilla.</p>
+                    <p class="acc-titre">Titre 2</p>
+                    <p class="acc-text">Cras commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis
+                        consectetur
+                        pede. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Nullam quis ante. Etiam
+                        sit amet orci
+                        eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales
+                        sagittis magna.
+                        Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>
+                    <p class="acc-titre">Titre 3</p>
+                    <p class="acc-text">Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
+                        justo, rhoncus
+                        ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer
+                        tincidunt. Cras
+                        dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
+                        porttitor eu,
+                        consequat vitae, eleifend ac, enim.</p>
+                    <button class="btn-action">Cliquez ici</button>
+                    <p class="acc-titre">Titre 4</p>
+                    <p class="acc-text">Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus
+                        viverra nulla ut
+                        metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.
+                        Curabitur
+                        ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget
+                        condimentum rhoncus,
+                        sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>
+                    <p class="acc-titre">Titre 5</p>
+                    <p class="acc-text">Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec
+                        odio et ante
+                        tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit
+                        amet orci
+                        eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales
+                        sagittis magna.
+                        Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p> <a href="#">Lien vers une
+                        autre
+                        page</a>
+                    <p class="acc-titre">Titre 6</p>
+                    <p class="acc-text">Cras commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis
+                        consectetur
+                        pede. Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Nullam quis ante. Etiam
+                        sit amet orci
+                        eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales
+                        sagittis magna.
+                        Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p> <span class="span">Texte en
                 span</span>
-                <button class="btn-submit">Soumettre</button>
+                    <button class="btn-submit">Soumettre</button>
+                </div>
             </div>
+
+
         </div>
-
-
     </div>
 {% endblock %}
