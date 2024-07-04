@@ -52,7 +52,7 @@
     font-weight: bold;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
     .navbar-nav .nav-link:after {
         bottom: 4px;
         left: 11%;
