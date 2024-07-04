@@ -18,7 +18,7 @@
 
 .text {
     background-color: rgba(215, 255, 123, 0.5);
-    padding: 5px;
+    /*padding: 5px;*/
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -202,6 +202,7 @@
     line-height: var(--line-height);
     word-spacing: var(--word-spacing);
     font-family: var(--font-family), sans-serif;
+    background-color: var(--background-color);
     color: var(--text-color);
 }
 
@@ -219,7 +220,7 @@
     margin: var(--margin);
     padding: var(--padding);
     border-radius: var(--border-radius);
-    background-color: paleturquoise;
+    background-color: white;
     text-align: var(--text-align);
 }
 

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container container-liste mt-5">
+    <div class="container container-liste mt-3">
     <h2>Liste des sorties</h2>
 
         <span>Date du jour :</span> {{ "now"|date('d/m/Y H:i') }}
@@ -17,22 +17,22 @@
 {#     Formulaire de recherche de sorties#}
     {{ form_start(form) }}
     <div class="row mb-3">
-        <div class="col-md-2">
+        <div class="col-lg-2">
             {{ form_row(form.nom, {'attr': {'class': 'form-control'}}) }}
         </div>
-        <div class="col-md-2">
+        <div class="col-lg-2">
             {{ form_row(form.dateDebut, {'attr': {'class': 'form-control'}}) }}
         </div>
-        <div class="col-md-2">
+        <div class="col-lg-2">
             {{ form_row(form.dateFin, {'attr': {'class': 'form-control'}}) }}
         </div>
-        <div class="col-md-2">
-            {{ form_row(form.etat, {'attr': {'class': 'form-control'}}) }}
+        <div class="col-lg-2">
+            {{ form_row(form.etat, {'attr': {'class': 'form-control form-select'}}) }}
         </div>
-        <div class="col-md-2">
-            {{ form_row(form.campus, {'attr': {'class': 'form-control'}}) }}
+        <div class="col-lg-2">
+            {{ form_row(form.campus, {'attr': {'class': 'form-control form-select'}}) }}
         </div>
-        <div class="col-md-2 d-flex align-items-end">
+        <div class="col-lg-2 d-flex align-items-end">
             <button type="submit" class="btn btn-primary w-100">Rechercher</button>
         </div>
     </div>
@@ -133,7 +133,7 @@
                                 {% if etatLib == "Ouverte" and
                                     sortie.dateLimiteInscription|date('U') > "now"|date('U') and
                                     sortie.participants.count < sortie.nbInscriptionsMax %}
-                                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-primary">
+                                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-primary mb-1">
                                         S'inscrire
                                     </a>
                                 {% endif %}
