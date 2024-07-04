@@ -111,13 +111,13 @@
 
                             {# Si le participant loggé est l'organisateur #}
                             {% if app.user and app.user.nom == (sortie.organisateur.nom) %}
-                                {% if etatLib == 'Creee' %}
+                                {% if etatLib == 'Créée' %}
                                     <a href="{{ path('sortie_publier', {'id': sortie.id}) }}" class="btn btn-success mb-1">Publier</a>
                                     {# {% else %} #}
                                     {# <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}">Modifier</a> #}
                                     {# {% endif %} #}
                                 {% endif %}
-                                {% if etatLib != "Cloturee" and etatLib != "Annulee" %}
+                                {% if etatLib != "Clôturée" and etatLib != "Annulée" %}
                                     <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}"
                                        onclick="return confirm('Êtes-vous sûr de vouloir annuler cette sortie ?');" class="btn btn-danger mb-1">Annuler</a>
                                 {% endif %}

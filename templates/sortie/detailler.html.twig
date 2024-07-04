@@ -19,10 +19,10 @@
         </div>
         <div class="d-flex gap-3 justify-content-end mb-3">
             {% if app.user and app.user.nom == (sortie.organisateur.nom) %}
-                {% if sortie.etat.libelle == 'Creee' %}
+                {% if sortie.etat.libelle == 'Créée' %}
                     <a href="{{ path('sortie_publier', {'id': sortie.id}) }}" class="btn btn-success">Publier</a>
                 {% endif %}
-                {% if sortie.etat.libelle != "Cloturee" and sortie.etat.libelle != "Annulee" %}
+                {% if sortie.etat.libelle != "Clôturée" and sortie.etat.libelle != "Annulée" %}
                     <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}"  class="btn btn-danger">Annuler</a>
                 {% endif %}
             {% endif %}
@@ -32,7 +32,7 @@
                     {% set isParticipant = true %}
                 {% endif %}
             {% endfor %}
-            {% if isParticipant and sortie.etat.libelle != "Cloturee" and sortie.etat.libelle != "Annulee" and sortie.etat.libelle != "Passee" %}
+            {% if isParticipant and sortie.etat.libelle != "Clôturée" and sortie.etat.libelle != "Annulée" and sortie.etat.libelle != "Passée" %}
                 <a href="{{ path('sortie_desister', {'id': sortie.id}) }}" class="btn btn-warning">Se désister</a>
             {% else %}
                 {% if sortie.etat.libelle == "Ouverte" %}
