@@ -4,11 +4,11 @@
     <div class="container container-detail mt-5">
         <div>
             <h2 class="text-center mb-4">Nom de la sortie : <br>{{ sortie.nom }}</h2>
-            <p><span>Date et heure de la sortie :</span> {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</p>
+            <p><span>Date heure de la sortie :</span> {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</p>
             <p><span>Date limite d'inscription :</span> {{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</p>
-            <p><span>Nombre de places :</span> {{ sortie.nbInscriptionsMax }}</p>
+            <p><span>Nombre de places :</span> {{ sortie.nbInscriptionsMax }} places</p>
             <p><span>Durée :</span> {{ sortie.duree }} minutes</p>
-            <p><span>Description et infos :</span> {{ sortie.infosSortie }}</p>
+            <p><span>Description :</span> {{ sortie.infosSortie }}</p>
             <p><span>Campus :</span> {{ sortie.campus.nom }}</p>
             <p><span>Lieu :</span> {{ sortie.lieu.nom }}</p>
             <p><span>Rue :</span> {{ sortie.lieu.rue }}</p>
