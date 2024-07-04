@@ -6,7 +6,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
 .container-detail span {
     color: #4D61F4;
     font-weight: 500;
@@ -28,6 +27,19 @@
 
 .container-liste span {
     color: #4D61F4;
+    font-weight: 500;
+}
+
+.container-form-sortie {
+    max-width: 600px;
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container-form-sortie label,
+.container-form-sortie .label-lieu {
     font-weight: 500;
 }
 
