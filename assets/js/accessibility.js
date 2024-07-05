@@ -14,9 +14,19 @@ const CSS_SIMPLE_PROPERTIES = [
 ];
 
 const CSS_COMPLEXE_PROPERTIES = [
-    ["--background-color", "backgroundColor", ["#F8F9FA", "#F5C3C2", "#A7D2E8", "#FEF0C3", "#C1E1C1", "#E6E6FA"]],
-    ["--text-color", "color", ["#0c0c0c", "#f42726", "#3473e3",
-        "#48bc42", "#e49e15",
+    ["--background-color", "backgroundColor", [
+        "#F8F9FA",
+        "#F5C3C2",
+        "#A7D2E8",
+        "#FEF0C3",
+        "#C1E1C1",
+        "#E6E6FA"]],
+    ["--text-color", "color", [
+        "#0c0c0c",
+        "#f42726",
+        "#3473e3",
+        "#48bc42",
+        "#e49e15",
         "#c44ef3"]],
     ["--font-family", "fontFamily", ["Arial", "Verdana", "Georgia", "Courier New", "Roboto", "Ms Gothic", "Garamond"]],
     ["--text-align", "textAlign", ["left", "right", "center", "justify"]],];
@@ -449,7 +459,6 @@ function createCssSimpleProperties(properties) {
         new CssSimpleProperty(property[0], property[1], property[2], property[3], property[4]);
     });
 }
-
 
 /**
  * Lit les paramètres d'accessibilité depuis le localStorage et met à jour les styles en conséquence.
