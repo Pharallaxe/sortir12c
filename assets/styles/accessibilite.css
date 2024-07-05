@@ -116,7 +116,7 @@
 }
 
 .panel button, .panel select {
-    background-color: #4d61f4;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     padding: 5px 20px;
@@ -165,7 +165,7 @@
 
 :root {
     --font-size-title: 18px;
-    --font-size-text: 15px;
+    --font-size-text: 16px;
     --line-height: 1.5;
     --letter-spacing: 0;
     --word-spacing: 0.25em;

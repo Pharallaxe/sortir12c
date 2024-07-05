@@ -20,7 +20,7 @@
     display: block;
     height: 2px;
     width: 100%;
-    background: #D7FF7B;
+    background: var(--secondary-color);;
     position: absolute;
     bottom: -5px;
     left: 0;
@@ -28,5 +28,5 @@
 
 .form-login .bi-person-circle {
     font-size: 4rem;
-    color: #4D61F4;
+    color: var(--primary-color);;
 }

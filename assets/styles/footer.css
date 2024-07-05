@@ -2,21 +2,10 @@ html, body {
     min-height: 100%;
 }
 
-body {
-    min-height: 100vh;
-    display: grid;
-    grid-template-rows: 64px 2fr 100px;
-}
-
-header  {
-    height: 100%;
-    width: 100%;
-}
-
 footer {
     height: 100%;
     width: 100%;
-    background-color: #4D61F4;
+    background-color: var(--primary-color);
     color: #f8f9fa;
     display: flex;
     justify-content: center;

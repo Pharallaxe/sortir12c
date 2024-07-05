@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-     Formulaire de modification d'un participant
+{#     Formulaire de modification d'un participant#}
     <div class="container container-form w-100 m-auto">
         <h2>Modifier mon profil</h2>
         {{ form_start(modifierParticipantForm, {'attr': {'class': 'row g-3'}}) }}
@@ -13,6 +13,7 @@
         {% for field in modifierParticipantForm %}
             {% if field.vars.name != 'password' %}
             {% if field.vars.name != '_token' %}
+            {% if field.vars.name != 'campus' %}
                 <div class="mb-3">
                     {{ form_label(field) }}
                     {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
@@ -24,7 +25,18 @@
                 </div>
             {% endif %}
             {% endif %}
+            {% endif %}
         {% endfor %}
+
+        <div class="mb-3">
+            {{ form_label(modifierParticipantForm.campus) }}
+            {{ form_widget(modifierParticipantForm.campus, {'attr': {'class': 'form-control form-select'}}) }}
+            {% if not modifierParticipantForm.campus.vars.valid %}
+                <div class="text-danger">
+                    {{ form_errors(modifierParticipantForm.campus) }}
+                </div>
+            {% endif %}
+        </div>
 
         <div class="mb-3">
             {{ form_label(modifierParticipantForm.password.first) }}
