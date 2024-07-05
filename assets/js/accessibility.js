@@ -15,7 +15,9 @@ const CSS_SIMPLE_PROPERTIES = [
 
 const CSS_COMPLEXE_PROPERTIES = [
     ["--background-color", "backgroundColor", ["#F8F9FA", "#F5C3C2", "#A7D2E8", "#FEF0C3", "#C1E1C1", "#E6E6FA"]],
-    ["--text-color", "color", ["#0c0c0c", "#720b0a", "#063c5a", "#695803", "#005602", "#4e4ef3"]],
+    ["--text-color", "color", ["#0c0c0c", "#f42726", "#3473e3",
+        "#48bc42", "#e49e15",
+        "#c44ef3"]],
     ["--font-family", "fontFamily", ["Arial", "Verdana", "Georgia", "Courier New", "Roboto", "Ms Gothic", "Garamond"]],
     ["--text-align", "textAlign", ["left", "right", "center", "justify"]],];
 
