@@ -8,7 +8,7 @@
 {#     Affichage les informations du participant#}
     <div class="container container-form mb-5">
         <div class="text-center">
-            <h2>{{ participant.pseudo }}</h2>
+            <h2 class="acc-h2">{{ participant.pseudo }}</h2>
             {% if participant.imageProfile is not empty %}
                 <img src="{{ asset('images/profile/' ~ participant.imageProfile) }}" alt="{{ participant.pseudo }}"
                      class="img-fluid rounded-circle profile-image">
