@@ -26,7 +26,8 @@ class ClotureService
     public function update(): void
     {
         //Récupérer les sorties qui doivent être cloturées
-        $sorties = $this->sortieRepository->findSortiesForCloture();
+//        $sorties = $this->sortieRepository->findSortiesForCloture();
+        $sorties = $this->sortieRepository->findAllWithRelations();
         //Récupérer les états
         $etats = $this->etatRepository->findAll();
 
